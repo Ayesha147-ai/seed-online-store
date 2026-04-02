@@ -111,20 +111,42 @@ body {
     background: var(--dark-green);
     color: var(--white);
     border: none;
-    padding: 10px 30px;
+    padding: 10px 0px;
+    width: 140px;
+    height: 45px;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     margin-right: 10px;
+    text-align: center;
 }
 
+/* My Cart button - same as Login/Signin buttons */
+.cart-btn-nav {
+    background: var(--dark-green);
+    color: var(--white);
+    border: none;
+    padding: 10px 0px;
+    width: 140px;                                                                                                                                                                
+    height: 45px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 10px;
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+
 .login-btn:hover,
-.Signin-btn:hover {
+.Signin-btn:hover, .cart-btn-nav:hover {
     background: var(--dark-green);
     transform: translateY(-2px);
 }
-
 /* ============================================
    HERO SECTION
    ============================================ */
