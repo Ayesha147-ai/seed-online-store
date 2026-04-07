@@ -1,0 +1,199 @@
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+:root {
+    --dark-green: #16a34a;    
+    --dark-text: #1a1a1a;     
+    --teal: #088178;         
+    --border-green: #cce7d0;  
+    --footer-bg: #1a1a1a;     
+    --white: #ffffff;        
+    --body-text: #465b52;    
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Spartan', sans-serif;
+}
+
+body {
+    background-color: #f0fdf4;
+}
+
+/* ===== HEADER ===== */
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: #FFFFFF;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+.logo {
+    display: flex;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--dark-green);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: 30px;
+    position: relative;
+    z-index: 10000;
+}
+
+.nav-links li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark-text);
+    transition: 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--teal);
+}
+
+.nav-links a.active::after,
+.nav-links a:hover::after {
+    content: "";
+    width: 30%;
+    height: 2px;
+    background-color: var(--teal);
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+}
+
+
+
+/* Hero Section */
+.about-hero {
+    background: linear-gradient(135deg, #dcfce7 0%, #ffffff 100%);
+    background-size: cover;
+    background-color: #dcfce7;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    text-align: center;
+}
+
+/* Content Sections */
+.content-section, .grid-section, .stats-container {
+    padding: 40px 80px;
+}
+
+.text-card, .info-box {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    border: 1px solid var(--border-green);
+    box-shadow: 20px 20px 30px rgba(0,0,0,0.02);
+}
+
+/* Grid Layout */
+.grid-section {
+    display: flex;
+    gap: 20px;
+}
+
+.info-box {
+    flex: 1;
+    text-align: center;
+}
+
+.icon-style {
+    font-size: 40px;
+    color: var(--dark-green);
+    margin-bottom: 15px;
+}
+
+
+/* ============================================
+   FOOTER SECTION
+   ============================================ */
+footer {
+    background: var(--footer-bg);
+    color: var(--white);
+    padding: 40px 80px 20px 80px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+footer .col {
+    width: 22%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    color: var(--white);
+}
+
+footer .logo {
+    margin-bottom: 30px;
+}
+
+footer h4 {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+footer p {
+    font-size: 13px;
+    margin: 0 0 8px 0;
+}
+
+footer .follow {
+    margin-top: 20px;
+}
+
+footer .follow i {
+    color: var(--body-text);
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+footer .follow i:hover,
+footer a:hover {
+    color: var(--teal);
+    transition: all 0.3s;
+}
+
+footer a {
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+footer .install .row img {
+    border: 1px solid var(--teal);
+    border-radius: 6px;
+    margin: 10px 0 15px 0;
+}
+
+footer .copywrite {
+    width: 100%;
+    text-align: center;
+}
