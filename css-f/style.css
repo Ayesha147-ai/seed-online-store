@@ -394,7 +394,7 @@ body {
    BANNER SECTION
    ============================================ */
 #banner {
-    background-image: url(img/veg\(page\).jpg);
+    background-image: url(img/banner);
     background-size: cover;
     background-position: center;
     display: flex;
