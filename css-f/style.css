@@ -339,13 +339,13 @@ body {
     cursor: pointer;
     box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.02);
     margin: 15px 0;
-    transition: 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
 }
 
 #product1 .pro:hover {
-    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.06);
-    transform: translateY(-2px);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 #product1 .pro img {
@@ -388,6 +388,7 @@ body {
 
 .cart-btn:hover {
     background: var(--dark-green);
+    transform: scale(1.05);
 }
 
 /* ============================================
