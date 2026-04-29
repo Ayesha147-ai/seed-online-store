@@ -1,3 +1,43 @@
+<?php
+$success = 0;
+$user = 0;
+$error = "";
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    include 'connect.php';
+    
+    $fullname  = $_POST['fullname'];
+    $email     = $_POST['email'];
+    $phone     = $_POST['phone'];
+    $password  = $_POST['password'];
+    $confirm   = $_POST['confirm_password'];
+
+    if($password !== $confirm){
+        $error = "Passwords do not match!";
+    } else {
+        $sql = "SELECT * FROM registration WHERE email='$email'";
+        $result = mysqli_query($con, $sql);
+        $num = mysqli_num_rows($result);
+
+        if($num > 0){
+            $user = 1;
+        } else {
+            $sql = "INSERT INTO registration (fullname, email, phone, password) 
+                    VALUES ('$fullname', '$email', '$phone', '$password')";
+            $result = mysqli_query($con, $sql);
+            if($result){
+                $success = 1;
+            } else {
+                die(mysqli_error($con));
+            }
+        }
+    }
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
