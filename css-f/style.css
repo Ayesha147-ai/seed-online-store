@@ -206,6 +206,7 @@ body {
 .btn-primary {
     background: var(--primary-green);
     color: var(--white);
+    min-width: 200px;
 }
 
 .btn-primary:hover {
@@ -217,6 +218,8 @@ body {
     background: var(--white);
     color: var(--dark);
     border: 2px solid var(--btn-border);
+    white-space: nowrap;
+     min-width: 200px;
 }
 
 .btn-secondary:hover {
