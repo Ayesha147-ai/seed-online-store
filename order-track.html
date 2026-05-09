@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css-f/order-track.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <section id="header">
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>TrackSeed</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+        <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
+            <i class="fas fa-shopping-cart"></i> My Cart
+            <span class="cart-count">0</span>
+        </button>
+    </section>
+
+    <!-- PAGE HERO -->
+    <div class="track-hero">
+        <h1><i class="fas fa-map-marker-alt"></i> Track Your Order</h1>
+        <p>Enter your Order ID to see the latest status of your delivery</p>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="track-wrapper">
+
+        <!-- Search Box -->
+        <div class="search-card">
+            <div class="search-row">
+                <div class="search-input-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="order-input" placeholder="Enter Order ID  e.g. #TS-1042" />
+                </div>
+                <button class="search-btn" onclick="trackOrder()">
+                    <i class="fas fa-search"></i> Track Order
+                </button>
+            </div>
+            <p id="search-error" class="search-error" style="display:none;">
+                <i class="fas fa-exclamation-circle"></i> Order ID not found. Please check and try again.
+            </p>
+        </div>
+
+        <!-- Result Section (hidden until search) -->
+        <div id="result-section" style="display:none;">
+
+            <!-- Order Info Bar -->
+            <div class="order-info-bar">
+                <div class="info-pill">
+                    <span class="pill-label">Order ID</span>
+                    <span class="pill-val" id="res-order-id">#TS-1042</span>
+                </div>
+                <div class="info-pill">
+                    <span class="pill-label">Order Date</span>
+                    <span class="pill-val" id="res-date">07 May 2026</span>
+                </div>
+                <div class="info-pill">
+                    <span class="pill-label">Delivery City</span>
+                    <span class="pill-val" id="res-city">Gujranwala</span>
+                </div>
+                <div class="info-pill">
+                    <span class="pill-label">Grand Total</span>
+                    <span class="pill-val green" id="res-total">Rs 480</span>
+                </div>
+            </div>
+
+            <!-- Status Timeline -->
+            <div class="timeline-card">
+                <h3><i class="fas fa-truck"></i> Delivery Status</h3>
+
+                <div class="timeline">
+
+                    <div class="tl-step done" id="step-placed">
+                        <div class="tl-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="tl-line"></div>
+                        <div class="tl-content">
+                            <div class="tl-title">Order Placed</div>
+                            <div class="tl-desc" id="date-placed">07 May 2026, 12:15 PM</div>
+                        </div>
+                    </div>
+
+                    <div class="tl-step" id="step-confirmed">
+                        <div class="tl-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <div class="tl-line"></div>
+                        <div class="tl-content">
+                            <div class="tl-title">Order Confirmed</div>
+                            <div class="tl-desc" id="date-confirmed">Waiting...</div>
+                        </div>
+                    </div>
+
+                    <div class="tl-step" id="step-processing">
+                        <div class="tl-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="tl-line"></div>
+                        <div class="tl-content">
+                            <div class="tl-title">Processing / Packing</div>
+                            <div class="tl-desc" id="date-processing">Waiting...</div>
+                        </div>
+                    </div>
+
+                    <div class="tl-step" id="step-shipped">
+                        <div class="tl-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="tl-line"></div>
+                        <div class="tl-content">
+                            <div class="tl-title">Shipped</div>
+                            <div class="tl-desc" id="date-shipped">Waiting...</div>
+                        </div>
+                    </div>
+
+                    <div class="tl-step" id="step-delivered">
+                        <div class="tl-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="tl-line hidden"></div>
+                        <div class="tl-content">
+                            <div class="tl-title">Delivered</div>
+                            <div class="tl-desc" id="date-delivered">Waiting...</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Items Ordered -->
+            <div class="items-card">
+                <h3><i class="fas fa-seedling"></i> Items in This Order</h3>
+                <div id="track-items-list">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+
+        </div><!-- end result-section -->
+
+    </div><!-- end track-wrapper -->
+
+    <!-- FOOTER -->
+    <footer class="section-p1">
+        <div class="col">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>TrackSeed</span>
+            </div>
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Hafizabad Road, Gujranwala</p>
+            <p><strong>Phone:</strong> +92 331 6481168 / +92 300 6449344</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00. Mon-Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">View Carts</a>
+            <a href="#">My Wishlist</a>
+            <a href="order-track.html">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="copywrite">
+            <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="js-f/order-track.js"></script>
+</body>
+</html>
