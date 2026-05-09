@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css-f/cart.css">
+    <!-- cart.css file css-f folder mein rakhna -->
+</head>
+
+<body>
+
+    <!-- ===== HEADER (same as index.html) ===== -->
+    <section id="header">
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>TrackSeed</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+        <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        <button class="cart-btn-nav">
+            <i class="fas fa-shopping-cart"></i> My Cart
+            <span class="cart-count" id="cartCount">0</span>
+        </button>
+    </section>
+
+    <!-- ===== CART HERO ===== -->
+    <section class="cart-hero">
+        <h1>My Cart</h1>
+        <p>Review your selected seeds before checkout</p>
+    </section>
+
+    <!-- ===== MAIN CART SECTION ===== -->
+    <section class="cart-section section-p1">
+        <div class="cart-layout">
+
+            <!-- LEFT: Cart Items -->
+            <div class="cart-items-box">
+
+                <!-- Cart Table Header -->
+                <div class="cart-header-row">
+                    <span>Product</span>
+                    <span>Price</span>
+                    <span>Quantity</span>
+                    <span>Total</span>
+                    <span>Remove</span>
+                </div>
+
+                <!-- Cart Items will show here -->
+                <div id="cartItemsList">
+                    <!-- JS se items yahan aayengi -->
+                </div>
+
+                <!-- Empty Cart Message -->
+                <div class="empty-cart" id="emptyCart" style="display:none;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Your cart is empty!</h3>
+                    <p>Go back and add some seeds.</p>
+                    <a href="index.html" class="continue-btn">Continue Shopping</a>
+                </div>
+
+                <!-- Continue Shopping Button -->
+                <div class="cart-actions" id="cartActions">
+                    <a href="index.html" class="continue-btn">
+                        <i class="fas fa-arrow-left"></i> Continue Shopping
+                    </a>
+                    <button class="clear-btn" onclick="clearCart()">
+                        <i class="fas fa-trash"></i> Clear Cart
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: Order Summary -->
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="subtotalAmt">Rs 0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Charges</span>
+                    <span>Rs 50</span>
+                </div>
+                <div class="summary-row discount-row">
+                    <span>Discount</span>
+                    <span id="discountAmt">Rs 0</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total-row">
+                    <span>Grand Total</span>
+                    <span id="grandTotalAmt">Rs 0</span>
+                </div>
+
+                <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+                    <i class="fas fa-lock"></i> Proceed to Checkout
+                </button>
+
+                <!-- Payment Icons -->
+                <div class="payment-icons">
+                    <p>We accept:</p>
+                    <div class="pay-icons-row">
+                        <span class="pay-badge jazzcash">JazzCash</span>
+                        <span class="pay-badge easypaisa">Easypaisa</span>
+                        <span class="pay-badge cod">COD</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===== FOOTER (same as index.html) ===== -->
+    <footer class="section-p1">
+        <div class="col">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>TrackSeed</span>
+            </div>
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
+            <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon-Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="cart.html">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="copywrite">
+            <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="js-f/cart.js"></script>
+
+
+</body>
+</html>
