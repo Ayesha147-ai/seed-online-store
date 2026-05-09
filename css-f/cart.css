@@ -1,0 +1,560 @@
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* ===== CSS VARIABLES ===== */
+:root {
+    --primary-green: #22c55e;
+    --dark-green: #16a34a;
+    --teal: #088178;
+    --light-green: #dcfce7;
+    --border-green: #cce7d0;
+    --dark: #1a1a1a;
+    --white: #ffffff;
+    --body-text: #465b52;
+    --gray: #666;
+    --footer-bg: #1a1a1a;
+    --btn-border: #e5e5e5;
+    --red: #ef4444;
+}
+
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Spartan', sans-serif;
+}
+
+body {
+    background-color: #f0fdf4;
+    width: 100%;
+}
+
+/* ============================================
+   HEADER — same as index.html
+   ============================================ */
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: var(--white);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    left: 0;
+}
+
+.logo {
+    display: flex;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--dark-green);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.nav-links li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    transition: 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--teal);
+}
+
+.nav-links a:hover::after {
+    content: "";
+    width: 30%;
+    height: 2px;
+    background-color: var(--teal);
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+}
+
+.login-btn, .Signin-btn {
+    background: var(--dark-green);
+    color: var(--white);
+    border: none;
+    padding: 8px 0;
+    width: 110px;
+    height: 38px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-right: 15px;
+    text-align: center;
+}
+
+.cart-btn-nav {
+    background: var(--dark-green);
+    color: var(--white);
+    border: none;
+    padding: 8px 15px;
+    width: 120px;
+    height: 38px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-left: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.login-btn:hover,
+.Signin-btn:hover,
+.cart-btn-nav:hover {
+    background: var(--teal);
+    transform: translateY(-2px);
+}
+
+.cart-count {
+    background: var(--white);
+    color: var(--dark-green);
+    font-size: 10px;
+    font-weight: 800;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============================================
+   CART HERO
+   ============================================ */
+
+.cart-hero {
+    background: linear-gradient(135deg, #dcfce7 0%, #ffffff 100%);
+    padding: 50px 80px;
+    text-align: center;
+}
+
+.cart-hero h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.cart-hero p {
+    font-size: 14px;
+    color: var(--gray);
+}
+
+/* ============================================
+   CART SECTION — main layout
+   ============================================ */
+
+.section-p1 {
+    padding: 40px 80px;
+}
+
+.cart-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    /* Items upar se align hon, summary fix rahe */
+}
+
+/* ============================================
+   LEFT SIDE — Cart Items Box
+   ============================================ */
+
+.cart-items-box {
+    flex: 1;
+    /* Baaki sara space le */
+}
+
+/* Table Header Row */
+.cart-header-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+    /* Product zyada space, baaki equal */
+    padding: 10px 16px;
+    background: var(--light-green);
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--body-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+/* Single Cart Item Row */
+.cart-item-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    transition: box-shadow 0.2s ease;
+}
+
+.cart-item-row:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+/* Product Info (image + name) */
+.item-product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.item-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid var(--border-green);
+    flex-shrink: 0;
+}
+
+/* Grid alignment ko sahi karne ke liye */
+.cart-item-row, .cart-header-row {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 1.2fr 1fr 0.5fr; /* Columns ki width fix */
+    align-items: center;
+    gap: 15px;
+}
+
+
+
+.item-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+}
+
+.item-cat {
+    font-size: 10px;
+    color: var(--gray);
+}
+
+/* Price column */
+.item-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+}
+
+/* Quantity box */
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border-green);
+    border-radius: 6px;
+    background: var(--white);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-green);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    background: var(--light-green);
+    border-color: var(--primary-green);
+}
+
+.qty-num {
+    font-size: 14px;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: center;
+    color: var(--dark);
+}
+
+/* Item Total */
+.item-total {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--dark);
+}
+
+/* Remove Button */
+.remove-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+    padding: 4px;
+}
+
+.remove-btn:hover {
+    color: var(--red);
+    transform: scale(1.1);
+}
+
+/* ============================================
+   EMPTY CART MESSAGE
+   ============================================ */
+
+.empty-cart {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+}
+
+.empty-cart i {
+    font-size: 50px;
+    color: var(--border-green);
+    margin-bottom: 16px;
+}
+
+.empty-cart h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.empty-cart p {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 20px;
+}
+
+/* ============================================
+   CART ACTION BUTTONS (clear + continue)
+   ============================================ */
+
+.cart-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.continue-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    color: var(--dark);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Spartan', sans-serif;
+}
+
+.continue-btn:hover {
+    background: var(--light-green);
+    border-color: var(--primary-green);
+}
+
+.clear-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Spartan', sans-serif;
+}
+
+.clear-btn:hover {
+    background: #fecaca;
+}
+
+/* ============================================
+    RIGHT SIDE — Order Summary Box
+   ============================================ */
+
+.order-summary {
+    width: 300px;
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+    padding: 22px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 84px; /* Scroll karne par summary header ke niche fix rahegi */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.order-summary h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-green);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--body-text);
+    margin-bottom: 12px;
+}
+
+.summary-divider {
+    height: 1px;
+    background: var(--border-green);
+    margin: 12px 0;
+}
+
+.total-row {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+}
+
+/* Checkout Button */
+.checkout-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--dark-green);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-family: 'Spartan', sans-serif;
+}
+
+.checkout-btn:hover {
+    background: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(8, 129, 120, 0.2);
+}
+
+/* Payment Icons Section Removed as requested */
+.payment-icons {
+    display: none;
+}
+
+/* ============================================
+   FOOTER — same as index.html
+   ============================================ */
+
+footer {
+    background: var(--footer-bg);
+    color: var(--white);
+    padding: 40px 80px 20px 80px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+footer .col {
+    width: 22%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    color: var(--white);
+}
+
+footer .logo {
+    margin-bottom: 30px;
+    color: var(--white);
+}
+
+footer h4 {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+
+footer p {
+    font-size: 13px;
+    margin: 0 0 8px 0;
+}
+
+footer .follow {
+    margin-top: 20px;
+}
+
+footer .follow i {
+    color: var(--body-text);
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+footer .follow i:hover,
+footer a:hover {
+    color: var(--teal);
+    transition: all 0.3s;
+}
+
+footer a {
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+footer .copywrite {
+    width: 100%;
+    text-align: center;
+}
