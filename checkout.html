@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css-f/checkout.css">
+    <link rel="stylesheet" href="css-f/style.css">
+</head>
+
+<body>
+
+    <!-- ===== HEADER ===== -->
+     <section id="header">
+        <!-- Logo -->
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>TrackSeed</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <!-- Login Button -->
+        <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+
+        <!-- Signin Button -->
+        <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        <!-- My Cart Button -->
+        <button class="cart-btn-nav" onclick="window.location.href='cart.html'"><i class="fas fa-shopping-cart"></i> My
+            Cart
+            <span class="cart-count">0</span>
+        </button>
+    </section>
+
+    <!-- ===== MAIN CHECKOUT ===== -->
+    <section class="checkout-section">
+        <div class="checkout-layout">
+
+            <!-- LEFT: Form -->
+            <div class="checkout-left">
+
+                <!-- Shipping Info -->
+                <div class="form-card">
+                    <h3><span class="step-num">1</span> Shipping Information</h3>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <div class="input-wrap">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="fullName" placeholder="Muhammad Ali">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <div class="input-wrap">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" placeholder="ali@email.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Phone Number</label>
+                            <div class="input-wrap">
+                                <i class="fas fa-mobile-alt"></i>
+                                <input type="tel" id="phone" placeholder="03XX-XXXXXXX">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>City</label>
+                            <div class="input-wrap">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="city" placeholder="Gujranwala">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Province</label>
+                            <div class="input-wrap select-wrap">
+                                <i class="fas fa-flag"></i>
+                                <select id="province">
+                                    <option value="">Select Province</option>
+                                    <option value="Punjab" selected>Punjab</option>
+                                    <option value="Sindh">Sindh</option>
+                                    <option value="KPK">KPK</option>
+                                    <option value="Balochistan">Balochistan</option>
+                                    <option value="AJK">AJK</option>
+                                    <option value="GB">Gilgit-Baltistan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Nearest Warehouse</label>
+                            <div class="input-wrap select-wrap">
+                                <i class="fas fa-warehouse"></i>
+                                <select id="warehouse">
+                                    <option value="">Select Warehouse</option>
+                                    <option value="Gujranwala Central" selected>Gujranwala Central Warehouse</option>
+                                    <option value="Lahore Main">Lahore Main Warehouse</option>
+                                    <option value="Karachi South">Karachi South Warehouse</option>
+                                    <option value="Islamabad North">Islamabad North Warehouse</option>
+                                    <option value="Faisalabad East">Faisalabad East Warehouse</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group full-width">
+                        <label>Full Business / Delivery Address</label>
+                        <textarea id="address" rows="3" placeholder="Street, Area, Landmark..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="form-card">
+                    <h3><span class="step-num">3</span> Payment Method</h3>
+
+                    <div class="payment-options">
+
+                        <label class="pay-option">
+                            <input type="radio" name="payment" value="jazzcash" checked>
+                            <div class="pay-card">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/9/93/JazzCash.png" alt="JazzCash" onerror="this.style.display='none'">
+                                <span class="pay-badge-co jazz">JazzCash</span>
+                            </div>
+                        </label>
+
+                        <label class="pay-option">
+                            <input type="radio" name="payment" value="easypaisa">
+                            <div class="pay-card">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/4/47/Easypaisa_logo.png" alt="Easypaisa" onerror="this.style.display='none'">
+                                <span class="pay-badge-co easy">Easypaisa</span>
+                            </div>
+                        </label>
+
+                        <label class="pay-option">
+                            <input type="radio" name="payment" value="cod">
+                            <div class="pay-card">
+                                <i class="fas fa-money-bill-wave cod-icon"></i>
+                                <span class="pay-badge-co cod">Cash on Delivery</span>
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="terms-row">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: Order Summary -->
+            <div class="checkout-right">
+                <div class="order-summary-card">
+                    <h3><span class="step-num">2</span> Order Summary</h3>
+
+                    <div id="orderItemsList">
+                        <!-- Items will be loaded from JS -->
+                    </div>
+
+                    <div class="summary-divider"></div>
+
+                    <div class="summary-row">
+                        <span>Subtotal (<span id="itemCount">0</span> items)</span>
+                        <span id="summarySubtotal">Rs 0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Estimated Delivery</span>
+                        <span>Rs 50</span>
+                    </div>
+                    <div class="summary-row grand">
+                        <span>Grand Total</span>
+                        <span id="summaryGrand">Rs 50</span>
+                    </div>
+
+                    <button class="place-order-btn" onclick="placeOrder()">
+                        <i class="fas fa-lock"></i> Place Order & Pay
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== SUCCESS MODAL ===== -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-box">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Order Placed!</h2>
+            <p>Thank you! Your order has been successfully submitted.</p>
+            <p class="order-id">Order ID: <strong id="orderId"></strong></p>
+            <button onclick="window.location.href='index.html'" class="modal-btn">
+                <i class="fas fa-home"></i> Back to Home
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="section-p1">
+        <div class="col">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>TrackSeed</span>
+            </div>
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
+            <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00, Mon-Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="cart.html">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="copywrite">
+            <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="js-f/checkout.js"></script>
+
+</body>
+</html>
