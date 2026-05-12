@@ -86,3 +86,13 @@ function calculateTotal() {
 }
 
 document.addEventListener('DOMContentLoaded', renderCart);
+
+function proceedToCheckout() {
+    if (cartItems.length === 0) {
+        alert("Your cart is empty! Please add items first.");
+        return; // stop execution here
+    }
+
+    // if cart is not empty, go to checkout page
+    window.location.href = "checkout.html";
+}
