@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Detail - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+        :root {
+            --dark-green: #16a34a;
+            --light-green: #dcfce7;
+            --teal: #088178;
+            --white: #ffffff;
+            --dark-text: #1a1a1a;
+            --body-text: #465b52;
+            --border-green: #cce7d0;
+            --footer-bg: #1a1a1a;
+            --gray: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Spartan', sans-serif;
+        }
+
+        body { background-color: #f0fdf4; }
+
+        .section-p1 { padding: 40px 80px; }
+
+        /* HEADER */
+        #header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .logo {
+            display: flex;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--dark-green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 30px;
+        }
+
+        .nav-links li {
+            list-style: none;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark-text);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--teal); }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            padding: 15px 80px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .breadcrumb span { margin: 0 6px; }
+
+        /* DETAIL SECTION */
+        .detail-section {
+            padding: 30px 80px 60px 80px;
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .detail-img {
+            width: 420px;
+            min-width: 420px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .detail-img img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .detail-info { flex: 1; }
+
+        .cat-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: #ede9fe;
+            color: #7c3aed;
+            margin-bottom: 14px;
+        }
+
+        .detail-info h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .detail-price {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 20px;
+        }
+
+        .detail-divider {
+            border: none;
+            border-top: 1px solid var(--border-green);
+            margin: 20px 0;
+        }
+
+        .detail-desc {
+            font-size: 13px;
+            color: var(--body-text);
+            line-height: 2;
+            margin-bottom: 24px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 13px;
+        }
+
+        .info-table tr { border-bottom: 1px solid var(--border-green); }
+
+        .info-table td {
+            padding: 10px 6px;
+            color: var(--body-text);
+        }
+
+        .info-table td:first-child {
+            font-weight: 700;
+            color: var(--dark-text);
+            width: 140px;
+        }
+
+        .detail-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-cart {
+            background: var(--dark-green);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 13px 30px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-cart:hover { background: var(--teal); }
+
+        .btn-back {
+            background: transparent;
+            color: var(--dark-green);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 13px 30px;
+            border-radius: 30px;
+            border: 2px solid var(--dark-green);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-back:hover { background: var(--light-green); }
+
+        .not-found {
+            text-align: center;
+            padding: 80px;
+            color: var(--gray);
+        }
+
+        .not-found i {
+            font-size: 60px;
+            color: var(--border-green);
+            margin-bottom: 20px;
+        }
+
+        .not-found h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--footer-bg);
+            color: var(--white);
+            padding: 40px 80px 20px 80px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        footer .col {
+            width: 22%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        footer .logo { margin-bottom: 30px; color: var(--white); }
+        footer h4 { font-size: 14px; padding-bottom: 20px; }
+        footer p { font-size: 13px; margin: 0 0 8px 0; }
+        footer .follow { margin-top: 20px; }
+        footer .follow i { color: var(--body-text); padding-right: 4px; cursor: pointer; }
+        footer .follow i:hover, footer a:hover { color: var(--teal); transition: all 0.3s; }
+        footer a { font-size: 13px; text-decoration: none; color: var(--white); margin-bottom: 10px; }
+        footer .copywrite {
+            width: 100%;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <section id="header">
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>TrackSeed</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="herbcat.html">Herb Seeds</a>
+        <span>›</span>
+        <span id="breadcrumb-name">Seed Detail</span>
+    </div>
+
+    <!-- DETAIL CONTENT -->
+    <div id="detail-content"></div>
+
+    <!-- FOOTER -->
+    <footer class="section-p1">
+        <div class="col">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>TrackSeed</span>
+            </div>
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
+            <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00. Mon-Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">View Carts</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="copywrite">
+            <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        const seeds = {
+            1: {
+                name: "Dill Seed Organic",
+                urdu: "سواء — Sowa",
+                price: "Rs 120",
+                image: "css-f/img/herb1.jpg",
+                category: "Herb",
+                weight: "10g per packet",
+                season: "Spring / Autumn",
+                growTime: "40 - 60 days",
+                soilType: "Well-drained, fertile loam",
+                description: "Dill (Sowa) is a popular herb used in Pakistani cooking especially in rice dishes, pickles, and chutneys. This organic variety grows quickly and produces feathery green leaves with a fresh aromatic flavor. Widely grown in home gardens across Punjab and KPK."
+            },
+            2: {
+                name: "Fennel Leaf Seed",
+                urdu: "سونف — Saunf",
+                price: "Rs 100",
+                image: "css-f/img/herb2.jpg",
+                category: "Herb",
+                weight: "10g per packet",
+                season: "Autumn / Winter",
+                growTime: "60 - 90 days",
+                soilType: "Well-drained, sandy loam",
+                description: "Fennel (Saunf) is one of the most used spices and herbs in Pakistani cuisine and traditional medicine. Both seeds and leaves are used in cooking, teas, and as a mouth freshener after meals. Very easy to grow and high-yielding in Pakistani climate."
+            },
+            3: {
+                name: "Basil Sweet Italian Seed",
+                urdu: "نیازبو — Niyazbo",
+                price: "Rs 90",
+                image: "css-f/img/herb3.jpg",
+                category: "Herb",
+                weight: "8g per packet",
+                season: "Spring / Summer",
+                growTime: "25 - 40 days",
+                soilType: "Rich, moist, well-drained",
+                description: "Basil (Niyazbo / Tulsi) is a fragrant herb widely used in Pakistani cooking, herbal teas, and traditional remedies. Sweet Italian variety produces large, tender green leaves with a strong pleasant aroma. Grows easily in pots and home gardens throughout Pakistan."
+            },
+            4: {
+                name: "Coriander Dhaniya Seed",
+                urdu: "دھنیا — Dhaniya",
+                price: "Rs 80",
+                image: "css-f/img/herb4.jpg",
+                category: "Herb",
+                weight: "15g per packet",
+                season: "All Season",
+                growTime: "21 - 28 days",
+                soilType: "Any fertile, well-drained soil",
+                description: "Coriander (Dhaniya) is the most essential herb in Pakistani cooking — no saalan, chutney, or biryani is complete without it. This variety grows quickly and produces abundant fresh green leaves. Extremely easy to grow in pots, kitchen gardens, or open fields across Pakistan."
+            },
+            5: {
+                name: "Mint Spearmint Pudina Seed",
+                urdu: "پودینہ — Podina",
+                price: "Rs 85",
+                image: "css-f/img/herb5.jpg",
+                category: "Herb",
+                weight: "5g per packet",
+                season: "All Season",
+                growTime: "10 - 15 days",
+                soilType: "Moist, fertile soil",
+                description: "Mint (Podina) is a beloved Pakistani herb used in chutneys, raitas, drinks, and as a garnish. Spearmint variety has a refreshing cool flavor and spreads quickly once planted. Grows best in moist soil and partial shade — perfect for Pakistani home gardens and kitchen pots."
+            },
+            6: {
+                name: "Fenugreek Methi Seed",
+                urdu: "میتھی — Methi",
+                price: "Rs 70",
+                image: "css-f/img/herb6.jpg",
+                category: "Herb",
+                weight: "20g per packet",
+                season: "Winter / Autumn",
+                growTime: "20 - 30 days",
+                soilType: "Well-drained, loamy soil",
+                description: "Fenugreek (Methi) is a classic Pakistani winter herb and vegetable. Fresh methi leaves are used in paratha, saag, and curries while dried seeds are an important spice. Very fast-growing and easy to cultivate — a staple in every Pakistani kitchen garden during winter months."
+            },
+            7: {
+                name: "Curry Leaf Kari Patta Seed",
+                urdu: "کڑی پتہ — Kari Patta",
+                price: "Rs 90",
+                image: "css-f/img/herb7.jpg",
+                category: "Herb",
+                weight: "10g per packet",
+                season: "Spring / Summer",
+                growTime: "1 - 2 years (shrub)",
+                soilType: "Well-drained, slightly sandy",
+                description: "Curry Leaf (Kari Patta) is an essential herb in Pakistani and South Asian cooking. Fresh leaves give a unique aroma and flavor to curries, daal, and rice dishes. Once established as a small shrub, it provides fresh leaves year-round. Widely grown in home gardens across Sindh and Punjab."
+            },
+            8: {
+                name: "Carom Ajwain Organic Seed",
+                urdu: "اجوائن — Ajwain",
+                price: "Rs 75",
+                image: "css-f/img/herb8.jpg",
+                category: "Herb",
+                weight: "15g per packet",
+                season: "Winter / Autumn",
+                growTime: "60 - 90 days",
+                soilType: "Well-drained, loamy soil",
+                description: "Ajwain (Carom) is one of the most important spice herbs in Pakistani cuisine and traditional medicine. Used in paratha, bread, pickles, and as a digestive remedy. This organic variety produces high-quality seeds with strong aroma. Widely grown across Punjab and Balochistan."
+            },
+            9: {
+                name: "Amaranth Cholai Desi Seed",
+                urdu: "چولائی — Cholai",
+                price: "Rs 65",
+                image: "css-f/img/herb9.jpg",
+                category: "Herb",
+                weight: "10g per packet",
+                season: "Summer / Spring",
+                growTime: "30 - 45 days",
+                soilType: "Any fertile soil",
+                description: "Amaranth (Cholai) is a traditional desi saag beloved in Punjab and across Pakistan. Young tender leaves are cooked as a nutritious vegetable rich in iron and vitamins. Very fast-growing and heat-tolerant — perfect for Pakistani summer gardens. An affordable and highly nutritious crop."
+            },
+            10: {
+                name: "Lemongrass Cymbopogon Seed",
+                urdu: "لیموں گھاس — Leemon Ghaas",
+                price: "Rs 140",
+                image: "css-f/img/herb10.jpg",
+                category: "Herb",
+                weight: "8g per packet",
+                season: "Spring / Summer",
+                growTime: "75 - 90 days",
+                soilType: "Well-drained, moist loam",
+                description: "Lemongrass (Leemon Ghaas) is a popular aromatic herb used in herbal teas, drinks, and traditional medicine across Pakistan. Known for its fresh citrus scent and calming properties. Easy to grow in home gardens and pots — once established, it produces fresh stalks throughout the year."
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get('id'));
+        const seed = seeds[id];
+        const container = document.getElementById('detail-content');
+
+        if (seed) {
+            document.title = seed.name + " - TrackSeed";
+            document.getElementById('breadcrumb-name').textContent = seed.name;
+
+            container.innerHTML = `
+                <div class="detail-section">
+                    <div class="detail-img">
+                        <img src="${seed.image}" alt="${seed.name}">
+                    </div>
+                    <div class="detail-info">
+                        <span class="cat-badge">${seed.category}</span>
+                        <h1>${seed.name}</h1>
+                        <div class="detail-price">${seed.price}</div>
+                        <hr class="detail-divider">
+                        <p class="detail-desc">${seed.description}</p>
+                        <table class="info-table">
+                            <tr>
+                                <td><i class="fas fa-language"></i> Urdu Name</td>
+                                <td>${seed.urdu}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-weight-hanging"></i> Weight</td>
+                                <td>${seed.weight}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-sun"></i> Season</td>
+                                <td>${seed.season}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-clock"></i> Grow Time</td>
+                                <td>${seed.growTime}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-mountain"></i> Soil Type</td>
+                                <td>${seed.soilType}</td>
+                            </tr>
+                        </table>
+                        <div class="detail-buttons">
+                            <a href="cart.html" class="btn-cart">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </a>
+                            <a href="herbcat.html" class="btn-back">
+                                <i class="fas fa-arrow-left"></i> Back to Seeds
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="not-found">
+                    <i class="fas fa-seedling"></i>
+                    <h2>Seed Not Found</h2>
+                    <p>The seed you are looking for does not exist.</p>
+                    <br>
+                    <a href="herbcat.html" class="btn-back" style="display:inline-flex;">
+                        <i class="fas fa-arrow-left"></i> Back to Herb Seeds
+                    </a>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>
