@@ -43,12 +43,7 @@
 
         <div class="form-panel">
             <h3 id="form-title">Agent Registration Form</h3>
-            <p class="form-subtitle">Choose your role and fill in the details.</p>
-
-            <div class="role-selection">
-                <label><input type="radio" name="userRole" value="agent" checked onclick="toggleFields()"> Register as Agent</label>
-                <label><input type="radio" name="userRole" value="admin" onclick="toggleFields()"> Register as Admin</label>
-            </div>
+            <p class="form-subtitle">Fill in your details to register as a seed agent.</p>
 
             <div class="form-group">
                 <label for="fullName">Full Name <span class="required">*</span></label>
@@ -58,15 +53,6 @@
                 </div>
             </div>
 
-            <div id="admin-only-fields" style="display: none;">
-                <div class="form-group">
-                    <label for="adminPass">Password <span class="required">*</span></label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="adminPass" placeholder="Set Admin Password">
-                    </div>
-                </div>
-            </div>
 
             <div id="agent-only-fields">
                 <div class="form-row">
