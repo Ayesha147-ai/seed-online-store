@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seed Detail - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+        :root {
+            --dark-green: #16a34a;
+            --light-green: #dcfce7;
+            --teal: #088178;
+            --white: #ffffff;
+            --dark-text: #1a1a1a;
+            --body-text: #465b52;
+            --border-green: #cce7d0;
+            --footer-bg: #1a1a1a;
+            --gray: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Spartan', sans-serif;
+        }
+
+        body {
+            background-color: #f0fdf4;
+        }
+
+        .section-p1 {
+            padding: 40px 80px;
+        }
+
+        /* HEADER */
+        #header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .logo {
+            display: flex;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--dark-green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 30px;
+        }
+
+        .nav-links li {
+            list-style: none;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark-text);
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--teal); }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            padding: 15px 80px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .breadcrumb span {
+            margin: 0 6px;
+        }
+
+        /* DETAIL SECTION */
+        .detail-section {
+            padding: 30px 80px 60px 80px;
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .detail-img {
+            width: 420px;
+            min-width: 420px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .detail-img img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .detail-info {
+            flex: 1;
+        }
+
+        .cat-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #16a34a;
+            margin-bottom: 14px;
+        }
+
+        .detail-info h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .detail-price {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 20px;
+        }
+
+        .detail-divider {
+            border: none;
+            border-top: 1px solid var(--border-green);
+            margin: 20px 0;
+        }
+
+        .detail-desc {
+            font-size: 13px;
+            color: var(--body-text);
+            line-height: 2;
+            margin-bottom: 24px;
+        }
+
+        /* Info Table */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 28px;
+            font-size: 13px;
+        }
+
+        .info-table tr {
+            border-bottom: 1px solid var(--border-green);
+        }
+
+        .info-table td {
+            padding: 10px 6px;
+            color: var(--body-text);
+        }
+
+        .info-table td:first-child {
+            font-weight: 700;
+            color: var(--dark-text);
+            width: 140px;
+        }
+
+        /* Buttons */
+        .detail-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-cart {
+            background: var(--dark-green);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 13px 30px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-cart:hover {
+            background: var(--teal);
+        }
+
+        .btn-back {
+            background: transparent;
+            color: var(--dark-green);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 13px 30px;
+            border-radius: 30px;
+            border: 2px solid var(--dark-green);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: var(--light-green);
+        }
+
+        /* Not Found */
+        .not-found {
+            text-align: center;
+            padding: 80px;
+            color: var(--gray);
+        }
+
+        .not-found i {
+            font-size: 60px;
+            color: var(--border-green);
+            margin-bottom: 20px;
+        }
+
+        .not-found h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--dark-text);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--footer-bg);
+            color: var(--white);
+            padding: 40px 80px 20px 80px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        footer .col {
+            width: 22%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        footer .logo {
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        footer h4 {
+            font-size: 14px;
+            padding-bottom: 20px;
+        }
+
+        footer p {
+            font-size: 13px;
+            margin: 0 0 8px 0;
+        }
+
+        footer .follow { margin-top: 20px; }
+
+        footer .follow i {
+            color: var(--body-text);
+            padding-right: 4px;
+            cursor: pointer;
+        }
+
+        footer .follow i:hover,
+        footer a:hover {
+            color: var(--teal);
+            transition: all 0.3s;
+        }
+
+        footer a {
+            font-size: 13px;
+            text-decoration: none;
+            color: var(--white);
+            margin-bottom: 10px;
+        }
+
+        footer .copywrite {
+            width: 100%;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <section id="header">
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>TrackSeed</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </section>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="vegcat.html">Vegetable Seeds</a>
+        <span>›</span>
+        <span id="breadcrumb-name">Seed Detail</span>
+    </div>
+
+    <!-- DETAIL CONTENT -->
+    <div id="detail-content"></div>
+
+    <!-- FOOTER -->
+    <footer class="section-p1">
+        <div class="col">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>TrackSeed</span>
+            </div>
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
+            <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00. Mon-Sat</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="about.html">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="#">View Carts</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">Track My Order</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="copywrite">
+            <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== VEGETABLE SEEDS DATA =====
+        const seeds = {
+            1: {
+                name: "Tomato Round Red Seed",
+                price: "Rs 100",
+                image: "css-f/img/v1.jpg",
+                category: "Vegetable",
+                weight: "10g per packet",
+                season: "Spring / Summer",
+                growTime: "60 - 80 days",
+                soilType: "Loamy, well-drained",
+                description: "Tomato Round Red is a high-yield variety perfect for Pakistani climate. It produces firm, round, bright red tomatoes ideal for cooking, salads, and sauces. Easy to grow in both open fields and home gardens."
+            },
+            2: {
+                name: "Cucumber Seed",
+                price: "Rs 150",
+                image: "css-f/img/v2.jpg",
+                category: "Vegetable",
+                weight: "8g per packet",
+                season: "Summer",
+                growTime: "50 - 65 days",
+                soilType: "Sandy loam, well-drained",
+                description: "Fresh and crispy cucumber seeds suitable for warm Pakistani weather. This variety produces long, green cucumbers with a refreshing taste. Ideal for home gardens and small farms."
+            },
+            3: {
+                name: "Tinda Round Gourd Seed",
+                price: "Rs 120",
+                image: "css-f/img/v3.jpg",
+                category: "Vegetable",
+                weight: "10g per packet",
+                season: "Summer",
+                growTime: "55 - 70 days",
+                soilType: "Well-drained, fertile soil",
+                description: "Tinda is a very popular summer vegetable in Pakistan. This round gourd variety is tender, tasty, and easy to grow. Perfect for home gardens and local farms across Punjab."
+            },
+            4: {
+                name: "Bitter Gourd Hybrid Seed",
+                price: "Rs 130",
+                image: "css-f/img/v4.jpg",
+                category: "Vegetable",
+                weight: "8g per packet",
+                season: "Summer",
+                growTime: "55 - 75 days",
+                soilType: "Loamy, moist soil",
+                description: "High-quality hybrid bitter gourd (Karela) seeds with excellent disease resistance. Known for high yield and long dark green fruits. Very popular in Pakistani cuisine and also used for medicinal purposes."
+            },
+            5: {
+                name: "Spinach All Season Seed",
+                price: "Rs 80",
+                image: "css-f/img/v5.jpg",
+                category: "Vegetable",
+                weight: "15g per packet",
+                season: "All Season",
+                growTime: "30 - 45 days",
+                soilType: "Rich, moist soil",
+                description: "All-season spinach (Palak) that grows in both warm and cool weather. Rich in iron and vitamins, this variety is fast-growing and high-yielding. A staple vegetable for Pakistani households."
+            },
+            6: {
+                name: "Tori Ridge Gourd Seed",
+                price: "Rs 90",
+                image: "css-f/img/v6.jpg",
+                category: "Vegetable",
+                weight: "10g per packet",
+                season: "Summer",
+                growTime: "50 - 65 days",
+                soilType: "Well-drained, fertile soil",
+                description: "Tori (Ridge Gourd) is a widely loved vegetable across Pakistan. This variety produces long, ridged green fruits with a mild flavor. Easy to grow on trellises and fences in home gardens."
+            },
+            7: {
+                name: "Capsicum California Wonder",
+                price: "Rs 140",
+                image: "css-f/img/v7.jpg",
+                category: "Vegetable",
+                weight: "5g per packet",
+                season: "Spring / Summer",
+                growTime: "70 - 90 days",
+                soilType: "Sandy loam, well-drained",
+                description: "California Wonder is a premium bell pepper (Shimla Mirch) variety producing large, blocky, thick-walled fruits. Great for cooking, stuffing, and salads. Now widely available across Pakistan."
+            },
+            8: {
+                name: "Brinjal Long Purple Seed",
+                price: "Rs 85",
+                image: "css-f/img/v8.jpg",
+                category: "Vegetable",
+                weight: "10g per packet",
+                season: "Summer",
+                growTime: "65 - 80 days",
+                soilType: "Loamy, well-drained",
+                description: "Long Purple Brinjal (Baingan) is a high-yielding variety with glossy, deep purple fruits. Very popular in Pakistani cooking for curries and BBQ (baingan ka bharta). Grows well in Punjab's climate."
+            },
+            9: {
+                name: "Bottle Gourd Lauki Long Seed",
+                price: "Rs 85",
+                image: "css-f/img/v9.jpg",
+                category: "Vegetable",
+                weight: "12g per packet",
+                season: "Summer",
+                growTime: "55 - 70 days",
+                soilType: "Well-drained, fertile",
+                description: "Bottle Gourd (Lauki / Doodhi) is one of the most widely grown vegetables in Pakistan. This long variety produces large, light green gourds used in daily cooking. Easy to grow on trellises."
+            },
+            10: {
+                name: "Turnip Shaljam Seed",
+                price: "Rs 95",
+                image: "css-f/img/v10.jpg",
+                category: "Vegetable",
+                weight: "12g per packet",
+                season: "Winter",
+                growTime: "40 - 60 days",
+                soilType: "Loose, well-drained",
+                description: "Shaljam (Turnip) is a beloved winter vegetable in Punjab, especially in Gujranwala region. This variety produces large, sweet, white-purple roots. Perfect for traditional Pakistani dishes and pickles."
+            }
+        };
+
+        // ===== LOAD DETAIL =====
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get('id'));
+        const seed = seeds[id];
+        const container = document.getElementById('detail-content');
+
+        if (seed) {
+            document.title = seed.name + " - TrackSeed";
+            document.getElementById('breadcrumb-name').textContent = seed.name;
+
+            container.innerHTML = `
+                <div class="detail-section">
+                    <div class="detail-img">
+                        <img src="${seed.image}" alt="${seed.name}">
+                    </div>
+                    <div class="detail-info">
+                        <span class="cat-badge">${seed.category}</span>
+                        <h1>${seed.name}</h1>
+                        <div class="detail-price">${seed.price}</div>
+                        <hr class="detail-divider">
+                        <p class="detail-desc">${seed.description}</p>
+                        <table class="info-table">
+                            <tr>
+                                <td><i class="fas fa-weight-hanging"></i> Weight</td>
+                                <td>${seed.weight}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-sun"></i> Season</td>
+                                <td>${seed.season}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-clock"></i> Grow Time</td>
+                                <td>${seed.growTime}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-mountain"></i> Soil Type</td>
+                                <td>${seed.soilType}</td>
+                            </tr>
+                        </table>
+                        <div class="detail-buttons">
+                            <a href="cart.html" class="btn-cart">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </a>
+                            <a href="vegcat.html" class="btn-back">
+                                <i class="fas fa-arrow-left"></i> Back to Seeds
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="not-found">
+                    <i class="fas fa-seedling"></i>
+                    <h2>Seed Not Found</h2>
+                    <p>The seed you are looking for does not exist.</p>
+                    <br>
+                    <a href="vegcat.html" class="btn-back" style="display:inline-flex;">
+                        <i class="fas fa-arrow-left"></i> Back to Vegetable Seeds
+                    </a>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+</html>
