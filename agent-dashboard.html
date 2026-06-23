@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Dashboard - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css-f/agent-dashboard.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <i class="fas fa-seedling"></i> TrackSeed
+    </div>
+
+    <div class="sidebar-user">
+        <div class="user-avatar">AG</div>
+        <div class="user-info">
+            <p>Agent Panel</p>
+            <span>&#9632; Verified Agent</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-label">Main</div>
+        <div class="nav-item active" data-section="dashboard">
+            <i class="fas fa-chart-pie"></i> Dashboard
+        </div>
+        <div class="nav-item" data-section="my-seeds">
+            <i class="fas fa-seedling"></i> My Seeds
+        </div>
+        <div class="nav-item" data-section="add-seed">
+            <i class="fas fa-plus-circle"></i> Add New Seed
+        </div>
+        <div class="nav-item" data-section="orders">
+            <i class="fas fa-shopping-bag"></i> Orders
+        </div>
+
+        <div class="nav-label">Account</div>
+        <div class="nav-item" data-section="earnings">
+            <i class="fas fa-wallet"></i> Earnings
+        </div>
+        <div class="nav-item" data-section="settings">
+            <i class="fas fa-cog"></i> Settings
+        </div>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="nav-item" onclick="window.location.href='index.html'">
+            <i class="fas fa-store"></i> View Store
+        </div>
+        <div class="nav-item" onclick="window.location.href='auth/logout.php'">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </div>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <h1 id="page-title">Dashboard</h1>
+            <p id="page-date"></p>
+        </div>
+        <div class="topbar-right">
+            <button class="add-btn" onclick="showSection('add-seed')">
+                <i class="fas fa-plus"></i> Add Seed
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- ===== DASHBOARD ===== -->
+        <div class="section active" id="section-dashboard">
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Seeds</span>
+                        <div class="stat-icon ic-blue"><i class="fas fa-seedling"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-total-seeds">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Active Seeds</span>
+                        <div class="stat-icon ic-green"><i class="fas fa-check-circle"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-active-seeds">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Pending Seeds</span>
+                        <div class="stat-icon ic-amber"><i class="fas fa-hourglass-half"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-pending-seeds">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Orders</span>
+                        <div class="stat-icon ic-amber"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-total-orders">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Pending Orders</span>
+                        <div class="stat-icon ic-red"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-pending-orders">...</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-grid">
+                <div class="quick-btn" onclick="showSection('add-seed')">
+                    <i class="fas fa-plus-circle"></i>
+                    <p>Add Seed</p>
+                </div>
+                <div class="quick-btn" onclick="showSection('my-seeds')">
+                    <i class="fas fa-boxes"></i>
+                    <p>Manage Seeds</p>
+                </div>
+                <div class="quick-btn" onclick="showSection('orders')">
+                    <i class="fas fa-truck"></i>
+                    <p>View Orders</p>
+                </div>
+                <div class="quick-btn" onclick="showSection('earnings')">
+                    <i class="fas fa-wallet"></i>
+                    <p>Earnings</p>
+                </div>
+            </div>
+
+            <!-- Recent Seeds + Recent Orders -->
+            <div class="dash-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Seeds</h3>
+                        <span class="view-all" onclick="showSection('my-seeds')">View All</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dash-seeds-tbody">
+                            <tr><td colspan="4" style="text-align:center;color:#888;">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Orders</h3>
+                        <span class="view-all" onclick="showSection('orders')">View All</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Seed</th>
+                                <th>Buyer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dash-orders-tbody">
+                            <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MY SEEDS ===== -->
+        <div class="section" id="section-my-seeds">
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Seeds</h3>
+                    <span id="my-seeds-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seed Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="my-seeds-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== ADD SEED ===== -->
+        <div class="section" id="section-add-seed">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Add New Seed</h3>
+                    <span>Fill all details carefully</span>
+                </div>
+                <form id="add-seed-form" onsubmit="handleAddSeed(event)" enctype="multipart/form-data">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Seed Name *</label>
+                            <input type="text" id="seed-name" name="seed-name" placeholder="e.g. Sweet Corn F1 Hybrid" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select id="seed-category" name="seed-category" required>
+                                <option value="">Select Category</option>
+                                <option value="Vegetable">Vegetable</option>
+                                <option value="Fruit">Fruit</option>
+                                <option value="Herb">Herb</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (Rs) *</label>
+                            <input type="number" id="seed-price" name="seed-price" placeholder="e.g. 100" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Stock (packs) *</label>
+                            <input type="number" id="seed-stock" name="seed-stock" placeholder="e.g. 200" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Seed Type</label>
+                            <input type="text" name="seed-type" placeholder="e.g. Hybrid, Organic">
+                        </div>
+                        <div class="form-group">
+                            <label>Quality</label>
+                            <input type="text" name="seed-quality" placeholder="e.g. Premium, Standard">
+                        </div>
+                        <div class="form-group">
+                            <label>Weight per Pack</label>
+                            <input type="text" name="seed-weight" placeholder="e.g. 10g, 50g">
+                        </div>
+                        <div class="form-group">
+                            <label>Growing Season</label>
+                            <select name="seed-season">
+                                <option value="">Select Season</option>
+                                <option>Spring</option>
+                                <option>Summer</option>
+                                <option>Autumn</option>
+                                <option>Winter</option>
+                                <option>All Season</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-full">
+                            <label>Description</label>
+                            <textarea id="seed-desc" name="seed-desc" placeholder="Describe the seed..."></textarea>
+                        </div>
+                        <div class="form-group form-full">
+                            <label>Seed Image</label>
+                            <input type="file" name="seed-image" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit">Add Seed</button>
+                        <button type="button" class="btn-cancel" onclick="showSection('my-seeds')">Cancel</button>
+                    </div>
+                </form>
+                <div id="seed-success" class="success-msg" style="display:none;">
+                    <i class="fas fa-check-circle"></i> Seed submitted! Admin will review it shortly.
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ORDERS ===== -->
+        <div class="section" id="section-orders">
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterOrders('all', this)">All</button>
+                <button class="filter-btn" onclick="filterOrders('placed', this)">Placed</button>
+                <button class="filter-btn" onclick="filterOrders('processing', this)">Processing</button>
+                <button class="filter-btn" onclick="filterOrders('delivered', this)">Delivered</button>
+                <button class="filter-btn" onclick="filterOrders('cancelled', this)">Cancelled</button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>My Orders</h3>
+                    <span id="order-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Seed</th>
+                            <th>Buyer</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <tr><td colspan="7" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== EARNINGS ===== -->
+        <div class="section" id="section-earnings">
+            <div class="earn-grid">
+                <div class="earn-card">
+                    <div class="big" id="earn-total">Rs 0</div>
+                    <div class="lbl">Total Earnings</div>
+                    <div class="sub">From delivered orders</div>
+                </div>
+                <div class="earn-card">
+                    <div class="big" id="earn-orders">0</div>
+                    <div class="lbl">Delivered Orders</div>
+                    <div class="sub">Successfully completed</div>
+                </div>
+                <div class="earn-card">
+                    <div class="big" id="earn-avg">Rs 0</div>
+                    <div class="lbl">Avg per Order</div>
+                    <div class="sub">Average order value</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SETTINGS ===== -->
+        <div class="section" id="section-settings">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Account Settings</h3>
+                    <span>Update your information</span>
+                </div>
+                <div class="settings-grid">
+                    <div class="settings-section">
+                        <h4>Personal Information</h4>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profile-name" placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="profile-email" placeholder="Your email">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="profile-phone" placeholder="Your phone">
+                        </div>
+                        <button class="btn-submit" style="margin-top:8px;" onclick="saveProfile()">Save Changes</button>
+                    </div>
+                    <div class="settings-section">
+                        <h4>Change Password</h4>
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" id="current-password" placeholder="Enter current password">
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="new-password" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm new password">
+                        </div>
+                        <button class="btn-submit" style="margin-top:8px;" onclick="changeMyPassword()">Update Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="js-f/agent-dashboard.js"></script>
+</body>
+</html>

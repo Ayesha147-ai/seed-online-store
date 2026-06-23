@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css-f/admin-dashboard.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <i class="fas fa-seedling"></i> TrackSeed
+    </div>
+
+    <div class="sidebar-user">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+            <p>Admin Panel</p>
+            <span>&#9632; Super Administrator</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-label">Overview</div>
+        <div class="nav-item active" data-section="dashboard">
+            <i class="fas fa-chart-line"></i> Dashboard
+        </div>
+
+        <div class="nav-label">User Management</div>
+        <div class="nav-item" data-section="users">
+            <i class="fas fa-users"></i> All Users
+        </div>
+        <div class="nav-item" data-section="sellers">
+            <i class="fas fa-store"></i> Sellers
+        </div>
+        <div class="nav-item" data-section="buyers">
+            <i class="fas fa-user-tag"></i> Buyers
+        </div>
+        <div class="nav-item" data-section="approve-agents">
+            <i class="fas fa-user-check"></i> Approve Agents
+            <span class="nav-badge" id="pending-agents-badge">0</span>
+        </div>
+
+        <div class="nav-label">Seed Management</div>
+        <div class="nav-item" data-section="approve-seeds">
+            <i class="fas fa-check-circle"></i> Approve Seeds
+            <span class="nav-badge" id="pending-badge">0</span>
+        </div>
+        <div class="nav-item" data-section="all-seeds">
+            <i class="fas fa-seedling"></i> All Seeds
+        </div>
+
+        <div class="nav-label">Orders & Reports</div>
+        <div class="nav-item" data-section="orders">
+            <i class="fas fa-shopping-bag"></i> All Orders
+        </div>
+
+        <div class="nav-label">System</div>
+        <div class="nav-item" data-section="settings">
+            <i class="fas fa-cog"></i> System Settings
+        </div>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="nav-item" onclick="window.location.href='index.html'">
+            <i class="fas fa-store"></i> View Store
+        </div>
+        <div class="nav-item" onclick="window.location.href='auth/logout.php'">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </div>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <h1 id="page-title">Dashboard</h1>
+            <p id="page-date"></p>
+        </div>
+        <div class="topbar-right">
+            <div class="admin-pill">
+                <i class="fas fa-shield-alt"></i> Admin
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- ===== DASHBOARD ===== -->
+        <div class="section active" id="section-dashboard">
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Farmers</span>
+                        <div class="stat-icon ic-blue"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-farmers">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Active Agents</span>
+                        <div class="stat-icon ic-green"><i class="fas fa-store"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-agents">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Orders</span>
+                        <div class="stat-icon ic-amber"><i class="fas fa-shopping-bag"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-orders">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Pending Seeds</span>
+                        <div class="stat-icon ic-red"><i class="fas fa-clock"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-pending">...</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Revenue</span>
+                        <div class="stat-icon ic-green"><i class="fas fa-money-bill-wave"></i></div>
+                    </div>
+                    <div class="stat-val" id="stat-revenue">Rs 0</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-grid">
+                <div class="quick-btn" onclick="showSection('approve-seeds')">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Approve Seeds</p>
+                </div>
+                <div class="quick-btn" onclick="showSection('approve-agents')">
+                    <i class="fas fa-user-check"></i>
+                    <p>Approve Agents</p>
+                </div>
+                <div class="quick-btn" onclick="showSection('users')">
+                    <i class="fas fa-user-plus"></i>
+                    <p>Manage Users</p>
+                </div>
+                <div class="quick-btn" onclick="showSection('orders')">
+                    <i class="fas fa-truck"></i>
+                    <p>View Orders</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== ALL USERS ===== -->
+        <div class="section" id="section-users">
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterTable('users-tbody', 'all', this)">All</button>
+                <button class="filter-btn" onclick="filterTable('users-tbody', 'farmer', this)">Farmers</button>
+                <button class="filter-btn" onclick="filterTable('users-tbody', 'agent', this)">Agents</button>
+                <button class="filter-btn" onclick="filterTable('users-tbody', 'active', this)">Active</button>
+                <button class="filter-btn" onclick="filterTable('users-tbody', 'blocked', this)">Blocked</button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Users</h3>
+                    <span id="users-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Joined</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== SELLERS ===== -->
+        <div class="section" id="section-sellers">
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Agents/Sellers</h3>
+                    <span id="sellers-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Joined</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sellers-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== BUYERS ===== -->
+        <div class="section" id="section-buyers">
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Farmers/Buyers</h3>
+                    <span id="buyers-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Joined</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="buyers-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== APPROVE AGENTS (NEW) ===== -->
+        <div class="section" id="section-approve-agents">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Agents Pending Approval</h3>
+                    <span id="pending-agents-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Agency</th>
+                            <th>City / Province</th>
+                            <th>CNIC</th>
+                            <th>Applied</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="approve-agents-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== APPROVE SEEDS ===== -->
+        <div class="section" id="section-approve-seeds">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Seeds Pending Approval</h3>
+                    <span id="pending-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seed Name</th>
+                            <th>Agent</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="approve-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== ALL SEEDS ===== -->
+        <div class="section" id="section-all-seeds">
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterTable('seeds-tbody', 'all', this)">All</button>
+                <button class="filter-btn" onclick="filterTable('seeds-tbody', 'Vegetable', this)">Vegetable</button>
+                <button class="filter-btn" onclick="filterTable('seeds-tbody', 'Fruit', this)">Fruit</button>
+                <button class="filter-btn" onclick="filterTable('seeds-tbody', 'Herb', this)">Herb</button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Seeds</h3>
+                    <span id="seeds-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Seed Name</th>
+                            <th>Agent</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="seeds-tbody">
+                        <tr><td colspan="7" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== ALL ORDERS ===== -->
+        <div class="section" id="section-orders">
+            <div class="filter-bar">
+                <button class="filter-btn active" onclick="filterOrders('all', this)">All</button>
+                <button class="filter-btn" onclick="filterOrders('placed', this)">Placed</button>
+                <button class="filter-btn" onclick="filterOrders('processing', this)">Processing</button>
+                <button class="filter-btn" onclick="filterOrders('delivered', this)">Delivered</button>
+                <button class="filter-btn" onclick="filterOrders('cancelled', this)">Cancelled</button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>All Orders</h3>
+                    <span id="order-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Buyer</th>
+                            <th>City</th>
+                            <th>Payment</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                        <tr><td colspan="8" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== SETTINGS ===== -->
+        <div class="section" id="section-settings">
+            <div class="card">
+                <div class="card-header">
+                    <h3>System Settings</h3>
+                    <span>Manage platform config</span>
+                </div>
+                <div class="settings-grid">
+                    <div class="settings-section">
+                        <h4>Platform Information</h4>
+                        <p style="font-size:12px;color:#888;margin-bottom:10px;">
+                            <i class="fas fa-info-circle"></i> Ye fields abhi sirf display ke liye hain (database mein save nahi hote)
+                        </p>
+                        <div class="form-group">
+                            <label>Platform Name</label>
+                            <input type="text" value="TrackSeed">
+                        </div>
+                        <div class="form-group">
+                            <label>Support Email</label>
+                            <input type="email" value="support@trackseed.pk">
+                        </div>
+                        <div class="form-group">
+                            <label>Support Phone</label>
+                            <input type="text" value="+92 313 7487800">
+                        </div>
+                        <button class="btn-submit" style="margin-top:8px;" disabled title="Coming soon">Save Changes</button>
+                    </div>
+                    <div class="settings-section">
+                        <h4>Admin Password</h4>
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" id="current-password" placeholder="Enter current password">
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="new-password" placeholder="Enter new password">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm new password">
+                        </div>
+                        <button class="btn-submit" style="margin-top:8px;" onclick="changeMyPassword()">Update Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- end content -->
+</div><!-- end main -->
+
+<script src="js-f/admin-dashboard.js"></script>
+</body>
+</html>

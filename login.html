@@ -31,24 +31,28 @@
                 <h3>Login to Your Account</h3>
                 <p>Enter your details below</p>
 
-                <div class="input-group">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email Address">
-                </div>
+                <form action="auth/login.php" method="POST">
 
-                <div class="input-group">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Password">
-                </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Email Address" name="email">
+                    </div>
 
-                <div class="form-options">
-                    <label>
-                        <input type="checkbox"> Remember Me
-                    </label>
-                    <a href="#" onclick="window.location.href='forgot-password.html'">Forgot Password?</a>
-                </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Password" name="password">
+                    </div>
 
-                <button class="login-submit-btn">Login</button>
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox"> Remember Me
+                        </label>
+                        <a href="#" onclick="window.location.href='forgot-password.html'">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="login-submit-btn">Login</button>
+
+                </form>
 
                 <p class="switch-text">
                     Don't have an account?
@@ -61,11 +65,45 @@
                     </a>
                 </p>
 
-
             </div>
         </div>
     </section>
 
+    <script>
+// Error messages URL se read karo
+const params = new URLSearchParams(window.location.search);
+const error  = params.get('error');
+
+const messages = {
+    'empty':           'Email and password are both required.',
+    'no_account':       'No account found with this email. Please sign up first.',
+    'wrong_password':   'Incorrect password. Please try again.',
+    'not_approved':     'Your agent application has not been approved yet.',
+    'blocked':          'Your account has been blocked. Please contact support.'
+};
+
+
+if (error && messages[error]) {
+    // Error div banao
+    const div = document.createElement('div');
+    div.style.cssText = `
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        font-family: 'Spartan', sans-serif;
+    `;
+    div.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + messages[error];
+
+    // Login form ke upar insert karo
+    const form = document.querySelector('.login-form');
+    if (form) form.insertBefore(div, form.querySelector('h3').nextSibling);
+}
+</script>
 </body>
 
 </html>

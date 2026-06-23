@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register as Agent/Admin - TrackSeed</title>
+    <title>Register as Agent - TrackSeed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css-f/register-agent.css">
 </head>
@@ -43,93 +43,87 @@
 
         <div class="form-panel">
             <h3 id="form-title">Agent Registration Form</h3>
-            <p class="form-subtitle">Fill in your details to register as a seed agent.</p>
+            <p class="form-subtitle">Apply to become a seed agent using your existing TrackSeed account.</p>
 
-            <div class="form-group">
-                <label for="fullName">Full Name <span class="required">*</span></label>
-                <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="fullName" placeholder="e.g. Muhammad Ali">
-                </div>
+            <!-- Not logged in -->
+            <div id="not-logged-in-msg" style="display:none; padding:16px; background:#fee2e2; border-radius:8px; margin-bottom:16px; color:#991b1b; font-size:14px;">
+                <i class="fas fa-exclamation-circle"></i> Please <a href="login.html" style="font-weight:700; text-decoration:underline;">login</a> or
+                <a href="signup.html" style="font-weight:700; text-decoration:underline;">sign up</a> first to register as an agent.
             </div>
 
+            <!-- Already agent / admin / pending message -->
+            <div id="status-msg" style="display:none; padding:16px; background:#fef9c3; border-radius:8px; margin-bottom:16px; color:#92400e; font-size:14px;"></div>
 
-            <div id="agent-only-fields">
-                <div class="form-row">
+            <!-- Main form -->
+            <div id="agent-form-wrapper">
+
+                <div style="background:#f0fdf4; border:1px solid #cce7d0; padding:12px 16px; border-radius:8px; margin-bottom:20px;">
+                    <p style="font-size:13px; color:#465b52; margin:0;">
+                        Applying as: <strong id="applicant-name">—</strong>
+                        (<span id="applicant-email">—</span>)
+                    </p>
+                </div>
+
+                <div id="agent-only-fields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="city" placeholder="e.g. Lahore">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="province">Province <span class="required">*</span></label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-map"></i>
+                                <select id="province">
+                                    <option value="" disabled selected>Select Province</option>
+                                    <option>Punjab</option>
+                                    <option>Sindh</option>
+                                    <option>KPK</option>
+                                    <option>Balochistan</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="email">Email Address <span class="required">*</span></label>
+                        <label for="businessName">Business / Shop Name <span class="required">*</span></label>
                         <div class="input-wrapper">
-                            <i class="fas fa-envelope"></i>
-                            <input type="email" id="email" placeholder="you@example.com">
+                            <i class="fas fa-store"></i>
+                            <input type="text" id="businessName" placeholder="e.g. Ali Seed House">
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <label>Seed Categories You Deal In</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label"><input type="checkbox" value="vegetable"> Vegetable</label>
+                            <label class="checkbox-label"><input type="checkbox" value="fruit"> Fruit</label>
+                            <label class="checkbox-label"><input type="checkbox" value="flower"> Flower</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cnic">CNIC Number <span class="required">*</span></label>
                         <div class="input-wrapper">
-                            <i class="fas fa-phone"></i>
-                            <input type="tel" id="phone" placeholder="03XX-XXXXXXX">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="cnic" placeholder="XXXXX-XXXXXXX-X" maxlength="15">
                         </div>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="city">City <span class="required">*</span></label>
-                        <div class="input-wrapper">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <input type="text" id="city" placeholder="e.g. Lahore">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="province">Province <span class="required">*</span></label>
-                        <div class="input-wrapper select-wrapper">
-                            <i class="fas fa-map"></i>
-                            <select id="province">
-                                <option value="" disabled selected>Select Province</option>
-                                <option>Punjab</option>
-                                <option>Sindh</option>
-                                <option>KPK</option>
-                                <option>Balochistan</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="form-group terms-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms"> I agree to TrackSeed's <a href="#">Terms & Conditions</a>
+                    </label>
                 </div>
 
-                <div class="form-group">
-                    <label for="businessName">Business / Shop Name <span class="required">*</span></label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-store"></i>
-                        <input type="text" id="businessName" placeholder="e.g. Ali Seed House">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Seed Categories You Deal In <span class="required">*</span></label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label"><input type="checkbox" value="vegetable"> Vegetable</label>
-                        <label class="checkbox-label"><input type="checkbox" value="fruit"> Fruit</label>
-                        <label class="checkbox-label"><input type="checkbox" value="flower"> Flower</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="cnic">CNIC Number <span class="required">*</span></label>
-                    <div class="input-wrapper">
-                        <i class="fas fa-id-card"></i>
-                        <input type="text" id="cnic" placeholder="XXXXX-XXXXXXX-X" maxlength="15">
-                    </div>
-                </div>
+                <button class="submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Submit Registration
+                </button>
             </div>
-
-            <div class="form-group terms-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="agreeTerms"> I agree to TrackSeed's <a href="#">Terms & Conditions</a>
-                </label>
-            </div>
-
-            <button class="submit-btn" id="submitBtn">
-                <i class="fas fa-paper-plane"></i> Submit Registration
-            </button>
         </div>
     </main>
 

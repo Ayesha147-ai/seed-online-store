@@ -204,6 +204,33 @@
         </div>
     </footer>
 
+    <script>
+    fetch('includes/get-category-products.php?category=Herb')
+        .then(res => res.json())
+        .then(products => {
+            const container = document.querySelector('.pro-container');
+            if (!container || !products.length) return;
+            products.forEach(p => {
+                const img = p.image ? p.image : 'css-f/img/herb1.jpg';
+                const card = document.createElement('div');
+                card.className = 'pro';
+                card.onclick = () => window.location.href = 'herb-detail.html?id=db-' + p.id;
+                card.innerHTML = `
+                    <img src="${img}" alt="${p.name}">
+                    <div class="des">
+                        <span class="cat-badge badge-herb">Herb</span>
+                        <h5>${p.name}</h5>
+                        <div class="pro-bottom">
+                            <h4>Rs ${p.price}</h4>
+                            <span class="view-btn"><i class="fas fa-eye"></i> View</span>
+                        </div>
+                    </div>`;
+                container.appendChild(card);
+            });
+        })
+        .catch(() => console.log('Failed to load agent seeds'));
+    </script>
+
     <script src="js-f/herbcat.js"></script>
 </body>
 

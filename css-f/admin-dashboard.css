@@ -1,0 +1,855 @@
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* ===== CSS VARIABLES ===== */
+:root {
+    --primary-green: #22c55e;
+    --dark-green: #16a34a;
+    --teal: #088178;
+    --light-green: #dcfce7;
+    --border-green: #cce7d0;
+    --dark: #1a1a1a;
+    --white: #ffffff;
+    --body-text: #465b52;
+    --gray: #666;
+    --light-gray: #f5f5f5;
+    --sidebar-width: 240px;
+    --topbar-height: 64px;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+}
+
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Spartan', sans-serif;
+}
+
+body {
+    background-color: #f0fdf4;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+.sidebar {
+    width: var(--sidebar-width);
+    /* Sidebar ki fixed width */
+
+    background: var(--dark);
+    /* Sidebar ka background dark/black */
+
+    color: var(--white);
+    /* Sidebar ka text white */
+
+    height: 100vh;
+    /* Sidebar poori screen ki height le */
+
+    position: fixed;
+    /* Sidebar scroll karne pe bhi jagah pe rahe */
+
+    top: 0;
+    left: 0;
+    /* Sidebar bilkul upar left corner pe */
+
+    display: flex;
+    flex-direction: column;
+    /* Sidebar ke items upar se neeche */
+
+    overflow-y: auto;
+    /* Agar content zyada ho toh scroll ho */
+
+    z-index: 100;
+    /* Sidebar baaki sab ke upar rahe */
+}
+
+/* Sidebar Logo */
+.sidebar-logo {
+    padding: 20px 16px;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary-green);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    /* Logo ke neeche patli line */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-tag {
+    background: var(--dark-green);
+    color: var(--white);
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin-left: auto;
+    /* Admin tag ko right side pe push karo */
+}
+
+/* Sidebar User Info */
+.sidebar-user {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    background: var(--dark-green);
+    color: var(--white);
+    border-radius: 50%;
+    /* Circle shape */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    /* Avatar chhota na ho */
+}
+
+.user-info p {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.user-info span {
+    font-size: 10px;
+    color: var(--primary-green);
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
+    /* Nav baaki sara space le */
+    padding: 10px 0;
+}
+
+.nav-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.35);
+    /* Light faded text */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 16px 4px 16px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    /* Thoda faded white */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    border-radius: 6px;
+    margin: 1px 8px;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--white);
+}
+
+.nav-item.active {
+    background: var(--dark-green);
+    /* Active item green background */
+    color: var(--white);
+    font-weight: 700;
+}
+
+.nav-item i {
+    width: 16px;
+    font-size: 13px;
+}
+
+/* Nav Badge (count number) */
+.nav-badge {
+    margin-left: auto;
+    background: var(--red);
+    color: var(--white);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 99px;
+    /* Pill shape */
+}
+
+/* Sidebar Bottom (logout etc) */
+.sidebar-bottom {
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================
+   MAIN CONTENT AREA
+   ============================================ */
+
+.main {
+    margin-left: var(--sidebar-width);
+    /* Main content sidebar ke baad shuru ho */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+    height: var(--topbar-height);
+    background: var(--white);
+    border-bottom: 1px solid var(--border-green);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    position: sticky;
+    /* Topbar bhi scroll pe upar rahe */
+    top: 0;
+    z-index: 50;
+}
+
+.topbar-left h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.topbar-left p {
+    font-size: 11px;
+    color: var(--gray);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Notification Bell Button */
+.notif-btn {
+    position: relative;
+    background: none;
+    border: 1px solid var(--border-green);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.notif-btn:hover {
+    background: var(--light-green);
+}
+
+.notif-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--red);
+    color: var(--white);
+    font-size: 9px;
+    font-weight: 700;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Admin Pill */
+.admin-pill {
+    background: var(--light-green);
+    color: var(--dark-green);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ===== CONTENT AREA ===== */
+.content {
+    padding: 24px 28px;
+    flex: 1;
+}
+
+/* Section show/hide */
+.section {
+    display: none;
+    /* Sab sections pehle chhupe hue */
+}
+
+.section.active {
+    display: block;
+    /* Sirf active section dikhe */
+}
+
+/* ============================================
+   STAT CARDS (Dashboard)
+   ============================================ */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 equal columns */
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+    padding: 18px 20px;
+}
+
+.stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Stat Icon Circles */
+.stat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+}
+
+.ic-blue  { background: #dbeafe; color: var(--blue); }
+.ic-green { background: var(--light-green); color: var(--dark-green); }
+.ic-amber { background: #fef3c7; color: var(--amber); }
+.ic-red   { background: #fee2e2; color: var(--red); }
+
+.stat-val {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 6px;
+}
+
+.stat-change {
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-change.up   { color: var(--dark-green); }
+.stat-change.down { color: var(--amber); }
+
+/* ============================================
+   QUICK ACTION BUTTONS
+   ============================================ */
+
+.quick-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.quick-btn {
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quick-btn:hover {
+    background: var(--light-green);
+    border-color: var(--primary-green);
+    transform: translateY(-2px);
+}
+
+.quick-btn i {
+    font-size: 22px;
+    color: var(--dark-green);
+    margin-bottom: 8px;
+}
+
+.quick-btn p {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+/* ============================================
+   CARDS (generic white card)
+   ============================================ */
+
+.card {
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-green);
+}
+
+.card-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.card-header span {
+    font-size: 11px;
+    color: var(--gray);
+}
+
+.view-all {
+    color: var(--teal);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.view-all:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   DASHBOARD GRID (activity + top sellers)
+   ============================================ */
+
+.dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 equal columns */
+    gap: 16px;
+}
+
+/* Activity List */
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.act-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.act-info {
+    flex: 1;
+}
+
+.act-info p {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.act-info span {
+    font-size: 10px;
+    color: var(--gray);
+}
+
+/* Top Seller Items */
+.top-seller-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0fdf4;
+}
+
+.rank {
+    width: 24px;
+    height: 24px;
+    background: var(--light-green);
+    color: var(--dark-green);
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.s-info {
+    flex: 1;
+}
+
+.s-info p {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.s-info span {
+    font-size: 10px;
+    color: var(--gray);
+}
+
+.s-earn {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+}
+
+/* ============================================
+   BADGES (status labels)
+   ============================================ */
+
+.badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+}
+
+.b-delivered  { background: #dcfce7; color: #15803d; }
+/* Green — delivered/active/approved */
+
+.b-pending    { background: #fef3c7; color: #92400e; }
+/* Yellow — pending/waiting */
+
+.b-processing { background: #dbeafe; color: #1e40af; }
+/* Blue — processing/in progress */
+
+.b-cancelled  { background: #fee2e2; color: #991b1b; }
+/* Red — cancelled/blocked/rejected */
+
+/* ============================================
+   TABLES
+   ============================================ */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Table ki lines merge hon */
+    font-size: 12px;
+}
+
+thead tr {
+    background: #f0fdf4;
+    /* Table header light green background */
+}
+
+th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--body-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 12px 12px;
+    color: var(--dark);
+    border-bottom: 1px solid #f0fdf4;
+}
+
+tbody tr:hover {
+    background: #f9fefb;
+    /* Row hover pe light green */
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+    /* Last row ki neeche border na ho */
+}
+
+/* Role Badges */
+.role-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 99px;
+}
+
+.role-badge.seller { background: #dbeafe; color: #1e40af; }
+.role-badge.buyer  { background: #fef3c7; color: #92400e; }
+
+/* Action Buttons in Table */
+.act-btn {
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'Spartan', sans-serif;
+    font-weight: 600;
+    transition: 0.2s;
+    margin-right: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.act-btn.e       { background: #dbeafe; color: #1e40af; }
+/* Blue — view/edit */
+
+.act-btn.warn    { background: #fef3c7; color: #92400e; }
+/* Yellow — block/warn */
+
+.act-btn.d       { background: #fee2e2; color: #991b1b; }
+/* Red — delete/reject */
+
+.act-btn.approve { background: #dcfce7; color: #15803d; }
+/* Green — approve */
+
+.act-btn:hover {
+    filter: brightness(0.92);
+    /* Hover pe thoda dark */
+    transform: scale(1.03);
+}
+
+/* ============================================
+   FILTER BAR
+   ============================================ */
+
+.filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    padding: 7px 16px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Spartan', sans-serif;
+    color: var(--dark);
+}
+
+.filter-btn.active {
+    background: var(--dark-green);
+    color: var(--white);
+    border-color: var(--dark-green);
+}
+
+.filter-btn:hover:not(.active) {
+    background: var(--light-green);
+}
+
+/* ============================================
+   REPORTS / EARNINGS CARDS
+   ============================================ */
+
+.earn-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.earn-card {
+    background: var(--white);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.earn-card .big {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--teal);
+    margin-bottom: 4px;
+}
+
+.earn-card .lbl {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+}
+
+.earn-card .sub {
+    font-size: 11px;
+    color: var(--gray);
+}
+
+/* ============================================
+   COMPLAINTS
+   ============================================ */
+
+.complaint-item {
+    border: 1px solid var(--border-green);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    transition: 0.2s;
+}
+
+.complaint-item:hover {
+    border-color: var(--primary-green);
+}
+
+.comp-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.comp-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.comp-date {
+    font-size: 11px;
+    color: var(--gray);
+}
+
+.comp-ref {
+    font-size: 11px;
+    color: var(--teal);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.comp-text {
+    font-size: 12px;
+    color: var(--body-text);
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.comp-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* ============================================
+   SETTINGS
+   ============================================ */
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.settings-section h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-green);
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--body-text);
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-green);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Spartan', sans-serif;
+    color: var(--dark);
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.btn-submit {
+    background: var(--dark-green);
+    color: var(--white);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Spartan', sans-serif;
+    transition: 0.2s;
+}
+
+.btn-submit:hover {
+    background: var(--teal);
+    transform: translateY(-1px);
+}

@@ -1,174 +1,153 @@
-// ============================================
-//   ORDER TRACK — JavaScript
-// ============================================
+// ============================================================
+//   order-track.js — Updated: DB se order track karo
+// ============================================================
 
-// Sample orders data
-// PHP ke baad yeh database se aayega
-const ordersData = {
-    '#TS-1042': {
-        date:      '07 May 2026',
-        city:      'Gujranwala',
-        total:     'Rs 480',
-        status:    'placed',   // placed | confirmed | processing | shipped | delivered
-        items: [
-            { name: 'Fennel Leaf Seed',         price: 100, qty: 1 },
-            { name: 'Tomato Yellow Round Seed',  price: 150, qty: 1 },
-            { name: 'Sweet Corn F1 Hybrid Seed', price: 100, qty: 1 },
-            { name: 'Portulaca Half Time Mix',   price: 80,  qty: 1 },
-        ],
-        timeline: {
-            placed:     '07 May 2026, 12:15 PM',
-            confirmed:  null,
-            processing: null,
-            shipped:    null,
-            delivered:  null,
-        }
-    },
-    '#TS-1041': {
-        date:      '24 Apr 2026',
-        city:      'Lahore',
-        total:     'Rs 500',
-        status:    'delivered',
-        items: [
-            { name: 'Sweet Corn F1 Hybrid', price: 100, qty: 5 },
-        ],
-        timeline: {
-            placed:     '24 Apr 2026, 09:00 AM',
-            confirmed:  '24 Apr 2026, 10:30 AM',
-            processing: '25 Apr 2026, 11:00 AM',
-            shipped:    '26 Apr 2026, 02:00 PM',
-            delivered:  '28 Apr 2026, 05:00 PM',
-        }
-    },
-    '#TS-1040': {
-        date:      '23 Apr 2026',
-        city:      'Faisalabad',
-        total:     'Rs 450',
-        status:    'processing',
-        items: [
-            { name: 'Tomato Yellow Round', price: 150, qty: 3 },
-        ],
-        timeline: {
-            placed:     '23 Apr 2026, 03:00 PM',
-            confirmed:  '23 Apr 2026, 04:00 PM',
-            processing: '24 Apr 2026, 10:00 AM',
-            shipped:    null,
-            delivered:  null,
-        }
-    }
-};
-
-// Status step order
-const stepOrder = ['placed', 'confirmed', 'processing', 'shipped', 'delivered'];
-
-// Map step name to HTML element id
-const stepIds = {
-    placed:     'step-placed',
-    confirmed:  'step-confirmed',
-    processing: 'step-processing',
-    shipped:    'step-shipped',
-    delivered:  'step-delivered',
-};
-
-const dateIds = {
-    placed:     'date-placed',
-    confirmed:  'date-confirmed',
-    processing: 'date-processing',
-    shipped:    'date-shipped',
-    delivered:  'date-delivered',
-};
-
-// Main track function
-function trackOrder() {
-    const input = document.getElementById('order-input').value.trim().toUpperCase();
+async function trackOrder() {
+    const input   = document.getElementById('order-input').value.trim();
     const errorEl = document.getElementById('search-error');
     const resultSection = document.getElementById('result-section');
 
-    // Normalize: add # if missing
-    const orderId = input.startsWith('#') ? input : '#' + input;
-
-    const order = ordersData[orderId];
-
-    if (!order) {
+    if (!input) {
         errorEl.style.display = 'flex';
-        resultSection.style.display = 'none';
+        errorEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter an Order ID.';
         return;
     }
 
+    // Normalize
+    const orderId = input.startsWith('#') ? input : '#' + input;
+
     errorEl.style.display = 'none';
 
-    // Fill order info bar
-    document.getElementById('res-order-id').textContent = orderId;
-    document.getElementById('res-date').textContent     = order.date;
-    document.getElementById('res-city').textContent     = order.city;
-    document.getElementById('res-total').textContent    = order.total;
+    try {
+        // First try DB
+       const res  = await fetch('orders/track-order.php?order_number=' + encodeURIComponent(orderId));
+        const data = await res.json();
 
-    // Reset all steps
-    stepOrder.forEach(step => {
-        const el = document.getElementById(stepIds[step]);
-        const dateEl = document.getElementById(dateIds[step]);
-        if (el) {
-            el.classList.remove('done', 'active');
+        if (data.success && data.order) {
+            displayResult(orderId, data.order);
+            resultSection.style.display = 'block';
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            // Fallback: check localStorage
+            const localOrder = getLocalOrder(orderId);
+            if (localOrder) {
+                displayLocalResult(orderId, localOrder);
+                resultSection.style.display = 'block';
+                resultSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                errorEl.style.display = 'flex';
+                errorEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Order ID not found. Please check and try again.';
+                resultSection.style.display = 'none';
+            }
+        }
+    } catch (err) {
+        // If offline — use localStorage
+        const localOrder = getLocalOrder(orderId);
+        if (localOrder) {
+            displayLocalResult(orderId, localOrder);
+            resultSection.style.display = 'block';
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            errorEl.style.display = 'flex';
+            errorEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not connect. Please try again.';
+        }
+    }
+}
+
+// ── Display result from DB ──
+function displayResult(orderId, order) {
+    document.getElementById('res-order-id').textContent = orderId;
+    document.getElementById('res-date').textContent     = formatDate(order.created_at);
+    document.getElementById('res-city').textContent     = order.city || 'N/A';
+    document.getElementById('res-total').textContent    = 'Rs ' + order.grand_total;
+
+    updateTimeline(order.status, order.created_at);
+    renderItems(order.items || []);
+}
+
+// ── Display result from localStorage ──
+function displayLocalResult(orderId, order) {
+    document.getElementById('res-order-id').textContent = orderId;
+    document.getElementById('res-date').textContent     = order.date || 'N/A';
+    document.getElementById('res-city').textContent     = order.city || 'N/A';
+    document.getElementById('res-total').textContent    = 'Rs ' + order.grand;
+
+    updateTimeline(order.status || 'placed', null);
+    renderItems(order.items || []);
+}
+
+// ── Update Timeline ──
+const stepOrder = ['placed', 'confirmed', 'processing', 'shipped', 'delivered'];
+
+function updateTimeline(currentStatus, orderDate) {
+    const currentIdx = stepOrder.indexOf(currentStatus);
+
+    stepOrder.forEach((step, idx) => {
+        const el     = document.getElementById('step-' + step);
+        const dateEl = document.getElementById('date-' + step);
+        if (!el) return;
+
+        el.classList.remove('done', 'active');
+
+        if (idx < currentIdx) {
+            el.classList.add('done');
+            if (dateEl) dateEl.textContent = orderDate ? formatDate(orderDate) : 'Completed';
+        } else if (idx === currentIdx) {
+            el.classList.add('done', 'active');
+            if (dateEl) dateEl.textContent = orderDate ? formatDate(orderDate) : 'In Progress';
+        } else {
             if (dateEl) dateEl.textContent = 'Waiting...';
         }
     });
-
-    // Mark done / active steps
-    const currentIndex = stepOrder.indexOf(order.status);
-
-    stepOrder.forEach((step, index) => {
-        const el = document.getElementById(stepIds[step]);
-        const dateEl = document.getElementById(dateIds[step]);
-
-        if (!el) return;
-
-        if (index < currentIndex) {
-            el.classList.add('done');
-        } else if (index === currentIndex) {
-            el.classList.add('done', 'active');
-        }
-
-        // Set date text
-        const dateVal = order.timeline[step];
-        if (dateEl) {
-            dateEl.textContent = dateVal ? dateVal : 'Waiting...';
-        }
-    });
-
-    // Render items
-    renderTrackItems(order.items);
-
-    // Show result
-    resultSection.style.display = 'block';
-    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Render items list
-function renderTrackItems(items) {
+// ── Render Items ──
+function renderItems(items) {
     const container = document.getElementById('track-items-list');
-    if (!container || !items) return;
+    if (!container) return;
+
+    if (!items || items.length === 0) {
+        container.innerHTML = '<p style="color:#888;font-size:13px;">No items found.</p>';
+        return;
+    }
 
     let html = '';
-    items.forEach((item, index) => {
+    items.forEach((item, idx) => {
+        const name  = item.product_name || item.name || 'Item';
+        const qty   = item.quantity     || item.qty  || 1;
+        const price = item.total_price  || (item.price * qty) || 0;
+
         html += `
         <div class="track-item-row">
             <div class="ti-left">
-                <div class="ti-num">${index + 1}</div>
+                <div class="ti-num">${idx + 1}</div>
                 <div>
-                    <div class="ti-name">${item.name}</div>
-                    <div class="ti-qty">x ${item.qty}</div>
+                    <div class="ti-name">${name}</div>
+                    <div class="ti-qty">x ${qty}</div>
                 </div>
             </div>
-            <div class="ti-price">Rs ${item.price * item.qty}</div>
+            <div class="ti-price">Rs ${price}</div>
         </div>`;
     });
-
     container.innerHTML = html;
 }
 
-// Allow Enter key to search
+// ── Get order from localStorage ──
+function getLocalOrder(orderId) {
+    const orders = JSON.parse(localStorage.getItem('tsOrders')) || [];
+    return orders.find(o => o.orderId === orderId) || null;
+}
+
+// ── Format date ──
+function formatDate(dateStr) {
+    if (!dateStr) return 'N/A';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+// ── Init ──
 document.addEventListener('DOMContentLoaded', () => {
-    // Auto-fill from sessionStorage if coming from order-confirm page
+    // Auto-fill from sessionStorage
     const savedId = sessionStorage.getItem('tsOrderId');
     if (savedId) {
         const input = document.getElementById('order-input');
@@ -178,16 +157,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Enter key support
+    // Enter key
     const input = document.getElementById('order-input');
     if (input) {
-        input.addEventListener('keypress', (e) => {
+        input.addEventListener('keypress', e => {
             if (e.key === 'Enter') trackOrder();
         });
     }
 
     // Cart badge
-    const cart = JSON.parse(localStorage.getItem('tsCart')) || [];
+    const cart  = JSON.parse(localStorage.getItem('tsCart')) || [];
     const badge = document.querySelector('.cart-count');
     if (badge) badge.textContent = cart.reduce((s, i) => s + i.qty, 0);
 });

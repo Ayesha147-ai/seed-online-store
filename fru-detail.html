@@ -453,56 +453,64 @@
             }
         };
 
-        const params = new URLSearchParams(window.location.search);
-        const id = parseInt(params.get('id'));
-        const seed = seeds[id];
+        let cartId = null, cartName = '', cartPrice = 0, cartImg = '', cartCategory = 'Fruit';
+
+        function addToCart() {
+            if (!cartId) return;
+            const cart = JSON.parse(localStorage.getItem('tsCart')) || [];
+            const existing = cart.find(i => i.id === cartId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    id:       cartId,
+                    name:     cartName,
+                    price:    cartPrice,
+                    img:      cartImg,
+                    category: cartCategory,
+                    qty:      1
+                });
+            }
+            localStorage.setItem('tsCart', JSON.stringify(cart));
+            showCartToast();
+        }
+
+        function showCartToast() {
+            const existingToast = document.getElementById('cart-toast');
+            if (existingToast) existingToast.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'cart-toast';
+            toast.innerHTML = '<i class="fas fa-check-circle"></i> Added to Cart!';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: #dcfce7;
+                color: #15803d;
+                border: 1px solid #86efac;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: 700;
+                font-family: 'Spartan', sans-serif;
+                z-index: 9999;
+                opacity: 1;
+                transition: opacity 0.3s;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
         const container = document.getElementById('detail-content');
 
-        if (seed) {
-            document.title = seed.name + " - TrackSeed";
-            document.getElementById('breadcrumb-name').textContent = seed.name;
-
-            container.innerHTML = `
-                <div class="detail-section">
-                    <div class="detail-img">
-                        <img src="${seed.image}" alt="${seed.name}">
-                    </div>
-                    <div class="detail-info">
-                        <span class="cat-badge">${seed.category}</span>
-                        <h1>${seed.name}</h1>
-                        <div class="detail-price">${seed.price}</div>
-                        <hr class="detail-divider">
-                        <p class="detail-desc">${seed.description}</p>
-                        <table class="info-table">
-                            <tr>
-                                <td><i class="fas fa-weight-hanging"></i> Weight</td>
-                                <td>${seed.weight}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-sun"></i> Season</td>
-                                <td>${seed.season}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-clock"></i> Grow Time</td>
-                                <td>${seed.growTime}</td>
-                            </tr>
-                            <tr>
-                                <td><i class="fas fa-mountain"></i> Soil Type</td>
-                                <td>${seed.soilType}</td>
-                            </tr>
-                        </table>
-                        <div class="detail-buttons">
-                            <a href="cart.html" class="btn-cart">
-                                <i class="fas fa-shopping-cart"></i> Add to Cart
-                            </a>
-                            <a href="frucat.html" class="btn-back">
-                                <i class="fas fa-arrow-left"></i> Back to Seeds
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else {
+        function renderNotFound() {
             container.innerHTML = `
                 <div class="not-found">
                     <i class="fas fa-seedling"></i>
@@ -514,6 +522,107 @@
                     </a>
                 </div>
             `;
+        }
+
+        function renderDetail(d) {
+            document.title = d.name + " - TrackSeed";
+            document.getElementById('breadcrumb-name').textContent = d.name;
+
+            cartName = d.name;
+            cartPrice = d.priceNum;
+            cartImg = d.image;
+            cartCategory = d.category;
+
+            container.innerHTML = `
+                <div class="detail-section">
+                    <div class="detail-img">
+                        <img src="${d.image}" alt="${d.name}">
+                    </div>
+                    <div class="detail-info">
+                        <span class="cat-badge">${d.category}</span>
+                        <h1>${d.name}</h1>
+                        <div class="detail-price">${d.priceDisplay}</div>
+                        <hr class="detail-divider">
+                        <p class="detail-desc">${d.description}</p>
+                        <table class="info-table">
+                            <tr>
+                                <td><i class="fas fa-weight-hanging"></i> Weight</td>
+                                <td>${d.weight}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-sun"></i> Season</td>
+                                <td>${d.season}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-clock"></i> Grow Time</td>
+                                <td>${d.growTime}</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fas fa-mountain"></i> Soil Type</td>
+                                <td>${d.soilType}</td>
+                            </tr>
+                        </table>
+                        <div class="detail-buttons">
+                            <button onclick="addToCart()" class="btn-cart">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <a href="frucat.html" class="btn-back">
+                                <i class="fas fa-arrow-left"></i> Back to Seeds
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ===== LOAD DETAIL (static demo OR dynamic database product) =====
+        const params = new URLSearchParams(window.location.search);
+        const rawId  = params.get('id');
+
+        if (rawId && rawId.startsWith('db-')) {
+            const dbId = rawId.replace('db-', '');
+            fetch('includes/get-product-detail.php?id=' + dbId)
+                .then(res => res.json())
+                .then(p => {
+                    if (p) {
+                        cartId = 'db-' + p.id;
+                        renderDetail({
+                            name: p.name,
+                            priceDisplay: 'Rs ' + p.price,
+                            priceNum: parseFloat(p.price),
+                            image: p.image ? p.image : 'css-f/img/fru1.jpg',
+                            category: p.category_name || 'Fruit',
+                            description: p.description ? p.description : 'No description provided yet.',
+                            weight: p.weight ? p.weight : 'Not specified',
+                            season: p.season ? p.season : 'Not specified',
+                            growTime: 'Not specified',
+                            soilType: p.seed_type ? p.seed_type : 'Not specified'
+                        });
+                    } else {
+                        renderNotFound();
+                    }
+                })
+                .catch(() => renderNotFound());
+        } else {
+            const id = parseInt(rawId);
+            const seed = seeds[id];
+            if (seed) {
+                cartId = 'fru-' + id;
+                renderDetail({
+                    name: seed.name,
+                    priceDisplay: seed.price,
+                    priceNum: parseInt(seed.price.replace('Rs ', '')),
+                    image: seed.image,
+                    category: seed.category,
+                    description: seed.description,
+                    weight: seed.weight,
+                    season: seed.season,
+                    growTime: seed.growTime,
+                    soilType: seed.soilType
+                });
+            } else {
+                renderNotFound();
+            }
         }
     </script>
 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - TrackSeeds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-green: #22c55e; --teal: #088178; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f7f6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .account-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+        }
+        .account-header {
+            background: linear-gradient(135deg, var(--primary-green), var(--teal));
+            padding: 30px;
+            text-align: center;
+            color: #fff;
+        }
+        .account-header .avatar {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 12px;
+        }
+        .account-header h2 { font-size: 20px; margin-bottom: 4px; }
+        .account-header p { font-size: 13px; opacity: 0.9; text-transform: capitalize; }
+        .account-body { padding: 24px 30px; }
+        .info-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row i { color: var(--primary-green); width: 20px; text-align: center; }
+        .info-row .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-row .value { font-size: 14px; color: #222; font-weight: 600; }
+        .account-actions { padding: 20px 30px 30px; display: flex; gap: 10px; }
+        .account-actions a {
+            flex: 1; text-align: center; padding: 12px;
+            border-radius: 8px; text-decoration: none;
+            font-weight: 600; font-size: 14px;
+        }
+        .btn-home { background: #f0f0f0; color: #333; }
+        .btn-logout { background: #fee2e2; color: #991b1b; }
+        #loading { text-align:center; padding: 40px; color: #888; }
+    </style>
+</head>
+<body>
+
+    <div class="account-card" id="account-card" style="display:none;">
+        <div class="account-header">
+            <div class="avatar"><i class="fas fa-user"></i></div>
+            <h2 id="acc-name">—</h2>
+            <p id="acc-role">—</p>
+        </div>
+        <div class="account-body">
+            <div class="info-row">
+                <i class="fas fa-envelope"></i>
+                <div><div class="label">Email</div><div class="value" id="acc-email">—</div></div>
+            </div>
+            <div class="info-row">
+                <i class="fas fa-phone"></i>
+                <div><div class="label">Phone</div><div class="value" id="acc-phone">—</div></div>
+            </div>
+            <div class="info-row">
+                <i class="fas fa-map-marker-alt"></i>
+                <div><div class="label">Location</div><div class="value" id="acc-location">—</div></div>
+            </div>
+            <div class="info-row">
+                <i class="fas fa-calendar"></i>
+                <div><div class="label">Member Since</div><div class="value" id="acc-since">—</div></div>
+            </div>
+        </div>
+        <div class="account-actions">
+            <a href="index.html" class="btn-home"><i class="fas fa-arrow-left"></i> Home</a>
+            <a href="auth/logout.php" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <div id="loading">Loading your account...</div>
+
+    <script>
+        fetch('includes/get-profile.php')
+            .then(res => res.json())
+            .then(data => {
+                if (!data.logged_in) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                document.getElementById('acc-name').textContent = data.name;
+                document.getElementById('acc-role').textContent = data.role;
+                document.getElementById('acc-email').textContent = data.email;
+                document.getElementById('acc-phone').textContent = data.phone || '—';
+                document.getElementById('acc-location').textContent = data.location || '—';
+                document.getElementById('acc-since').textContent = data.member_since;
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('account-card').style.display = 'block';
+            })
+            .catch(() => window.location.href = 'login.html');
+    </script>
+
+</body>
+</html>

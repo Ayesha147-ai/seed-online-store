@@ -2,6 +2,54 @@
 //   SCRIP.JS — Index Page (Home)
 // ============================================
 
+
+// ============================================================
+//   Session check — har page load pe chalega
+//   Agent/Admin ko "Hi, naam" aur "My Cart" nahi dikhne chahiye
+//   (unka shopping cart hota hi nahi) — sirf Dashboard/My Account/Logout
+// ============================================================
+fetch('includes/check-session.php')
+    .then(res => res.json())
+    .then(data => {
+        const authBtns = document.getElementById('auth-buttons');
+        const userInfo = document.getElementById('user-info');
+        const greeting = document.getElementById('user-greeting');
+        const dashLink = document.getElementById('dashboard-link');
+        const cartBtn  = document.querySelector('.cart-btn-nav');
+
+        if (data.logged_in && authBtns && userInfo) {
+            authBtns.style.display = 'none';
+            userInfo.style.display = 'flex';
+
+            const isStaff = (data.role === 'agent' || data.role === 'admin');
+
+            // Greeting — ab kisi bhi role ke liye nahi dikhana
+            if (greeting) {
+                greeting.style.display = 'none';
+            }
+
+            // My Cart — sirf farmer ke liye dikhe
+            if (cartBtn) {
+                cartBtn.style.display = isStaff ? 'none' : '';
+            }
+
+            // Dashboard link — sirf agent/admin ke liye
+            if (dashLink) {
+                if (data.role === 'agent') {
+                    dashLink.href = 'agent-dashboard.html';
+                    dashLink.style.display = 'inline-block';
+                } else if (data.role === 'admin') {
+                    dashLink.href = 'admin-dashboard.html';
+                    dashLink.style.display = 'inline-block';
+                } else {
+                    dashLink.style.display = 'none';
+                }
+            }
+        }
+    })
+    .catch(err => console.log('Session check failed:', err));
+
+
 // 1. Cart data initialization
 let cartItems = JSON.parse(localStorage.getItem('tsCart')) || [];
 
