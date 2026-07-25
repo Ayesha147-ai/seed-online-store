@@ -47,10 +47,8 @@ $hashed = password_hash($password, PASSWORD_DEFAULT);
 $sql    = "INSERT INTO users (name, email, phone, password, role, status)
            VALUES ('$name', '$email', '$phone', '$hashed', 'farmer', 'active')";
 
-if (mysqli_query($conn, $sql)) {
-    $userId = mysqli_insert_id($conn);
 
-    if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conn, $sql)) {
     header('Location: ../login.html?registered=success');
 } else {
     header('Location: ../signup.html?error=failed');
