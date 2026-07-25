@@ -50,13 +50,8 @@ $sql    = "INSERT INTO users (name, email, phone, password, role, status)
 if (mysqli_query($conn, $sql)) {
     $userId = mysqli_insert_id($conn);
 
-    // Auto login
-    $_SESSION['user_id']    = $userId;
-    $_SESSION['user_name']  = $name;
-    $_SESSION['user_role']  = 'farmer';
-    $_SESSION['user_email'] = $email;
-
-    header('Location: ../index.html');
+    if (mysqli_query($conn, $sql)) {
+    header('Location: ../login.html?registered=success');
 } else {
     header('Location: ../signup.html?error=failed');
 }
