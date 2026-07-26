@@ -45,7 +45,7 @@
 
                     <div class="form-options">
                         <label>
-                            <input type="checkbox"> Remember Me
+                            <input type="checkbox" name="remember_me" value="1"> Remember Me
                         </label>
                         <a href="#" onclick="window.location.href='forgot-password.html'">Forgot Password?</a>
                     </div>
@@ -70,24 +70,24 @@
     </section>
 
     <script>
-// Error messages URL se read karo
-const params = new URLSearchParams(window.location.search);
-const error  = params.get('error');
-const registered = params.get('registered');
+        // Error messages URL se read karo
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get('error');
+        const registered = params.get('registered');
 
-const messages = {
-    'empty':           'Email and password are both required.',
-    'no_account':       'No account found with this email. Please sign up first.',
-    'wrong_password':   'Incorrect password. Please try again.',
-    'not_approved':     'Your agent application has not been approved yet.',
-    'blocked':          'Your account has been blocked. Please contact support.',
-    'registered':       'Account created successfully! Please login.'
-};
+        const messages = {
+            'empty': 'Email and password are both required.',
+            'no_account': 'No account found with this email. Please sign up first.',
+            'wrong_password': 'Incorrect password. Please try again.',
+            'not_approved': 'Your agent application has not been approved yet.',
+            'blocked': 'Your account has been blocked. Please contact support.',
+            'registered': 'Account created successfully! Please login.'
+        };
 
 
-if (registered === 'success') {
-    const div = document.createElement('div');
-    div.style.cssText = `
+        if (registered === 'success') {
+            const div = document.createElement('div');
+            div.style.cssText = `
         background: #dcfce7;
         color: #15803d;
         border: 1px solid #86efac;
@@ -98,21 +98,21 @@ if (registered === 'success') {
         margin-bottom: 16px;
         font-family: 'Spartan', sans-serif;
     `;
-    div.innerHTML = '<i class="fas fa-check-circle"></i> Account created successfully! Please login.';
-    const form = document.querySelector('.login-form');
-    if (form) form.insertBefore(div, form.querySelector('h3').nextSibling);
-}
+            div.innerHTML = '<i class="fas fa-check-circle"></i> Account created successfully! Please login.';
+            const form = document.querySelector('.login-form');
+            if (form) form.insertBefore(div, form.querySelector('h3').nextSibling);
+        }
 
-if (error && messages[error]) {   // ← YE WALI LINE SE UPAR
-    // Error div banao
-    const div = document.createElement('div');
-}
+        if (error && messages[error]) {   // ← YE WALI LINE SE UPAR
+            // Error div banao
+            const div = document.createElement('div');
+        }
 
 
-if (error && messages[error]) {
-    // Error div banao
-    const div = document.createElement('div');
-    div.style.cssText = `
+        if (error && messages[error]) {
+            // Error div banao
+            const div = document.createElement('div');
+            div.style.cssText = `
         background: #fee2e2;
         color: #991b1b;
         border: 1px solid #fca5a5;
@@ -123,13 +123,13 @@ if (error && messages[error]) {
         margin-bottom: 16px;
         font-family: 'Spartan', sans-serif;
     `;
-    div.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + messages[error];
+            div.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + messages[error];
 
-    // Login form ke upar insert karo
-    const form = document.querySelector('.login-form');
-    if (form) form.insertBefore(div, form.querySelector('h3').nextSibling);
-}
-</script>
+            // Login form ke upar insert karo
+            const form = document.querySelector('.login-form');
+            if (form) form.insertBefore(div, form.querySelector('h3').nextSibling);
+        }
+    </script>
 </body>
 
 </html>
