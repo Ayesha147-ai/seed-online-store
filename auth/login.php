@@ -62,6 +62,12 @@ $_SESSION['user_name']  = $user['name'];
 $_SESSION['user_role']  = $user['role'];
 $_SESSION['user_email'] = $user['email'];
 
+// Remember Me cookie — 30 din tak
+if (isset($_POST['remember_me']) && $_POST['remember_me'] == '1') {
+    $cookieValue = base64_encode($user['id'] . ':' . hash('sha256', $user['password']));
+    setcookie('remember_token', $cookieValue, time() + (30 * 24 * 60 * 60), '/', '', false, true);
+}
+
 // Redirect by role
 if ($user['role'] === 'admin') {
     header('Location: ../admin-dashboard.html');
