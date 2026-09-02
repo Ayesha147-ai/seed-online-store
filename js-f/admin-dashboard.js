@@ -509,8 +509,23 @@ function initNavItems() {
     });
 }
 
+function checkAuth() {
+    fetch('includes/check-session.php')
+        .then(res => res.json())
+        .then(data => {
+            if (!data.logged_in || data.role !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+            setDate();
+            initNavItems();
+            showSection('dashboard');
+        })
+        .catch(() => {
+            window.location.href = 'login.html';
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    setDate();
-    initNavItems();
-    showSection('dashboard');
+    checkAuth();
 });

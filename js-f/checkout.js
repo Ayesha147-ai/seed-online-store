@@ -1,5 +1,22 @@
 let cartItems = JSON.parse(localStorage.getItem('tsCart')) || [];
 
+// ===== STRIPE INITIALIZE =====
+const stripe = Stripe('pk_test_51UAQgmQodAeOwyHCweo0YyDiuLXBtVduAqPCC6bCPGnQYAj2hEwgGY8kQuyhsp58mHP3j00lmDCBkjrFbq8rPYoq00Y5pmPjgj');
+const elements = stripe.elements();
+const cardElement = elements.create('card', {
+    hidePostalCode: true,
+    style: {
+        base: {
+            fontSize: '16px',
+            color: '#32325d',
+            fontFamily: '"Segoe UI", sans-serif',
+            '::placeholder': { color: '#aab7c4' }
+        },
+        invalid: { color: '#fa755a' }
+    }
+});
+cardElement.mount('#card-element');
+
 function updateNavBadge() {
     const badge = document.getElementById('cartCount');
     if (badge) {
@@ -75,16 +92,29 @@ async function placeOrder() {
     const btn = document.querySelector('.place-order-btn');
     if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...'; }
 
+    // ===== STRIPE TOKEN GENERATION (Agar Stripe select ho) =====
+    let stripeToken = '';
+    if (payment === 'stripe') {
+        const {token, error} = await stripe.createToken(cardElement);
+        if (error) {
+            alert(error.message);
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay'; }
+            return;
+        }
+        stripeToken = token.id;
+    }
+
     const formData = new FormData();
-    formData.append('fullName',  fullName);
-    formData.append('email',     email);
-    formData.append('phone',     phone);
-    formData.append('city',      city);
-    formData.append('province',  province);
-    formData.append('warehouse', warehouse);
-    formData.append('address',   address);
-    formData.append('payment',   payment);
-    formData.append('cart',      JSON.stringify(cartItems));
+    formData.append('fullName',   fullName);
+    formData.append('email',      email);
+    formData.append('phone',      phone);
+    formData.append('city',       city);
+    formData.append('province',   province);
+    formData.append('warehouse',  warehouse);
+    formData.append('address',    address);
+    formData.append('payment',    payment);
+    formData.append('stripeToken', stripeToken); // Stripe Token backend ke liye
+    formData.append('cart',       JSON.stringify(cartItems));
 
     try {
         const res  = await fetch('orders/place-order.php', { method: 'POST', body: formData });
@@ -113,7 +143,8 @@ async function placeOrder() {
             if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay'; }
         }
     } catch (err) {
-        alert('Network error. Please try again.');
+        console.error("Asli Error Yeh Hai:", err);
+        alert('Asli Error: ' + err.message);
         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay'; }
     }
 }

@@ -392,9 +392,26 @@ function initNavItems() {
     });
 }
 
+// ===== AUTH CHECK =====
+function checkAuth() {
+    fetch('includes/check-session.php')
+        .then(res => res.json())
+        .then(data => {
+            if (!data.logged_in || data.role !== 'agent') {
+                window.location.href = 'login.html';
+                return;
+            }
+            // Login confirmed — ab dashboard load karo
+            setDate();
+            initNavItems();
+            showSection('dashboard');
+        })
+        .catch(() => {
+            window.location.href = 'login.html';
+        });
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', function() {
-    setDate();
-    initNavItems();
-    showSection('dashboard');
+    checkAuth();
 });
