@@ -36,7 +36,10 @@ if (strlen($password) < 6) {
 }
 
 // Check email exists
-$check = mysqli_query($conn, "SELECT id FROM users WHERE email = '$email'");
+$checkStmt = mysqli_prepare($conn, "SELECT id FROM users WHERE email = ?");
+mysqli_stmt_bind_param($checkStmt, 's', $email);
+mysqli_stmt_execute($checkStmt);
+$check = mysqli_stmt_get_result($checkStmt);
 if (mysqli_num_rows($check) > 0) {
     header('Location: ../signup.html?error=exists');
     exit();
@@ -44,14 +47,15 @@ if (mysqli_num_rows($check) > 0) {
 
 // Hash password & save
 $hashed = password_hash($password, PASSWORD_DEFAULT);
-$sql    = "INSERT INTO users (name, email, phone, password, role, status)
-           VALUES ('$name', '$email', '$phone', '$hashed', 'farmer', 'active')";
+$insertStmt = mysqli_prepare($conn, "INSERT INTO users (name, email, phone, password, role, status)
+           VALUES (?, ?, ?, ?, 'farmer', 'active')");
+mysqli_stmt_bind_param($insertStmt, 'ssss', $name, $email, $phone, $hashed);
 
-
-if (mysqli_query($conn, $sql)) {
+if (mysqli_stmt_execute($insertStmt)) {
     header('Location: ../login.html?registered=success');
 } else {
     header('Location: ../signup.html?error=failed');
 }
+
 exit();
 ?>

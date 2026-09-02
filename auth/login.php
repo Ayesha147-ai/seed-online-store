@@ -46,9 +46,11 @@ if (!password_verify($password, $user['password'])) {
 
 // If agent — check is_approved
 if ($user['role'] === 'agent') {
-    $agentSql    = "SELECT is_approved FROM agents WHERE user_id = {$user['id']} LIMIT 1";
-    $agentResult = mysqli_query($conn, $agentSql);
-    $agent       = mysqli_fetch_assoc($agentResult);
+    $agentStmt = mysqli_prepare($conn, "SELECT is_approved FROM agents WHERE user_id = ? LIMIT 1");
+mysqli_stmt_bind_param($agentStmt, 'i', $user['id']);
+mysqli_stmt_execute($agentStmt);
+$agentResult = mysqli_stmt_get_result($agentStmt);
+$agent       = mysqli_fetch_assoc($agentResult);
 
     if (!$agent || $agent['is_approved'] != 1) {
         header('Location: ../login.html?error=not_approved');
@@ -61,12 +63,6 @@ $_SESSION['user_id']    = $user['id'];
 $_SESSION['user_name']  = $user['name'];
 $_SESSION['user_role']  = $user['role'];
 $_SESSION['user_email'] = $user['email'];
-
-// Remember Me cookie — 30 din tak
-if (isset($_POST['remember_me']) && $_POST['remember_me'] == '1') {
-    $cookieValue = base64_encode($user['id'] . ':' . hash('sha256', $user['password']));
-    setcookie('remember_token', $cookieValue, time() + (30 * 24 * 60 * 60), '/', '', false, true);
-}
 
 // Redirect by role
 if ($user['role'] === 'admin') {

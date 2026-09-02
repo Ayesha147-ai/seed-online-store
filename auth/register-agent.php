@@ -20,7 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $userId = getUserId();
 
 // Pehle role check karo
-$userRow = mysqli_fetch_assoc(mysqli_query($conn, "SELECT role, phone FROM users WHERE id = $userId LIMIT 1"));
+$stmt1 = mysqli_prepare($conn, "SELECT role, phone FROM users WHERE id = ? LIMIT 1");
+mysqli_stmt_bind_param($stmt1, 'i', $userId);
+mysqli_stmt_execute($stmt1);
+$userRow = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt1));
 
 if (!$userRow) {
     echo json_encode(['success' => false, 'msg' => 'User not found.']);
@@ -50,7 +53,10 @@ if (empty($city) || empty($province) || empty($agencyName) || empty($cnic)) {
 $userPhone = clean($conn, $userRow['phone'] ?? '');
 
 // Kya pehle se koi application/record hai?
-$existing = mysqli_fetch_assoc(mysqli_query($conn, "SELECT id, is_approved FROM agents WHERE user_id = $userId LIMIT 1"));
+$stmt2 = mysqli_prepare($conn, "SELECT id, is_approved FROM agents WHERE user_id = ? LIMIT 1");
+mysqli_stmt_bind_param($stmt2, 'i', $userId);
+mysqli_stmt_execute($stmt2);
+$existing = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt2));
 
 if ($existing) {
     if ($existing['is_approved'] == 0) {
@@ -62,15 +68,17 @@ if ($existing) {
         exit();
     }
     // is_approved == 2 (pehle reject hua tha) — dobara apply karne dete hain
-    $sql = "UPDATE agents
-            SET agency_name = '$agencyName', contact_no = '$userPhone', cnic = '$cnic',
-                province = '$province', city = '$city', is_approved = 0, approved_at = NULL
-            WHERE user_id = $userId";
-    mysqli_query($conn, $sql);
+    $stmt3 = mysqli_prepare($conn, "UPDATE agents
+            SET agency_name = ?, contact_no = ?, cnic = ?,
+                province = ?, city = ?, is_approved = 0, approved_at = NULL
+            WHERE user_id = ?");
+    mysqli_stmt_bind_param($stmt3, 'sssssi', $agencyName, $userPhone, $cnic, $province, $city, $userId);
+    mysqli_stmt_execute($stmt3);
 } else {
-    $sql = "INSERT INTO agents (user_id, agency_name, contact_no, cnic, province, city, is_approved)
-            VALUES ($userId, '$agencyName', '$userPhone', '$cnic', '$province', '$city', 0)";
-    mysqli_query($conn, $sql);
+    $stmt4 = mysqli_prepare($conn, "INSERT INTO agents (user_id, agency_name, contact_no, cnic, province, city, is_approved)
+            VALUES (?, ?, ?, ?, ?, ?, 0)");
+    mysqli_stmt_bind_param($stmt4, 'isssss', $userId, $agencyName, $userPhone, $cnic, $province, $city);
+    mysqli_stmt_execute($stmt4);
 }
 
 echo json_encode(['success' => true, 'msg' => 'Application submitted! Admin will review it shortly.']);
