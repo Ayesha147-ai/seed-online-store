@@ -7,6 +7,7 @@
 require_once '../includes/session.php';
 require_once '../includes/db.php';
 require_once '../includes/helpers.php';
+require_once '../includes/config.php';
 
 requireLogin();
 header('Content-Type: application/json');
@@ -91,7 +92,7 @@ if ($payment === 'stripe') {
     }
 
     // Yahan apni Stripe ki Secret Test Key daliye (sk_test_...)
-    $stripeSecretKey = 'sk_test_51UAQgmQodAeOwyHCYg1EEcCwEAsznbGUU4MMFNDZ8FzBEPUL7BAz0pHYziYeAdSo3tKDDk4mRHuKHubxisC3EeRJ00T0X16oUr'; 
+        $stripeSecretKey = STRIPE_SECRET_KEY; // .env se config.php ke zariye aa raha hai 
 
     $ch = curl_init('https://api.stripe.com/v1/charges');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
