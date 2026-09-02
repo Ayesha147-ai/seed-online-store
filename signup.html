@@ -26,92 +26,62 @@
 
             <!-- Right Side Form -->
             <div class="signup-form">
-                <form action="auth/register.php" method="POST">
-                    <h3>Create Your Account</h3>
-                    <p>Enter your details below</p>
+               <form action="auth/register.php" method="POST">
+                <h3>Create Your Account</h3>
+                <p>Enter your details below</p>
 
-                    <div id="error-msg" style="color:red; margin-bottom:10px;"></div>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Full Name" name="fullname">
+                </div>
 
-                    <div class="input-group">
-                        <i class="fas fa-user"></i>
-                        <input type="text" placeholder="Full Name" name="fullname">
-                    </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" name="email">
+                </div>
 
-                    <div class="input-group">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Email Address" name="email">
-                    </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" placeholder="Phone Number" name="phone">
+                </div>
 
-                    <div class="input-group">
-                        <i class="fas fa-phone"></i>
-                        <input type="tel" placeholder="Phone Number" name="phone">
-                    </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" name="password">
+                </div>
 
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password" name="password">
-                    </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Confirm Password" name="confirm_password">
+                </div>
 
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Confirm Password" name="confirm_password">
-                    </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox"> I agree to 
+                        <a href="#">Terms & Conditions</a>
+                    </label>
+                </div>
 
-                    <div class="form-options">
-                        <label>
-                            <input type="checkbox"> I agree to
-                            <a href="#">Terms & Conditions</a>
-                        </label>
-                    </div>
+                <button class="signup-submit-btn">Sign Up</button>
 
-                    <button class="signup-submit-btn">Sign Up</button>
+                <p class="switch-text">
+                    Already have an account?
+                    <a href="login.html">Login</a>
+                </p>
 
-                    <p class="switch-text">
-                        Already have an account?
-                        <a href="login.html">Login</a>
-                    </p>
-
-                    <p class="back-home">
-                        <a href="index.html">
-                            <i class="fas fa-arrow-left"></i> Back to Home
-                        </a>
-                    </p>
+                <p class="back-home">
+                    <a href="index.html">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </p>
 
 
 
-                </form>
-
-            </div>
+</form>
+            
+</div>
         </div>
     </section>
 
-
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const error = params.get("error");
-
-        let message = "";
-
-        if (error === "empty") {
-            message = "Please fill all fields.";
-        }
-        else if (error === "mismatch") {
-            message = "Passwords do not match.";
-        }
-        else if (error === "weak") {
-            message = "Password must be at least 6 characters.";
-        }
-        else if (error === "exists") {
-            message = "Email already registered.";
-        }
-        else if (error === "failed") {
-            message = "Something went wrong. Try again.";
-        }
-
-        if (message) {
-            document.getElementById("error-msg").innerText = message;
-        }
-    </script>
 </body>
-
 </html>
