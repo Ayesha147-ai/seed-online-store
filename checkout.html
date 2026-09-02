@@ -7,6 +7,7 @@
     <title>Checkout - TrackSeed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css-f/checkout.css">
+    <script src="https://js.stripe.com/v3/"></script>
     <link rel="stylesheet" href="css-f/style.css">
 </head>
 
@@ -126,21 +127,11 @@
                 <div class="form-card">
                     <h3><span class="step-num">3</span> Payment Method</h3>
 
-                    <div class="payment-options">
-
-                        <label class="pay-option">
-                            <input type="radio" name="payment" value="jazzcash" checked>
+                    <label class="pay-option">
+                            <input type="radio" name="payment" value="stripe" checked>
                             <div class="pay-card">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/9/93/JazzCash.png" alt="JazzCash" onerror="this.style.display='none'">
-                                <span class="pay-badge-co jazz">JazzCash</span>
-                            </div>
-                        </label>
-
-                        <label class="pay-option">
-                            <input type="radio" name="payment" value="easypaisa">
-                            <div class="pay-card">
-                                <img src="https://upload.wikimedia.org/wikipedia/en/4/47/Easypaisa_logo.png" alt="Easypaisa" onerror="this.style.display='none'">
-                                <span class="pay-badge-co easy">Easypaisa</span>
+                                <i class="fab fa-cc-stripe" style="font-size:28px;color:#635bff;"></i>
+                                <span class="pay-badge-co stripe">Card (Stripe)</span>
                             </div>
                         </label>
 
@@ -152,6 +143,13 @@
                             </div>
                         </label>
 
+                    </div>
+
+                    <!-- Stripe Card Box — sirf "Card (Stripe)" select hone par dikhta hai -->
+                    <div id="stripe-card-box" style="margin-top:16px;">
+                        <label style="font-size:13px;font-weight:600;color:#333;">Card Details</label>
+                        <div id="card-element" style="padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:6px;background:#fff;"></div>
+                        <div id="card-errors" style="color:#dc2626;font-size:13px;margin-top:6px;"></div>
                     </div>
                 </div>
 
