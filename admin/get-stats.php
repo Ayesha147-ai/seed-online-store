@@ -2,6 +2,7 @@
 require_once '../includes/session.php';
 require_once '../includes/db.php';
 requireAdmin();
+header('Content-Type: application/json');
 
 $stats = [];
 
