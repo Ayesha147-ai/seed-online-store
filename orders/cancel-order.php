@@ -6,7 +6,7 @@
 require_once '../includes/session.php';
 require_once '../includes/db.php';
 requireLogin();
-
+header('Content-Type: application/json');
 $orderId = intval($_POST['order_id'] ?? 0);
 $userId  = getUserId();
 
@@ -16,8 +16,10 @@ if ($orderId <= 0) {
 }
 
 // Find order — must belong to this user
-$sql   = "SELECT * FROM orders WHERE id = $orderId AND user_id = $userId LIMIT 1";
-$order = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+$stmt = mysqli_prepare($conn, "SELECT * FROM orders WHERE id = ? AND user_id = ? LIMIT 1");
+mysqli_stmt_bind_param($stmt, 'ii', $orderId, $userId);
+mysqli_stmt_execute($stmt);
+$order = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
 if (!$order) {
     echo json_encode(['success' => false, 'msg' => 'Order not found']);
@@ -37,12 +39,20 @@ if ($order['status'] === 'shipped') {
 }
 
 // Cancel order
-mysqli_query($conn, "UPDATE orders SET status = 'cancelled' WHERE id = $orderId");
+$cancelStmt = mysqli_prepare($conn, "UPDATE orders SET status = 'cancelled' WHERE id = ?");
+mysqli_stmt_bind_param($cancelStmt, 'i', $orderId);
+mysqli_stmt_execute($cancelStmt);
 
 // Restore stock
-$items = mysqli_query($conn, "SELECT * FROM order_items WHERE order_id = $orderId");
+$itemsStmt = mysqli_prepare($conn, "SELECT * FROM order_items WHERE order_id = ?");
+mysqli_stmt_bind_param($itemsStmt, 'i', $orderId);
+mysqli_stmt_execute($itemsStmt);
+$items = mysqli_stmt_get_result($itemsStmt);
+
+$restoreStmt = mysqli_prepare($conn, "UPDATE products SET stock = stock + ? WHERE id = ?");
 while ($item = mysqli_fetch_assoc($items)) {
-    mysqli_query($conn, "UPDATE products SET stock = stock + {$item['quantity']} WHERE id = {$item['product_id']}");
+    mysqli_stmt_bind_param($restoreStmt, 'ii', $item['quantity'], $item['product_id']);
+    mysqli_stmt_execute($restoreStmt);
 }
 
 echo json_encode(['success' => true, 'msg' => 'Order cancelled']);
