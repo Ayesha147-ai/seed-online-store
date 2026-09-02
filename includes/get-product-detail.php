@@ -12,13 +12,14 @@ if ($id <= 0) {
     exit();
 }
 
-$sql = "SELECT p.*, c.name as category_name
+$stmt = mysqli_prepare($conn, "SELECT p.*, c.name as category_name
         FROM products p
         JOIN categories c ON p.category_id = c.id
-        WHERE p.id = $id AND p.status = 'approved'
-        LIMIT 1";
-
-$result  = mysqli_query($conn, $sql);
+        WHERE p.id = ? AND p.status = 'approved'
+        LIMIT 1");
+mysqli_stmt_bind_param($stmt, 'i', $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $product = mysqli_fetch_assoc($result);
 
 echo json_encode($product ?: null);

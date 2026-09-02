@@ -9,11 +9,13 @@ $dbname   = 'trackseed_db';
 $username = 'root';
 $password = '';
 
-$conn = mysqli_connect($host, $username, $password, $dbname);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if (!$conn) {
-    die(json_encode(['error' => 'Database connection failed: ' . mysqli_connect_error()]));
+try {
+    $conn = mysqli_connect($host, $username, $password, $dbname);
+    mysqli_set_charset($conn, 'utf8mb4');
+} catch (mysqli_sql_exception $e) {
+    error_log('DB connection failed: ' . $e->getMessage());
+    die(json_encode(['error' => 'Database connection failed. Please try again later.']));
 }
-
-mysqli_set_charset($conn, 'utf8');
 ?>

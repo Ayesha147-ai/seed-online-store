@@ -3,8 +3,8 @@
 //   includes/change-password.php
 //   Logged-in user (kisi bhi role) ka password change karta hai
 // ============================================================
-session_start();
-require_once 'db.php';
+require_once __DIR__ . '/session.php';
+require_once __DIR__ . '/db.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {
@@ -44,7 +44,9 @@ if (!$user || !password_verify($current, $user['password'])) {
 }
 
 $hashed = password_hash($new, PASSWORD_DEFAULT);
-mysqli_query($conn, "UPDATE users SET password = '$hashed' WHERE id = $userId");
+$updateStmt = mysqli_prepare($conn, "UPDATE users SET password = ? WHERE id = ?");
+mysqli_stmt_bind_param($updateStmt, 'si', $hashed, $userId);
+mysqli_stmt_execute($updateStmt);
 
 echo json_encode(['success' => true, 'msg' => 'Password updated successfully!']);
 ?>

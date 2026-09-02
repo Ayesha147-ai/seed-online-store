@@ -23,10 +23,9 @@ function jsonResponse($data, $code = 200) {
 
 // Redirect with message
 function redirectWithMsg($url, $key, $value) {
-    header("Location: $url?$key=$value");
+    header("Location: $url?$key=" . urlencode($value));
     exit();
 }
-
 // Format price
 function formatPrice($price) {
     return 'Rs ' . number_format($price, 0);

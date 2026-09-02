@@ -3,9 +3,9 @@
 //   includes/update-profile.php
 //   Logged-in user (kisi bhi role) ka naam/email/phone update karta hai
 // ============================================================
-session_start();
-require_once 'db.php';
-require_once 'helpers.php';
+require_once __DIR__ . '/session.php';
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/helpers.php';
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {
@@ -24,15 +24,19 @@ if (empty($name) || empty($email)) {
 }
 
 // Email kisi aur user ka to nahi hai (apne ko chhod kar)
-$check = mysqli_query($conn, "SELECT id FROM users WHERE email = '$email' AND id != $userId");
+$checkStmt = mysqli_prepare($conn, "SELECT id FROM users WHERE email = ? AND id != ?");
+mysqli_stmt_bind_param($checkStmt, 'si', $email, $userId);
+mysqli_stmt_execute($checkStmt);
+$check = mysqli_stmt_get_result($checkStmt);
 if (mysqli_num_rows($check) > 0) {
     echo json_encode(['success' => false, 'msg' => 'This email is already in use']);
     exit();
 }
 
-$sql = "UPDATE users SET name = '$name', email = '$email', phone = '$phone' WHERE id = $userId";
+$updateStmt = mysqli_prepare($conn, "UPDATE users SET name = ?, email = ?, phone = ? WHERE id = ?");
+mysqli_stmt_bind_param($updateStmt, 'sssi', $name, $email, $phone, $userId);
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_stmt_execute($updateStmt)) {
     $_SESSION['user_name']  = $name;
     $_SESSION['user_email'] = $email;
     echo json_encode(['success' => true, 'msg' => 'Profile updated successfully!']);
