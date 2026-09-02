@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Website Frontend</title>
+    <title>TrackSeed - Pakistan's Seed Marketplace</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css-f/style.css">
-
 </head>
 
 <body>
@@ -25,16 +24,16 @@
             <li><a href="contact.html">Contact</a></li>
         </ul>
 
-        <!-- Login Button / Signin Button -->
+        <!-- Logged OUT state: Login + Sign Up buttons -->
         <div id="auth-buttons">
             <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
             <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
         </div>
 
-        <!-- Logged-in user ke liye (default hidden) -->
+        <!-- Logged IN state: hidden by default, JS dikhayega -->
         <div id="user-info" style="display:none; align-items:center; gap:10px;">
-            <span id="user-greeting" style="font-weight:600;"></span>
-            <a href="#" id="dashboard-link" class="login-btn" style="text-decoration:none; display:none;">
+            <span id="user-greeting"></span>
+            <a id="dashboard-link" href="#" style="display:none;" class="login-btn">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
             </a>
             <a href="my-account.html" class="login-btn" style="text-decoration:none; display:inline-block;">
@@ -43,9 +42,9 @@
             <button class="login-btn" onclick="window.location.href='auth/logout.php'">Logout</button>
         </div>
 
-        <!-- My Cart Button -->
-        <button class="cart-btn-nav" onclick="window.location.href='cart.html'"><i class="fas fa-shopping-cart"></i> My
-            Cart
+        <!-- My Cart Button — JS hide karega agent/admin ke liye -->
+        <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
+            <i class="fas fa-shopping-cart"></i> My Cart
             <span class="cart-count">0</span>
         </button>
     </section>
@@ -72,8 +71,8 @@
             <div class="hero-image">
                 <img src="css-f/img/frontpic.jpg" alt="Farmer holding seedlings">
             </div>
+        </div>
     </section>
-
 
     <section id="feature" class="section-p1">
         <div class="fe-box">
@@ -90,14 +89,14 @@
         </div>
     </section>
 
-    <!--Browse products-->
+    <!-- Browse products -->
     <section id="product1" class="section-p1">
         <h2>Browse Categories</h2>
         <p>Find the right seeds for your soil and season.</p>
         <div class="pro-container">
 
             <div class="pro">
-                <img src="css-f/img/v1.jpg" alt="Sweet Corn">
+                <img src="css-f/img/v1.jpg" alt="Tomato">
                 <div class="des">
                     <h5>Tomato Round Red Seed</h5>
                     <h4>Rs 100</h4>
@@ -106,7 +105,7 @@
             </div>
 
             <div class="pro">
-                <img src="css-f/img/v2.jpg" alt="Yellow Tomato">
+                <img src="css-f/img/v2.jpg" alt="Cucumber">
                 <div class="des">
                     <h5>Cucumber Seed</h5>
                     <h4>Rs 150</h4>
@@ -115,7 +114,7 @@
             </div>
 
             <div class="pro">
-                <img src="css-f/img/fru1.jpg" alt="Zinnia Flowers">
+                <img src="css-f/img/fru1.jpg" alt="Watermelon">
                 <div class="des">
                     <h5>Watermelon Seed</h5>
                     <h4>Rs 80</h4>
@@ -124,7 +123,7 @@
             </div>
 
             <div class="pro">
-                <img src="css-f/img/fru2.jpg" alt="Portulaca Flowers">
+                <img src="css-f/img/fru2.jpg" alt="Muskmelon">
                 <div class="des">
                     <h5>Muskmelon Seed</h5>
                     <h4>Rs 80</h4>
@@ -133,7 +132,7 @@
             </div>
 
             <div class="pro">
-                <img src="css-f/img/herb1.jpg" alt="Dill Herb">
+                <img src="css-f/img/herb1.jpg" alt="Niazbo">
                 <div class="des">
                     <h5>Niazbo Seed Organic</h5>
                     <h4>Rs 120</h4>
@@ -142,7 +141,7 @@
             </div>
 
             <div class="pro">
-                <img src="css-f/img/herb2.jpg" alt="Fennel Seeds">
+                <img src="css-f/img/herb2.jpg" alt="Fennel">
                 <div class="des">
                     <h5>Fennel Leaf Seed</h5>
                     <h4>Rs 100</h4>
@@ -153,7 +152,6 @@
         </div>
     </section>
 
-
     <section id="banner" class="section-m1">
         <div class="banner-overlay">
             <p class="banner-tagline">Pakistan's Seed Marketplace</p>
@@ -162,18 +160,16 @@
         </div>
     </section>
 
-
     <footer class="section-p1">
         <div class="col">
-            <!-- Logo -->
             <div class="logo">
                 <i class="fas fa-seedling"></i>
                 <span>TrackSeed</span>
             </div>
             <h4>Contact</h4>
-            <p><strong>Address:</strong> Hafizabad road gujranwala </p>
+            <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
             <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
-            <p><strong>Hours:</strong>10:00 - 18:00. Mon-Sat</p>
+            <p><strong>Hours:</strong> 10:00 - 18:00. Mon-Sat</p>
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
@@ -185,7 +181,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="col">
             <h4>About</h4>
@@ -199,18 +194,17 @@
             <h4>My Account</h4>
             <a href="#">View Carts</a>
             <a href="#">My Orders</a>
-            <a href="#" onclick="window.location.href='order-track.html'">Track My Orders</a>
+            <a href="order-track.html">Track My Orders</a>
             <a href="#">Help</a>
         </div>
-
 
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
-
     </footer>
 
-    <script src="js-f/scrip.js"></script>
+    <!-- scrip.js — session check + cart logic -->
+    <script src="js-f/script.js"></script>
 </body>
 
 </html>
