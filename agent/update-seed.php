@@ -6,6 +6,7 @@
 require_once '../includes/session.php';
 require_once '../includes/db.php';
 requireAgent();
+header('Content-Type: application/json');
 
 $seedId  = intval($_POST['seed_id'] ?? 0);
 $agentId = getUserId();
@@ -17,11 +18,12 @@ if ($seedId <= 0 || $price <= 0) {
     exit();
 }
 
-$sql = "UPDATE products
-        SET price = $price, stock = $stock
-        WHERE id = $seedId AND agent_id = $agentId";
+$stmt = mysqli_prepare($conn, "UPDATE products
+        SET price = ?, stock = ?
+        WHERE id = ? AND agent_id = ?");
+mysqli_stmt_bind_param($stmt, 'diii', $price, $stock, $seedId, $agentId);
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_stmt_execute($stmt)) {
     echo json_encode(['success' => true]);
 } else {
     echo json_encode(['success' => false, 'msg' => 'Update failed']);

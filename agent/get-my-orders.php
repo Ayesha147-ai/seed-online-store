@@ -18,12 +18,14 @@ $result = mysqli_query($conn, $sql);
 $orders = [];
 while ($row = mysqli_fetch_assoc($result)) {
     // Get items for this order
-    $oid  = $row['id'];
-    $iSql = "SELECT oi.*, p.name as product_name
+    $oid   = $row['id'];
+    $iStmt = mysqli_prepare($conn, "SELECT oi.*, p.name as product_name
              FROM order_items oi
              JOIN products p ON oi.product_id = p.id
-             WHERE oi.order_id = $oid AND p.agent_id = $agentId";
-    $iRes = mysqli_query($conn, $iSql);
+             WHERE oi.order_id = ? AND p.agent_id = ?");
+    mysqli_stmt_bind_param($iStmt, 'ii', $oid, $agentId);
+    mysqli_stmt_execute($iStmt);
+    $iRes = mysqli_stmt_get_result($iStmt);
     $row['items'] = [];
     while ($item = mysqli_fetch_assoc($iRes)) {
         $row['items'][] = $item;
