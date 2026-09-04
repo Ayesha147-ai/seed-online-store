@@ -34,7 +34,6 @@ function showSection(sectionName) {
     var activeNav = document.querySelector('[data-section="' + sectionName + '"]');
     if (activeNav) activeNav.classList.add('active');
 
-    // Load data for each section
     if (sectionName === 'dashboard')      loadStats();
     if (sectionName === 'users')          loadUsers('');
     if (sectionName === 'sellers')        loadUsers('agent');
@@ -45,7 +44,6 @@ function showSection(sectionName) {
     if (sectionName === 'orders')         loadOrders();
 }
 
-// ===== LOAD STATS =====
 function loadStats() {
     fetch('admin/get-stats.php')
         .then(res => res.json())
@@ -56,14 +54,12 @@ function loadStats() {
             setEl('stat-pending',  data.pending_seeds  || 0);
             setEl('stat-revenue',  'Rs ' + (data.total_revenue || 0));
 
-            // Sidebar badges — "Approve Seeds" aur "Approve Agents" dono
             setBadge(document.querySelector('[data-section="approve-seeds"] .nav-badge'), data.pending_seeds);
             setBadge(document.querySelector('[data-section="approve-agents"] .nav-badge'), data.pending_agents);
         })
         .catch(() => console.log('Stats load failed'));
 }
 
-// ===== LOAD USERS =====
 function loadUsers(role) {
     var url = role ? 'admin/get-all-users.php?role=' + role : 'admin/get-all-users.php';
     var tbodyId = role === 'agent' ? 'sellers-tbody' : role === 'farmer' ? 'buyers-tbody' : 'users-tbody';
@@ -104,7 +100,6 @@ function loadUsers(role) {
             });
             tbody.innerHTML = html;
 
-            // Count update
             var countEl = role === 'agent' ? document.getElementById('sellers-count') :
                           role === 'farmer' ? document.getElementById('buyers-count') :
                           document.getElementById('users-count');
@@ -113,7 +108,6 @@ function loadUsers(role) {
         .catch(() => console.log('Users load failed'));
 }
 
-// ===== TOGGLE USER STATUS (Block/Unblock) — NEW =====
 function toggleUserStatus(userId, currentStatus, role) {
     var newStatus = currentStatus === 'active' ? 'blocked' : 'active';
     var actionWord = newStatus === 'blocked' ? 'block' : 'unblock';
@@ -136,7 +130,6 @@ function toggleUserStatus(userId, currentStatus, role) {
         .catch(() => showAlert('Update failed', 'error'));
 }
 
-// ===== DELETE USER — NEW =====
 function deleteUser(userId, role) {
     if (!confirm('Are you sure you want to permanently delete this user? This cannot be undone.')) return;
 
@@ -156,7 +149,6 @@ function deleteUser(userId, role) {
         .catch(() => showAlert('Delete failed', 'error'));
 }
 
-// ===== LOAD PENDING AGENTS — NEW =====
 function loadPendingAgents() {
     fetch('admin/get-pending-agents.php')
         .then(res => res.json())
@@ -195,7 +187,6 @@ function loadPendingAgents() {
         .catch(() => console.log('Pending agents load failed'));
 }
 
-// ===== APPROVE/REJECT AGENT — NEW =====
 function approveAgentDB(userId, action, rowId) {
     var formData = new FormData();
     formData.append('user_id', userId);
@@ -224,7 +215,6 @@ function approveAgentDB(userId, action, rowId) {
         .catch(() => showAlert('Action failed', 'error'));
 }
 
-// ===== LOAD PENDING SEEDS =====
 function loadPendingSeeds() {
     fetch('admin/get-pending-seeds.php')
         .then(res => res.json())
@@ -263,7 +253,6 @@ function loadPendingSeeds() {
         .catch(() => console.log('Seeds load failed'));
 }
 
-// ===== APPROVE/REJECT SEED IN DB =====
 function approveSeedDB(productId, action, rowId) {
     var formData = new FormData();
     formData.append('product_id', productId);
@@ -284,7 +273,6 @@ function approveSeedDB(productId, action, rowId) {
         });
 }
 
-// ===== LOAD ALL SEEDS =====
 function loadAllSeeds() {
     fetch('admin/get-all-seeds.php')
         .then(res => res.json())
@@ -320,7 +308,6 @@ function loadAllSeeds() {
         .catch(() => console.log('All seeds load failed'));
 }
 
-// ===== LOAD ORDERS =====
 function loadOrders() {
     fetch('admin/get-all-orders.php')
         .then(res => res.json())
@@ -329,7 +316,7 @@ function loadOrders() {
             if (!tbody) return;
 
             if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#888;">No orders found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#888;">No orders found</td></tr>';
                 setEl('order-count', '0 orders');
                 return;
             }
@@ -351,6 +338,13 @@ function loadOrders() {
                     return `<option value="${s}" ${sel}>${label}</option>`;
                 }).join('');
 
+                var isPaid = order.payment_status === 'Paid';
+                var payBtnStyle = isPaid
+                    ? 'background:#dcfce7;color:#15803d;border:1px solid #86efac;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;cursor:default;'
+                    : 'background:#fef9c3;color:#854d0e;border:1px solid #fde68a;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;';
+                var payBtnLabel = isPaid ? '✅ Paid' : '💰 Pay Agent';
+                var payBtnClick = isPaid ? '' : `onclick="payAgent(${order.id})"`;
+
                 html += `<tr data-status="${order.status}">
                     <td>${order.order_number}</td>
                     <td><strong>${order.farmer_name || 'N/A'}</strong></td>
@@ -359,6 +353,9 @@ function loadOrders() {
                     <td><strong>Rs ${order.grand_total}</strong></td>
                     <td><span class="badge ${statusClass}">${order.status}</span></td>
                     <td>${date}</td>
+                    <td>
+                        <button style="${payBtnStyle}" ${payBtnClick}>${payBtnLabel}</button>
+                    </td>
                     <td>
                         <select id="status-select-${order.id}" style="padding:4px;border-radius:4px;font-size:12px;margin-right:4px;">
                             ${options}
@@ -373,7 +370,6 @@ function loadOrders() {
         .catch(() => console.log('Orders load failed'));
 }
 
-// ===== UPDATE ORDER STATUS =====
 function updateOrderStatus(orderId) {
     var select = document.getElementById('status-select-' + orderId);
     if (!select) return;
@@ -396,7 +392,25 @@ function updateOrderStatus(orderId) {
         .catch(() => showAlert('Failed to update order status', 'error'));
 }
 
-// ===== SETTINGS: CHANGE PASSWORD — NEW =====
+function payAgent(orderId) {
+    if (!confirm('Mark this order as Paid? 3% platform commission will be deducted, and the remaining amount will be recorded as agent revenue.')) return;
+
+    var formData = new FormData();
+    formData.append('order_id', orderId);
+
+    fetch('admin/pay-agent.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Agent payment marked as Paid!', 'success');
+                loadOrders();
+            } else {
+                showAlert(data.msg || 'Failed', 'error');
+            }
+        })
+        .catch(() => showAlert('Failed to process payment', 'error'));
+}
+
 function changeMyPassword() {
     var current = document.getElementById('current-password').value.trim();
     var newPass = document.getElementById('new-password').value.trim();
@@ -425,13 +439,11 @@ function changeMyPassword() {
         .catch(() => showAlert('Password update failed', 'error'));
 }
 
-// ===== HELPER: Set element text =====
 function setEl(id, val) {
     var el = document.getElementById(id);
     if (el) el.textContent = val;
 }
 
-// ===== HELPER: Show/hide sidebar badge based on count =====
 function setBadge(el, count) {
     if (!el) return;
     if (count > 0) {
@@ -443,7 +455,6 @@ function setBadge(el, count) {
     }
 }
 
-// ===== FILTER TABLE =====
 function filterTable(tbodyId, filterValue, clickedBtn) {
     clickedBtn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     clickedBtn.classList.add('active');
@@ -458,7 +469,6 @@ function filterTable(tbodyId, filterValue, clickedBtn) {
     });
 }
 
-// ===== FILTER ORDERS =====
 function filterOrders(status, clickedBtn) {
     clickedBtn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     clickedBtn.classList.add('active');
@@ -472,14 +482,12 @@ function filterOrders(status, clickedBtn) {
     setEl('order-count', count + ' orders');
 }
 
-// ===== PENDING COUNT =====
 function updatePendingCount() {
     var count = document.querySelectorAll('#approve-tbody tr').length;
     setEl('pending-count', count + ' pending');
     setBadge(document.querySelector('[data-section="approve-seeds"] .nav-badge'), count);
 }
 
-// ===== ALERT =====
 function showAlert(message, type) {
     var existing = document.getElementById('toast-alert');
     if (existing) existing.remove();
@@ -500,7 +508,6 @@ function showAlert(message, type) {
     setTimeout(() => { alert.style.opacity = '0'; setTimeout(() => alert.remove(), 300); }, 2500);
 }
 
-// ===== INIT =====
 function initNavItems() {
     document.querySelectorAll('.nav-item[data-section]').forEach(function(item) {
         item.addEventListener('click', function() {
