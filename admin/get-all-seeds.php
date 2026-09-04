@@ -1,4 +1,4 @@
-<?php
+ <?php
 // ============================================================
 //   admin/get-all-seeds.php
 //   Sab seeds deta hai — status filter NAHI (pending+approved+rejected)
