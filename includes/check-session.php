@@ -3,6 +3,7 @@
 //   includes/check-session.php — Session Status Check
 //   JS isko call karke pata lagata hai user login hai ya nahi
 // ============================================================
+session_start(); 
 require_once __DIR__ . '/session.php';
 
 header('Content-Type: application/json');
