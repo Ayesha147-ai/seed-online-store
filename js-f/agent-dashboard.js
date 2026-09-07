@@ -273,7 +273,7 @@ function loadEarnings() {
         .catch(() => console.log('Earnings load failed'));
 }
 
-// ===== SETTINGS: LOAD MY PROFILE (NEW) =====
+// ===== SETTINGS: LOAD MY PROFILE =====
 function loadMyProfile() {
     fetch('includes/get-profile.php')
         .then(res => res.json())
