@@ -32,9 +32,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     while ($item = mysqli_fetch_assoc($iRes)) {
         $row['items'][] = $item;
-        // IMPORTANT: verify 'price' column name matches your order_items table
-        // (ho sakta hai tumhare table mein isko 'unit_price' kaha gaya ho)
-        $agentTotal += (float)$item['price'] * (int)$item['quantity'];
+        // total_price column already stores unit_price * quantity
+        $agentTotal += (float)$item['total_price'];
     }
 
     // grand_total ab pura order ka total NAHI, balke SIRF is agent ke items ka total hai
