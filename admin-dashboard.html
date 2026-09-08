@@ -58,10 +58,17 @@
             <i class="fas fa-shopping-bag"></i> All Orders
         </div>
 
+        <div class="nav-label">Support</div>
+        <div class="nav-item" data-section="messages">
+            <i class="fas fa-envelope"></i> Messages
+            <span class="nav-badge" id="unread-messages-badge">0</span>
+        </div>
+
         <div class="nav-label">System</div>
         <div class="nav-item" data-section="settings">
             <i class="fas fa-cog"></i> System Settings
         </div>
+    </nav>
     </nav>
 
     <div class="sidebar-bottom">
@@ -350,6 +357,33 @@
                 </table>
             </div>
         </div>
+
+
+        <!-- ===== MESSAGES ===== -->
+        <div class="section" id="section-messages">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Contact Messages</h3>
+                    <span id="messages-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Message</th>
+                            <th>Received</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messages-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 
         <!-- ===== SETTINGS ===== -->
         <div class="section" id="section-settings">
