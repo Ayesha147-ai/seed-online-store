@@ -23,7 +23,7 @@ function showSection(sectionName) {
         'buyers': 'Buyers', 'approve-agents': 'Approve Agents',
         'approve-seeds': 'Approve Seeds', 'all-seeds': 'All Seeds',
         'orders': 'All Orders', 'reports': 'Reports', 'complaints': 'Complaints',
-        'settings': 'System Settings'
+        'messages': 'Contact Messages', 'settings': 'System Settings'
     };
     var titleEl = document.getElementById('page-title');
     if (titleEl && titles[sectionName]) titleEl.textContent = titles[sectionName];
@@ -42,6 +42,7 @@ function showSection(sectionName) {
     if (sectionName === 'approve-seeds')  loadPendingSeeds();
     if (sectionName === 'all-seeds')      loadAllSeeds();
     if (sectionName === 'orders')         loadOrders();
+    if (sectionName === 'messages')       loadMessages();
 }
 
 function loadStats() {
@@ -411,6 +412,60 @@ function payAgent(orderId) {
         .catch(() => showAlert('Failed to process payment', 'error'));
 }
 
+function loadMessages() {
+    fetch('admin/get-contact-messages.php')
+        .then(res => res.json())
+        .then(messages => {
+            var tbody = document.getElementById('messages-tbody');
+            if (!tbody) return;
+
+            if (messages.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;">No messages yet</td></tr>';
+                setEl('messages-count', '0 messages');
+                return;
+            }
+
+            var html = '';
+            var unreadCount = 0;
+            messages.forEach(function(msg) {
+                if (msg.status === 'new') unreadCount++;
+                var statusBadge = msg.status === 'new' ? 'b-pending' : 'b-delivered';
+                var date = new Date(msg.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+
+                html += `<tr>
+                    <td><strong>${msg.name}</strong></td>
+                    <td>${msg.phone}</td>
+                    <td style="max-width:300px;">${msg.message}</td>
+                    <td>${date}</td>
+                    <td><span class="badge ${statusBadge}">${msg.status === 'new' ? 'New' : 'Read'}</span></td>
+                    <td>
+                        ${msg.status === 'new' ? `<button class="act-btn approve" onclick="markMessageRead(${msg.id})"><i class="fas fa-check"></i> Mark Read</button>` : ''}
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+            setEl('messages-count', messages.length + ' messages');
+            setBadge(document.getElementById('unread-messages-badge'), unreadCount);
+        })
+        .catch(() => console.log('Messages load failed'));
+}
+
+function markMessageRead(msgId) {
+    var formData = new FormData();
+    formData.append('msg_id', msgId);
+
+    fetch('admin/mark-message-read.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                loadMessages();
+            } else {
+                showAlert('Failed to update message', 'error');
+            }
+        })
+        .catch(() => showAlert('Failed to update message', 'error'));
+}
+
 function changeMyPassword() {
     var current = document.getElementById('current-password').value.trim();
     var newPass = document.getElementById('new-password').value.trim();
@@ -527,6 +582,7 @@ function checkAuth() {
             setDate();
             initNavItems();
             showSection('dashboard');
+            loadMessages(); // sidebar badge turant dikh jaye
         })
         .catch(() => {
             window.location.href = 'login.html';
