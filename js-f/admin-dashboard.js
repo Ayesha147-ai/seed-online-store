@@ -429,7 +429,9 @@ function loadMessages() {
             var unreadCount = 0;
             messages.forEach(function(msg) {
                 if (msg.status === 'new') unreadCount++;
-                var statusBadge = msg.status === 'new' ? 'b-pending' : 'b-delivered';
+
+                var statusBadge = msg.status === 'new' ? 'b-pending' : msg.status === 'replied' ? 'b-delivered' : 'b-processing';
+                var statusLabel = msg.status === 'new' ? 'New' : msg.status === 'replied' ? 'Replied' : 'Read';
                 var date = new Date(msg.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
 
                 html += `<tr>
@@ -437,11 +439,23 @@ function loadMessages() {
                     <td>${msg.phone}</td>
                     <td style="max-width:300px;">${msg.message}</td>
                     <td>${date}</td>
-                    <td><span class="badge ${statusBadge}">${msg.status === 'new' ? 'New' : 'Read'}</span></td>
+                    <td><span class="badge ${statusBadge}">${statusLabel}</span></td>
                     <td>
                         ${msg.status === 'new' ? `<button class="act-btn approve" onclick="markMessageRead(${msg.id})"><i class="fas fa-check"></i> Mark Read</button>` : ''}
                     </td>
                 </tr>`;
+
+                // Jab tak reply nahi hua, isi row ke neeche reply-form dikhao
+                if (msg.status !== 'replied') {
+                    html += `<tr id="reply-row-${msg.id}">
+                        <td colspan="6" style="background:#f9fafb;">
+                            <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 4px;">
+                                <textarea id="reply-text-${msg.id}" rows="2" placeholder="Type a reply for ${msg.name}..." style="flex:1;padding:8px;border:1px solid #ddd;border-radius:6px;font-family:inherit;font-size:13px;"></textarea>
+                                <button class="act-btn approve" onclick="sendReply(${msg.id})"><i class="fas fa-paper-plane"></i> Send Reply</button>
+                            </div>
+                        </td>
+                    </tr>`;
+                }
             });
             tbody.innerHTML = html;
             setEl('messages-count', messages.length + ' messages');
@@ -464,6 +478,33 @@ function markMessageRead(msgId) {
             }
         })
         .catch(() => showAlert('Failed to update message', 'error'));
+}
+
+function sendReply(msgId) {
+    var textarea = document.getElementById('reply-text-' + msgId);
+    if (!textarea) return;
+    var reply = textarea.value.trim();
+
+    if (!reply) {
+        showAlert('Please type a reply first', 'error');
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append('msg_id', msgId);
+    formData.append('reply', reply);
+
+    fetch('admin/reply-message.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Reply sent!', 'success');
+                loadMessages();
+            } else {
+                showAlert(data.msg || 'Failed to send reply', 'error');
+            }
+        })
+        .catch(() => showAlert('Failed to send reply', 'error'));
 }
 
 function changeMyPassword() {
