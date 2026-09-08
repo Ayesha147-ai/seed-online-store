@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & FAQ - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css-f/style.css">
+    <link rel="stylesheet" href="css-f/legal-pages.css">
+    <link rel="stylesheet" href="css-f/help.css">
+</head>
+<body>
+
+    <section id="header">
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>TrackSeed</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div id="auth-buttons">
+            <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+            <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+        <div id="user-info" style="display:none; align-items:center; gap:10px;">
+            <a id="dashboard-link" href="#" style="display:none;" class="login-btn">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="my-account.html" class="login-btn" style="text-decoration:none; display:inline-block;">
+                <i class="fas fa-user"></i> My Account
+            </a>
+            <button class="login-btn" onclick="window.location.href='auth/logout.php'">Logout</button>
+        </div>
+        <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
+            <i class="fas fa-shopping-cart"></i> My Cart
+            <span class="cart-count">0</span>
+        </button>
+    </section>
+
+    <section class="legal-page-section">
+        <h1><i class="fas fa-circle-question"></i> Help & FAQ</h1>
+        <p class="legal-updated">Find answers to common questions below</p>
+
+        <div class="faq-list">
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do I place an order?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Browse seeds by category (Vegetable, Fruit, or Herb) from the homepage, add items to your cart, then proceed to checkout. Fill in your delivery details and select a payment method to place your order.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What payment methods are accepted?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>We currently accept Card payment (via Stripe) and Cash on Delivery (COD). Select your preferred method at checkout.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How can I track my order?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Go to "My Orders" in your account, or use the "Track My Orders" page and enter your Order ID to see live delivery status.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I cancel my order?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, orders can be cancelled from the "My Orders" page as long as the status is still "Placed" or "Confirmed." Once an order is shipped or delivered, it can no longer be cancelled.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do I become a seed agent?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Create a regular account first, then click "Register as Agent" and submit your business details and CNIC. Your application will be reviewed by our admin team — you'll be notified once approved.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    I forgot my password. What do I do?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Click "Forgot Password?" on the login page and follow the instructions to reset your password.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Still need help?
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Reach out to us anytime through our <a href="contact.html">Contact page</a> and our team will get back to you.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>TrackSeed</span>
+            </div>
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
+            <p><strong>Phone:</strong> +923316481168</p>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="about.html">About us</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms & Conditions</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="my-account.html">My Account</a>
+            <a href="my-orders.html">My Orders</a>
+            <a href="order-track.html">Track My Orders</a>
+            <a href="help.html">Help</a>
+        </div>
+        <div class="copywrite">
+            <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="js-f/script.js"></script>
+    <script src="js-f/help.js"></script>
+</body>
+</html>
