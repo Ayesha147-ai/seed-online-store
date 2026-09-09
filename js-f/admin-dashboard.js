@@ -43,6 +43,7 @@ function showSection(sectionName) {
     if (sectionName === 'all-seeds')      loadAllSeeds();
     if (sectionName === 'orders')         loadOrders();
     if (sectionName === 'messages')       loadMessages();
+    if (sectionName === 'settings')       loadSettings();
 }
 
 function loadStats() {
@@ -533,6 +534,51 @@ function changeMyPassword() {
             }
         })
         .catch(() => showAlert('Password update failed', 'error'));
+}
+
+function loadSettings() {
+    fetch('admin/get-settings.php')
+        .then(res => res.json())
+        .then(data => {
+            setInputVal('settings-platform-name', data.platform_name);
+            setInputVal('settings-support-email', data.support_email);
+            setInputVal('settings-support-phone', data.support_phone);
+        })
+        .catch(() => console.log('Settings load failed'));
+}
+
+function savePlatformSettings() {
+    var name  = document.getElementById('settings-platform-name').value.trim();
+    var email = document.getElementById('settings-support-email').value.trim();
+    var phone = document.getElementById('settings-support-phone').value.trim();
+    var statusEl = document.getElementById('settings-status');
+
+    if (!name || !email || !phone) {
+        showAlert('Please fill all platform fields', 'error');
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append('platform_name', name);
+    formData.append('support_email', email);
+    formData.append('support_phone', phone);
+
+    fetch('admin/save-settings.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            showAlert(data.msg, data.success ? 'success' : 'error');
+            if (statusEl) {
+                statusEl.textContent = data.msg;
+                statusEl.style.display = 'block';
+                statusEl.style.color = data.success ? '#15803d' : '#991b1b';
+            }
+        })
+        .catch(() => showAlert('Failed to save settings', 'error'));
+}
+
+function setInputVal(id, val) {
+    var el = document.getElementById(id);
+    if (el && val !== undefined) el.value = val;
 }
 
 function setEl(id, val) {
