@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $email    = clean($conn, $_POST['email']    ?? '');
 $password = trim($_POST['password'] ?? '');
+$remember = isset($_POST['remember']);
 
 if (empty($email) || empty($password)) {
     header('Location: ../login.html?error=empty');
@@ -63,6 +64,29 @@ $_SESSION['user_id']    = $user['id'];
 $_SESSION['user_name']  = $user['name'];
 $_SESSION['user_role']  = $user['role'];
 $_SESSION['user_email'] = $user['email'];
+
+// ===== REMEMBER ME =====
+// "Remember Me" checked hai to ek secure token bana kar DB + cookie mein save karo,
+// taako browser band karne ke baad bhi 30 din tak login yaad rahe.
+if ($remember) {
+    $selector  = bin2hex(random_bytes(8));      // DB row dhoondne ke liye (plain)
+    $validator = bin2hex(random_bytes(32));     // asal secret (sirf cookie mein plain jayega)
+    $hashed    = hash('sha256', $validator);    // DB mein sirf hash save hoga, raw kabhi nahi
+    $expiry    = date('Y-m-d H:i:s', strtotime('+30 days'));
+
+    $rtStmt = mysqli_prepare($conn, "UPDATE users
+        SET remember_selector = ?, remember_token = ?, remember_token_expiry = ?
+        WHERE id = ?");
+    mysqli_stmt_bind_param($rtStmt, 'sssi', $selector, $hashed, $expiry, $user['id']);
+    mysqli_stmt_execute($rtStmt);
+
+    setcookie('remember_me', $selector . ':' . $validator, [
+        'expires'  => strtotime('+30 days'),
+        'path'     => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+}
 
 // Redirect by role
 if ($user['role'] === 'admin') {
