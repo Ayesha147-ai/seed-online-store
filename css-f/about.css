@@ -40,6 +40,8 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: var(--dark-green);
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .nav-links {
