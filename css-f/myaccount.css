@@ -1,0 +1,78 @@
+:root { --primary-green: #22c55e; --teal: #088178; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f7f6;
+    min-height: 100vh;
+}
+.account-card {
+    background: #fff;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+.account-header {
+    background: linear-gradient(135deg, var(--primary-green), var(--teal));
+    padding: 40px 30px;
+    text-align: center;
+    color: #fff;
+}
+.account-header .avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 14px;
+}
+.account-header h2 { font-size: 22px; margin-bottom: 4px; }
+.account-header p { font-size: 14px; opacity: 0.9; text-transform: capitalize; }
+.account-body {
+    padding: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.info-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.info-row:last-child { border-bottom: none; }
+.info-row i { color: var(--primary-green); width: 20px; text-align: center; font-size: 16px; }
+.info-row .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }
+.info-row .value { font-size: 15px; color: #222; font-weight: 600; }
+
+.info-row input {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-top: 4px;
+    width: 100%;
+    display: none;
+}
+.edit-mode .value { display: none; }
+.edit-mode input { display: block; }
+
+.account-actions {
+    padding: 20px 30px 30px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex; gap: 10px;
+}
+.account-actions a, .account-actions button {
+    flex: 1; text-align: center; padding: 12px;
+    border-radius: 8px; text-decoration: none;
+    font-weight: 600; font-size: 14px;
+    border: none; cursor: pointer; font-family: inherit;
+}
+.btn-home { background: #f0f0f0; color: #333; }
+.btn-edit { background: #dbeafe; color: #1e40af; }
+.btn-save { background: var(--primary-green); color: #fff; display:none; }
+.btn-cancel { background: #f0f0f0; color: #333; display:none; }
+
+#loading { text-align:center; padding: 40px; color: #888; }
+#msgBox { text-align:center; padding: 0 30px 10px; font-size: 13px; }
