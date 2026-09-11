@@ -26,8 +26,8 @@ try {
             'quantity' => 1,
         ]],
         'mode' => 'payment',
-        'success_url' => 'http://localhost/FYP%20Offline/payment/payment_success.php?session_id={CHECKOUT_SESSION_ID}',
-        'cancel_url' => 'http://localhost/FYP%20Offline/payment/payment_cancel.php',
+        'success_url' => 'http://localhost/FYP/payment/payment_success.php?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => 'http://localhost/FYP/payment/payment_cancel.php',
     ]);
 
     // 4. Redirect the user to the Stripe payment page
