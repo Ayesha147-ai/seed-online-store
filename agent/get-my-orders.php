@@ -17,7 +17,7 @@ $sql = "SELECT DISTINCT o.*, u.name as farmer_name, u.phone as farmer_phone
 $result = mysqli_query($conn, $sql);
 $orders = [];
 while ($row = mysqli_fetch_assoc($result)) {
-    // Get items for this order
+    // Get items for this order — SIRF is agent ke items
     $oid   = $row['id'];
     $iStmt = mysqli_prepare($conn, "SELECT oi.*, p.name as product_name
              FROM order_items oi
@@ -26,10 +26,19 @@ while ($row = mysqli_fetch_assoc($result)) {
     mysqli_stmt_bind_param($iStmt, 'ii', $oid, $agentId);
     mysqli_stmt_execute($iStmt);
     $iRes = mysqli_stmt_get_result($iStmt);
+
     $row['items'] = [];
+    $agentTotal   = 0;
+
     while ($item = mysqli_fetch_assoc($iRes)) {
         $row['items'][] = $item;
+        // total_price column already stores unit_price * quantity
+        $agentTotal += (float)$item['total_price'];
     }
+
+    // grand_total ab pura order ka total NAHI, balke SIRF is agent ke items ka total hai
+    $row['agent_total'] = $agentTotal;
+
     $orders[] = $row;
 }
 

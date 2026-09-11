@@ -25,8 +25,9 @@ $stats['pending_seeds'] = $r['c'];
 $r = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as c FROM orders"));
 $stats['total_orders'] = $r['c'];
 
-// Total revenue
-$r = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COALESCE(SUM(pay_amount),0) as total FROM transactions WHERE pay_status='paid'"));
+
+// Total revenue — sirf admin ka commission (3%), un orders ka jinka agent-payment ho chuka hai
+$r = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COALESCE(SUM(admin_commission),0) as total FROM orders WHERE payment_status='Paid'"));
 $stats['total_revenue'] = $r['total'];
 
 // Orders by status

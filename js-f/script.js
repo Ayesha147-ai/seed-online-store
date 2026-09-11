@@ -45,14 +45,36 @@ fetch('includes/check-session.php')
                     dashLink.style.display = 'none';
                 }
             }
+
+            // "Register as Agent" button — state ke hisaab se dikhana/chhupana
+            checkAgentButtonVisibility();
         }  else {
             // Logged out — simple navbar dikhao
             if (authBtns) authBtns.style.display = 'flex';
             if (userInfo) userInfo.style.display = 'none';
             if (cartBtn)  cartBtn.style.display = '';
+
+            // Bina login — button chhupa rakho
+            const agentBtn = document.getElementById('register-agent-btn');
+            if (agentBtn) agentBtn.style.display = 'none';
         }
     })
     .catch(err => console.log('Session check failed:', err));
+
+// ===== REGISTER AS AGENT BUTTON — 4-state visibility check =====
+function checkAgentButtonVisibility() {
+    const agentBtn = document.getElementById('register-agent-btn');
+    if (!agentBtn) return;
+
+    fetch('includes/get-agent-status.php')
+        .then(res => res.json())
+        .then(data => {
+            agentBtn.style.display = data.show_button ? 'inline-flex' : 'none';
+        })
+        .catch(() => {
+            agentBtn.style.display = 'none';
+        });
+}
 
 
 // 1. Cart data initialization

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - TrackSeed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css-f/style.css">
+    <link rel="stylesheet" href="css-f/my-orders.css">
+</head>
+<body>
+
+    <section id="header">
+        <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>TrackSeed</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div id="auth-buttons">
+            <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+            <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+        <div id="user-info" style="display:none; align-items:center; gap:10px;">
+            <a id="dashboard-link" href="#" style="display:none;" class="login-btn">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="my-account.html" class="login-btn" style="text-decoration:none; display:inline-block;">
+                <i class="fas fa-user"></i> My Account
+            </a>
+            <button class="login-btn" onclick="window.location.href='auth/logout.php'">Logout</button>
+        </div>
+        <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
+            <i class="fas fa-shopping-cart"></i> My Cart
+            <span class="cart-count">0</span>
+        </button>
+    </section>
+
+    <section class="orders-page-section">
+        <h1><i class="fas fa-box"></i> My Orders</h1>
+        <p class="sub">Track the status of everything you've purchased</p>
+
+        <div id="orders-list" class="orders-list">
+            <p class="loading-text">Loading your orders...</p>
+        </div>
+    </section>
+
+    <footer class="section-p1">
+        <div class="col">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>TrackSeed</span>
+            </div>
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
+            <p><strong>Phone:</strong> +923316481168</p>
+        </div>
+        <div class="col">
+            <h4>About</h4>
+            <a href="about.html">About us</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms & Conditions</a>
+            <a href="contact.html">Contact us</a>
+        </div>
+        <div class="col">
+            <h4>My Account</h4>
+            <a href="my-account.html">My Account</a>
+            <a href="my-orders.html">My Orders</a>
+            <a href="order-track.html">Track My Orders</a>
+            <a href="help.html">Help</a>
+        </div>
+        <div class="copywrite">
+            <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="js-f/script.js"></script>
+    <script src="js-f/my-orders.js"></script>
+</body>
+</html>

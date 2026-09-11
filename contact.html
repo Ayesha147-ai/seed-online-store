@@ -32,39 +32,29 @@
         <p>Have questions about your equipment or supplies? Send us a message.</p>
     </section>
 
-    <section class="grid-section">
-        <div class="info-box">
-            <i class="fas fa-phone-alt icon-style"></i>
-            <h3>Phone Support</h3>
-            <p>Mon-Fri, 8am - 5pm</p>
-            <p class="highlight-text">+92 313 7487800</p>
-        </div>
-        <div class="info-box">
-            <i class="fas fa-envelope icon-style"></i>
-            <h3>Email Address</h3>
-            <p>We reply within 24 hours</p>
-            <p class="highlight-text">support@seedbuy.com</p>
-        </div>
-    </section>
-
     <section class="content-section">
         <div class="text-card contact-form-card">
             <h2>Send us a message</h2>
             <form id="contactForm">
                 <div class="form-group">
                     <label>Your Name</label>
-                    <input type="text" placeholder="e.g. John Doe" required>
+                    <input type="text" id="contact-name" placeholder="e.g. John Doe" required>
                 </div>
                 <div class="form-group">
                     <label>Your Phone Number</label>
-                    <input type="tel" placeholder="555-123-4567" required>
+                    <input type="tel" id="contact-phone" placeholder="555-123-4567" required>
                 </div>
                 <div class="form-group">
                     <label>How can we help?</label>
-                    <textarea rows="4" placeholder="Tell us what you need help with..." required></textarea>
+                    <textarea rows="4" id="contact-message" placeholder="Tell us what you need help with..." required></textarea>
                 </div>
                 <button type="submit" class="main-btn">Send Message</button>
+                <p id="contact-status" style="margin-top:12px; font-size:13px; display:none;"></p>
             </form>
+
+            <div id="reply-box" style="display:none; margin-top:24px; padding-top:20px; border-top:1px solid #e5e7eb;">
+                <!-- JS yahan replies inject karega -->
+            </div>
         </div>
     </section>
 
@@ -95,17 +85,17 @@
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms & Conditions</a>
             <a href="contact.html">Contact us</a>
         </div>
 
         <div class="col">
             <h4>My Account</h4>
-            <a href="#">View Carts</a>
-            <a href="#">My Orders</a>
-            <a href="#" onclick="window.location.href='order-track.html'">Track My Order</a>
-            <a href="#">Help</a>
+            <a href="cart.html">View Carts</a>
+            <a href="my-orders.html">My Orders</a>
+            <a href="order-track.html">Track My Order</a>
+            <a href="help.html">Help</a>
         </div>
 
 
@@ -113,8 +103,11 @@
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
 
-    </footer>
+</footer>
 
+    <script src="js-f/script.js"></script>
+    <script src="js-f/contact.js"></script>
+</body>
 
 </body>
 

@@ -23,7 +23,7 @@ function showSection(sectionName) {
         'buyers': 'Buyers', 'approve-agents': 'Approve Agents',
         'approve-seeds': 'Approve Seeds', 'all-seeds': 'All Seeds',
         'orders': 'All Orders', 'reports': 'Reports', 'complaints': 'Complaints',
-        'settings': 'System Settings'
+        'messages': 'Contact Messages', 'settings': 'System Settings'
     };
     var titleEl = document.getElementById('page-title');
     if (titleEl && titles[sectionName]) titleEl.textContent = titles[sectionName];
@@ -34,7 +34,6 @@ function showSection(sectionName) {
     var activeNav = document.querySelector('[data-section="' + sectionName + '"]');
     if (activeNav) activeNav.classList.add('active');
 
-    // Load data for each section
     if (sectionName === 'dashboard')      loadStats();
     if (sectionName === 'users')          loadUsers('');
     if (sectionName === 'sellers')        loadUsers('agent');
@@ -43,9 +42,10 @@ function showSection(sectionName) {
     if (sectionName === 'approve-seeds')  loadPendingSeeds();
     if (sectionName === 'all-seeds')      loadAllSeeds();
     if (sectionName === 'orders')         loadOrders();
+    if (sectionName === 'messages')       loadMessages();
+    if (sectionName === 'settings')       loadSettings();
 }
 
-// ===== LOAD STATS =====
 function loadStats() {
     fetch('admin/get-stats.php')
         .then(res => res.json())
@@ -56,14 +56,12 @@ function loadStats() {
             setEl('stat-pending',  data.pending_seeds  || 0);
             setEl('stat-revenue',  'Rs ' + (data.total_revenue || 0));
 
-            // Sidebar badges — "Approve Seeds" aur "Approve Agents" dono
             setBadge(document.querySelector('[data-section="approve-seeds"] .nav-badge'), data.pending_seeds);
             setBadge(document.querySelector('[data-section="approve-agents"] .nav-badge'), data.pending_agents);
         })
         .catch(() => console.log('Stats load failed'));
 }
 
-// ===== LOAD USERS =====
 function loadUsers(role) {
     var url = role ? 'admin/get-all-users.php?role=' + role : 'admin/get-all-users.php';
     var tbodyId = role === 'agent' ? 'sellers-tbody' : role === 'farmer' ? 'buyers-tbody' : 'users-tbody';
@@ -104,7 +102,6 @@ function loadUsers(role) {
             });
             tbody.innerHTML = html;
 
-            // Count update
             var countEl = role === 'agent' ? document.getElementById('sellers-count') :
                           role === 'farmer' ? document.getElementById('buyers-count') :
                           document.getElementById('users-count');
@@ -113,7 +110,6 @@ function loadUsers(role) {
         .catch(() => console.log('Users load failed'));
 }
 
-// ===== TOGGLE USER STATUS (Block/Unblock) — NEW =====
 function toggleUserStatus(userId, currentStatus, role) {
     var newStatus = currentStatus === 'active' ? 'blocked' : 'active';
     var actionWord = newStatus === 'blocked' ? 'block' : 'unblock';
@@ -136,7 +132,6 @@ function toggleUserStatus(userId, currentStatus, role) {
         .catch(() => showAlert('Update failed', 'error'));
 }
 
-// ===== DELETE USER — NEW =====
 function deleteUser(userId, role) {
     if (!confirm('Are you sure you want to permanently delete this user? This cannot be undone.')) return;
 
@@ -156,7 +151,6 @@ function deleteUser(userId, role) {
         .catch(() => showAlert('Delete failed', 'error'));
 }
 
-// ===== LOAD PENDING AGENTS — NEW =====
 function loadPendingAgents() {
     fetch('admin/get-pending-agents.php')
         .then(res => res.json())
@@ -195,7 +189,6 @@ function loadPendingAgents() {
         .catch(() => console.log('Pending agents load failed'));
 }
 
-// ===== APPROVE/REJECT AGENT — NEW =====
 function approveAgentDB(userId, action, rowId) {
     var formData = new FormData();
     formData.append('user_id', userId);
@@ -224,7 +217,6 @@ function approveAgentDB(userId, action, rowId) {
         .catch(() => showAlert('Action failed', 'error'));
 }
 
-// ===== LOAD PENDING SEEDS =====
 function loadPendingSeeds() {
     fetch('admin/get-pending-seeds.php')
         .then(res => res.json())
@@ -263,7 +255,6 @@ function loadPendingSeeds() {
         .catch(() => console.log('Seeds load failed'));
 }
 
-// ===== APPROVE/REJECT SEED IN DB =====
 function approveSeedDB(productId, action, rowId) {
     var formData = new FormData();
     formData.append('product_id', productId);
@@ -284,7 +275,6 @@ function approveSeedDB(productId, action, rowId) {
         });
 }
 
-// ===== LOAD ALL SEEDS =====
 function loadAllSeeds() {
     fetch('admin/get-all-seeds.php')
         .then(res => res.json())
@@ -320,7 +310,6 @@ function loadAllSeeds() {
         .catch(() => console.log('All seeds load failed'));
 }
 
-// ===== LOAD ORDERS =====
 function loadOrders() {
     fetch('admin/get-all-orders.php')
         .then(res => res.json())
@@ -329,7 +318,7 @@ function loadOrders() {
             if (!tbody) return;
 
             if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#888;">No orders found</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#888;">No orders found</td></tr>';
                 setEl('order-count', '0 orders');
                 return;
             }
@@ -351,6 +340,13 @@ function loadOrders() {
                     return `<option value="${s}" ${sel}>${label}</option>`;
                 }).join('');
 
+                var isPaid = order.payment_status === 'Paid';
+                var payBtnStyle = isPaid
+                    ? 'background:#dcfce7;color:#15803d;border:1px solid #86efac;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;cursor:default;'
+                    : 'background:#fef9c3;color:#854d0e;border:1px solid #fde68a;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;';
+                var payBtnLabel = isPaid ? '✅ Paid' : '💰 Pay Agent';
+                var payBtnClick = isPaid ? '' : `onclick="payAgent(${order.id})"`;
+
                 html += `<tr data-status="${order.status}">
                     <td>${order.order_number}</td>
                     <td><strong>${order.farmer_name || 'N/A'}</strong></td>
@@ -359,6 +355,9 @@ function loadOrders() {
                     <td><strong>Rs ${order.grand_total}</strong></td>
                     <td><span class="badge ${statusClass}">${order.status}</span></td>
                     <td>${date}</td>
+                    <td>
+                        <button style="${payBtnStyle}" ${payBtnClick}>${payBtnLabel}</button>
+                    </td>
                     <td>
                         <select id="status-select-${order.id}" style="padding:4px;border-radius:4px;font-size:12px;margin-right:4px;">
                             ${options}
@@ -373,7 +372,6 @@ function loadOrders() {
         .catch(() => console.log('Orders load failed'));
 }
 
-// ===== UPDATE ORDER STATUS =====
 function updateOrderStatus(orderId) {
     var select = document.getElementById('status-select-' + orderId);
     if (!select) return;
@@ -396,7 +394,120 @@ function updateOrderStatus(orderId) {
         .catch(() => showAlert('Failed to update order status', 'error'));
 }
 
-// ===== SETTINGS: CHANGE PASSWORD — NEW =====
+function payAgent(orderId) {
+    if (!confirm('Mark this order as Paid? 3% platform commission will be deducted, and the remaining amount will be recorded as agent revenue.')) return;
+
+    var formData = new FormData();
+    formData.append('order_id', orderId);
+
+    fetch('admin/pay-agent.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Agent payment marked as Paid!', 'success');
+                loadOrders();
+            } else {
+                showAlert(data.msg || 'Failed', 'error');
+            }
+        })
+        .catch(() => showAlert('Failed to process payment', 'error'));
+}
+
+function loadMessages() {
+    fetch('admin/get-contact-messages.php')
+        .then(res => res.json())
+        .then(messages => {
+            var tbody = document.getElementById('messages-tbody');
+            if (!tbody) return;
+
+            if (messages.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;">No messages yet</td></tr>';
+                setEl('messages-count', '0 messages');
+                return;
+            }
+
+            var html = '';
+            var unreadCount = 0;
+            messages.forEach(function(msg) {
+                if (msg.status === 'new') unreadCount++;
+
+                var statusBadge = msg.status === 'new' ? 'b-pending' : msg.status === 'replied' ? 'b-delivered' : 'b-processing';
+                var statusLabel = msg.status === 'new' ? 'New' : msg.status === 'replied' ? 'Replied' : 'Read';
+                var date = new Date(msg.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+
+                html += `<tr>
+                    <td><strong>${msg.name}</strong></td>
+                    <td>${msg.phone}</td>
+                    <td style="max-width:300px;">${msg.message}</td>
+                    <td>${date}</td>
+                    <td><span class="badge ${statusBadge}">${statusLabel}</span></td>
+                    <td>
+                        ${msg.status === 'new' ? `<button class="act-btn approve" onclick="markMessageRead(${msg.id})"><i class="fas fa-check"></i> Mark Read</button>` : ''}
+                    </td>
+                </tr>`;
+
+                // Jab tak reply nahi hua, isi row ke neeche reply-form dikhao
+                if (msg.status !== 'replied') {
+                    html += `<tr id="reply-row-${msg.id}">
+                        <td colspan="6" style="background:#f9fafb;">
+                            <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 4px;">
+                                <textarea id="reply-text-${msg.id}" rows="2" placeholder="Type a reply for ${msg.name}..." style="flex:1;padding:8px;border:1px solid #ddd;border-radius:6px;font-family:inherit;font-size:13px;"></textarea>
+                                <button class="act-btn approve" onclick="sendReply(${msg.id})"><i class="fas fa-paper-plane"></i> Send Reply</button>
+                            </div>
+                        </td>
+                    </tr>`;
+                }
+            });
+            tbody.innerHTML = html;
+            setEl('messages-count', messages.length + ' messages');
+            setBadge(document.getElementById('unread-messages-badge'), unreadCount);
+        })
+        .catch(() => console.log('Messages load failed'));
+}
+
+function markMessageRead(msgId) {
+    var formData = new FormData();
+    formData.append('msg_id', msgId);
+
+    fetch('admin/mark-message-read.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                loadMessages();
+            } else {
+                showAlert('Failed to update message', 'error');
+            }
+        })
+        .catch(() => showAlert('Failed to update message', 'error'));
+}
+
+function sendReply(msgId) {
+    var textarea = document.getElementById('reply-text-' + msgId);
+    if (!textarea) return;
+    var reply = textarea.value.trim();
+
+    if (!reply) {
+        showAlert('Please type a reply first', 'error');
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append('msg_id', msgId);
+    formData.append('reply', reply);
+
+    fetch('admin/reply-message.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Reply sent!', 'success');
+                loadMessages();
+            } else {
+                showAlert(data.msg || 'Failed to send reply', 'error');
+            }
+        })
+        .catch(() => showAlert('Failed to send reply', 'error'));
+}
+
 function changeMyPassword() {
     var current = document.getElementById('current-password').value.trim();
     var newPass = document.getElementById('new-password').value.trim();
@@ -425,13 +536,56 @@ function changeMyPassword() {
         .catch(() => showAlert('Password update failed', 'error'));
 }
 
-// ===== HELPER: Set element text =====
+function loadSettings() {
+    fetch('admin/get-settings.php')
+        .then(res => res.json())
+        .then(data => {
+            setInputVal('settings-platform-name', data.platform_name);
+            setInputVal('settings-support-email', data.support_email);
+            setInputVal('settings-support-phone', data.support_phone);
+        })
+        .catch(() => console.log('Settings load failed'));
+}
+
+function savePlatformSettings() {
+    var name  = document.getElementById('settings-platform-name').value.trim();
+    var email = document.getElementById('settings-support-email').value.trim();
+    var phone = document.getElementById('settings-support-phone').value.trim();
+    var statusEl = document.getElementById('settings-status');
+
+    if (!name || !email || !phone) {
+        showAlert('Please fill all platform fields', 'error');
+        return;
+    }
+
+    var formData = new FormData();
+    formData.append('platform_name', name);
+    formData.append('support_email', email);
+    formData.append('support_phone', phone);
+
+    fetch('admin/save-settings.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            showAlert(data.msg, data.success ? 'success' : 'error');
+            if (statusEl) {
+                statusEl.textContent = data.msg;
+                statusEl.style.display = 'block';
+                statusEl.style.color = data.success ? '#15803d' : '#991b1b';
+            }
+        })
+        .catch(() => showAlert('Failed to save settings', 'error'));
+}
+
+function setInputVal(id, val) {
+    var el = document.getElementById(id);
+    if (el && val !== undefined) el.value = val;
+}
+
 function setEl(id, val) {
     var el = document.getElementById(id);
     if (el) el.textContent = val;
 }
 
-// ===== HELPER: Show/hide sidebar badge based on count =====
 function setBadge(el, count) {
     if (!el) return;
     if (count > 0) {
@@ -443,7 +597,6 @@ function setBadge(el, count) {
     }
 }
 
-// ===== FILTER TABLE =====
 function filterTable(tbodyId, filterValue, clickedBtn) {
     clickedBtn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     clickedBtn.classList.add('active');
@@ -458,7 +611,6 @@ function filterTable(tbodyId, filterValue, clickedBtn) {
     });
 }
 
-// ===== FILTER ORDERS =====
 function filterOrders(status, clickedBtn) {
     clickedBtn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     clickedBtn.classList.add('active');
@@ -472,14 +624,12 @@ function filterOrders(status, clickedBtn) {
     setEl('order-count', count + ' orders');
 }
 
-// ===== PENDING COUNT =====
 function updatePendingCount() {
     var count = document.querySelectorAll('#approve-tbody tr').length;
     setEl('pending-count', count + ' pending');
     setBadge(document.querySelector('[data-section="approve-seeds"] .nav-badge'), count);
 }
 
-// ===== ALERT =====
 function showAlert(message, type) {
     var existing = document.getElementById('toast-alert');
     if (existing) existing.remove();
@@ -500,7 +650,6 @@ function showAlert(message, type) {
     setTimeout(() => { alert.style.opacity = '0'; setTimeout(() => alert.remove(), 300); }, 2500);
 }
 
-// ===== INIT =====
 function initNavItems() {
     document.querySelectorAll('.nav-item[data-section]').forEach(function(item) {
         item.addEventListener('click', function() {
@@ -520,6 +669,7 @@ function checkAuth() {
             setDate();
             initNavItems();
             showSection('dashboard');
+            loadMessages(); // sidebar badge turant dikh jaye
         })
         .catch(() => {
             window.location.href = 'login.html';

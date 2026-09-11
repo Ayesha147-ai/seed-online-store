@@ -19,6 +19,11 @@ $phone    = clean($conn, $_POST['phone']             ?? '');
 $password = trim($_POST['password']         ?? '');
 $confirm  = trim($_POST['confirm_password'] ?? '');
 
+// Selected role from signup form — only used to decide WHERE to redirect.
+// Actual DB role is always 'farmer' below, regardless of this value,
+// so no one can skip the admin-approval process for becoming an agent.
+$wantsAgent = (isset($_POST['role']) && $_POST['role'] === 'agent');
+
 // Validation
 if (empty($name) || empty($email) || empty($password)) {
     header('Location: ../signup.html?error=empty');
@@ -45,14 +50,31 @@ if (mysqli_num_rows($check) > 0) {
     exit();
 }
 
-// Hash password & save
+// Hash password & save — role is ALWAYS 'farmer' at signup time.
+// Becoming an 'agent' only happens later, through admin approval
+// (see includes/get-agent-status.php and the agents table).
 $hashed = password_hash($password, PASSWORD_DEFAULT);
 $insertStmt = mysqli_prepare($conn, "INSERT INTO users (name, email, phone, password, role, status)
            VALUES (?, ?, ?, ?, 'farmer', 'active')");
 mysqli_stmt_bind_param($insertStmt, 'ssss', $name, $email, $phone, $hashed);
 
 if (mysqli_stmt_execute($insertStmt)) {
-    header('Location: ../login.html?registered=success');
+
+    if ($wantsAgent) {
+        // User wants to become an agent — auto-login now so that
+        // register-agent.html's apply-form has a valid session,
+        // then send them straight to the application form.
+        $newUserId = mysqli_insert_id($conn);
+        $_SESSION['user_id']   = $newUserId;
+        $_SESSION['user_role'] = 'farmer';
+        $_SESSION['user_name'] = $name;
+
+        header('Location: ../register-agent.html');
+    } else {
+        // Plain farmer signup — same as before, go to login page.
+        header('Location: ../login.html?registered=success');
+    }
+
 } else {
     header('Location: ../signup.html?error=failed');
 }

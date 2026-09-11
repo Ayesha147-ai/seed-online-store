@@ -183,6 +183,7 @@ textarea:focus {
 .pay-badge-co.jazz { background: #c8102e; color: #fff; }
 .pay-badge-co.easy { background: #00a651; color: #fff; }
 .pay-badge-co.cod  { background: #f4a107; color: #fff; }
+.pay-badge-co.stripe { background: #635bff; color: #fff; }
 
 .cod-icon {
     font-size: 28px;

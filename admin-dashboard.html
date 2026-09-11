@@ -58,16 +58,20 @@
             <i class="fas fa-shopping-bag"></i> All Orders
         </div>
 
+        <div class="nav-label">Support</div>
+        <div class="nav-item" data-section="messages">
+            <i class="fas fa-envelope"></i> Messages
+            <span class="nav-badge" id="unread-messages-badge">0</span>
+        </div>
+
         <div class="nav-label">System</div>
         <div class="nav-item" data-section="settings">
             <i class="fas fa-cog"></i> System Settings
         </div>
     </nav>
+    </nav>
 
     <div class="sidebar-bottom">
-        <div class="nav-item" onclick="window.location.href='index.html'">
-            <i class="fas fa-store"></i> View Store
-        </div>
         <div class="nav-item" onclick="window.location.href='auth/logout.php'">
             <i class="fas fa-sign-out-alt"></i> Logout
         </div>
@@ -343,15 +347,43 @@
                             <th>Amount</th>
                             <th>Status</th>
                             <th>Date</th>
+                            <th>Agent Payment</th>
                             <th>Update</th>
                         </tr>
                     </thead>
                     <tbody id="orders-tbody">
-                        <tr><td colspan="8" style="text-align:center;color:#888;">Loading...</td></tr>
+                        <tr><td colspan="9" style="text-align:center;color:#888;">Loading...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+
+        <!-- ===== MESSAGES ===== -->
+        <div class="section" id="section-messages">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Contact Messages</h3>
+                    <span id="messages-count">Loading...</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Message</th>
+                            <th>Received</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messages-tbody">
+                        <tr><td colspan="6" style="text-align:center;color:#888;">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 
         <!-- ===== SETTINGS ===== -->
         <div class="section" id="section-settings">
@@ -363,22 +395,20 @@
                 <div class="settings-grid">
                     <div class="settings-section">
                         <h4>Platform Information</h4>
-                        <p style="font-size:12px;color:#888;margin-bottom:10px;">
-                            <i class="fas fa-info-circle"></i> Ye fields abhi sirf display ke liye hain (database mein save nahi hote)
-                        </p>
                         <div class="form-group">
                             <label>Platform Name</label>
-                            <input type="text" value="TrackSeed">
+                            <input type="text" id="settings-platform-name" value="TrackSeed">
                         </div>
                         <div class="form-group">
                             <label>Support Email</label>
-                            <input type="email" value="support@trackseed.pk">
+                            <input type="email" id="settings-support-email" value="support@trackseed.pk">
                         </div>
                         <div class="form-group">
                             <label>Support Phone</label>
-                            <input type="text" value="+92 313 7487800">
+                            <input type="text" id="settings-support-phone" value="+92 313 7487800">
                         </div>
-                        <button class="btn-submit" style="margin-top:8px;" disabled title="Coming soon">Save Changes</button>
+                        <p id="settings-status" style="font-size:13px; margin-top:8px; display:none;"></p>
+                        <button class="btn-submit" style="margin-top:8px;" onclick="savePlatformSettings()">Save Changes</button>
                     </div>
                     <div class="settings-section">
                         <h4>Admin Password</h4>

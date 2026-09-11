@@ -263,17 +263,23 @@ function loadEarnings() {
         .then(res => res.json())
         .then(orders => {
             const delivered = orders.filter(o => o.status === 'delivered');
-            const total = delivered.reduce((s, o) => s + parseFloat(o.grand_total || 0), 0);
-            const avg   = delivered.length > 0 ? Math.round(total / delivered.length) : 0;
+            
+            // Har order ke grand total ka 97% nikal kar sum kar rahe hain (3% admin commission minus ho gaya)
+            const total = delivered.reduce((s, o) => {
+                const grandTotal = parseFloat(o.grand_total || 0);
+                const agentShare = grandTotal * 0.97; // 3% minus kar ke 97% agent ko mil raha hai
+                return s + agentShare;
+            }, 0);
 
-            setEl('earn-total',    'Rs ' + total.toFixed(0));
-            setEl('earn-orders',   delivered.length);
-            setEl('earn-avg',      'Rs ' + avg);
+            const avg = delivered.length > 0 ? Math.round(total / delivered.length) : 0;
+
+            setEl('earn-total', 'Rs ' + total.toFixed(0));
+            setEl('earn-orders', delivered.length);
+            setEl('earn-avg', 'Rs ' + avg);
         })
         .catch(() => console.log('Earnings load failed'));
 }
-
-// ===== SETTINGS: LOAD MY PROFILE (NEW) =====
+// ===== SETTINGS: LOAD MY PROFILE =====
 function loadMyProfile() {
     fetch('includes/get-profile.php')
         .then(res => res.json())
