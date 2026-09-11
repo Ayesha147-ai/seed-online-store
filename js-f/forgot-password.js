@@ -1,18 +1,15 @@
 // ============================================
-//   FORGOT PASSWORD — JavaScript
+//   FORGOT PASSWORD — JavaScript (Updated)
 // ============================================
 
-// Dummy OTP (PHP ke baad real email se aayega)
-let generatedOtp = '';
 let userEmail = '';
 
-// ===== STEP 1: Send Code =====
+// ===== STEP 1: Send Code via PHP =====
 function sendCode() {
     const emailInput = document.getElementById('email-input');
     const emailError = document.getElementById('email-error');
     const email = emailInput.value.trim();
 
-    // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         emailError.style.display = 'flex';
@@ -24,34 +21,53 @@ function sendCode() {
     emailInput.parentElement.style.borderColor = '#cce7d0';
     userEmail = email;
 
-    // Generate 6-digit OTP (demo only)
-    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('Demo OTP (PHP ke baad email se aayega):', generatedOtp);
+    const formData = new FormData();
+    formData.append('email', email);
 
-    // Show email in step 2
-    document.getElementById('email-display').textContent = email;
+    // Path points to includes folder
+    fetch('includes/send-otp.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            document.getElementById('email-display').textContent = email;
 
-    // Go to step 2
-    showStep('step-otp');
+            // Demo OTP ab yahan persistently dikhega — koi timeout nahi,
+            // jab tak step badal na jaye ya dobara code bheja na jaye
+            const demoDisplay = document.getElementById('demo-otp-display');
+            if (demoDisplay) {
+                demoDisplay.textContent = 'Demo OTP: ' + data.demo_otp;
+            }
+            console.log('Demo OTP:', data.demo_otp);
 
-    // Focus first OTP box
-    setTimeout(() => {
-        document.querySelectorAll('.otp-box')[0].focus();
-    }, 100);
+            showStep('step-otp');
+
+            setTimeout(() => {
+                document.querySelectorAll('.otp-box')[0].focus();
+            }, 100);
+        } else {
+            emailError.style.display = 'flex';
+            emailError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message}`;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Something went wrong!');
+    });
 }
 
-// ===== OTP BOX: Auto jump to next box =====
+// ===== OTP BOXES EVENT LISTENERS =====
 document.addEventListener('DOMContentLoaded', () => {
     const otpBoxes = document.querySelectorAll('.otp-box');
 
     otpBoxes.forEach((box, index) => {
         box.addEventListener('input', (e) => {
-            // Only allow numbers
             box.value = box.value.replace(/[^0-9]/g, '');
 
             if (box.value) {
                 box.classList.add('filled');
-                // Jump to next
                 if (index < otpBoxes.length - 1) {
                     otpBoxes[index + 1].focus();
                 }
@@ -61,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         box.addEventListener('keydown', (e) => {
-            // Backspace: go back to previous box
             if (e.key === 'Backspace' && !box.value && index > 0) {
                 otpBoxes[index - 1].focus();
                 otpBoxes[index - 1].value = '';
@@ -69,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Allow paste of full OTP
         box.addEventListener('paste', (e) => {
             e.preventDefault();
             const pasted = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6);
@@ -83,14 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Password strength checker
     const newPassInput = document.getElementById('new-pass');
     if (newPassInput) {
         newPassInput.addEventListener('input', checkStrength);
     }
 });
 
-// ===== STEP 2: Verify OTP =====
+// ===== STEP 2: Verify OTP via PHP =====
 function verifyOtp() {
     const otpBoxes = document.querySelectorAll('.otp-box');
     const enteredOtp = Array.from(otpBoxes).map(b => b.value).join('');
@@ -102,42 +115,42 @@ function verifyOtp() {
         return;
     }
 
-    // Check OTP
-    if (enteredOtp !== generatedOtp) {
-        otpError.style.display = 'flex';
-        otpError.innerHTML = '<i class="fas fa-exclamation-circle"></i> Incorrect code. Please try again.';
-        otpBoxes.forEach(b => {
-            b.style.borderColor = '#dc2626';
-            b.classList.remove('filled');
-        });
-        return;
-    }
+    const formData = new FormData();
+    formData.append('email', userEmail);
+    formData.append('otp', enteredOtp);
 
-    otpError.style.display = 'none';
-    showStep('step-newpass');
-
-    setTimeout(() => {
-        document.getElementById('new-pass').focus();
-    }, 100);
+    fetch('includes/verify-otp.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            otpError.style.display = 'none';
+            showStep('step-newpass');
+            setTimeout(() => {
+                document.getElementById('new-pass').focus();
+            }, 100);
+        } else {
+            otpError.style.display = 'flex';
+            otpError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message}`;
+            otpBoxes.forEach(b => {
+                b.style.borderColor = '#dc2626';
+                b.classList.remove('filled');
+            });
+        }
+    });
 }
 
-// ===== Resend OTP =====
+// ===== Resend Code =====
 function resendCode() {
-    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('New Demo OTP:', generatedOtp);
-
-    // Clear boxes
+    sendCode();
     document.querySelectorAll('.otp-box').forEach(b => {
         b.value = '';
         b.classList.remove('filled');
         b.style.borderColor = '#cce7d0';
     });
-
     document.getElementById('otp-error').style.display = 'none';
-
-    // Show small toast
-    showToast('Code resent to ' + userEmail);
-    document.querySelectorAll('.otp-box')[0].focus();
 }
 
 // ===== Password Strength Checker =====
@@ -167,11 +180,11 @@ function checkStrength() {
     text.style.color = level.color;
 }
 
-// ===== STEP 3: Reset Password =====
+// ===== STEP 3: Reset Password via PHP =====
 function resetPassword() {
-    const newPass    = document.getElementById('new-pass').value;
+    const newPass     = document.getElementById('new-pass').value;
     const confirmPass = document.getElementById('confirm-pass').value;
-    const passError  = document.getElementById('pass-error');
+    const passError   = document.getElementById('pass-error');
 
     if (newPass.length < 8) {
         passError.style.display = 'flex';
@@ -182,18 +195,30 @@ function resetPassword() {
     if (newPass !== confirmPass) {
         passError.style.display = 'flex';
         passError.innerHTML = '<i class="fas fa-exclamation-circle"></i> Passwords do not match.';
-        document.getElementById('confirm-pass').parentElement.style.borderColor = '#dc2626';
         return;
     }
 
     passError.style.display = 'none';
 
-    // PHP ke baad: AJAX call karein UPDATE users SET password = hash(newPass) WHERE email = userEmail
+    const formData = new FormData();
+    formData.append('email', userEmail);
+    formData.append('password', newPass);
 
-    showStep('step-success');
+    fetch('includes/reset-password.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            showStep('step-success');
+        } else {
+            passError.style.display = 'flex';
+            passError.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${data.message}`;
+        }
+    });
 }
 
-// ===== Helper: Show a step, hide others =====
 function showStep(stepId) {
     const steps = ['step-email', 'step-otp', 'step-newpass', 'step-success'];
     steps.forEach(id => {
@@ -202,12 +227,10 @@ function showStep(stepId) {
     });
 }
 
-// ===== Helper: Go back =====
 function goBack(stepId) {
     showStep(stepId);
 }
 
-// ===== Toggle Password Visibility =====
 function togglePass(inputId, icon) {
     const input = document.getElementById(inputId);
     if (input.type === 'password') {
@@ -219,9 +242,7 @@ function togglePass(inputId, icon) {
     }
 }
 
-// ===== Toast Notification =====
 function showToast(message) {
-    // Remove existing toast
     const existing = document.getElementById('ts-toast');
     if (existing) existing.remove();
 
@@ -241,7 +262,6 @@ function showToast(message) {
         font-family: 'Spartan', sans-serif;
         box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         z-index: 9999;
-        animation: fadeInUp 0.3s ease;
     `;
     toast.textContent = message;
     document.body.appendChild(toast);
