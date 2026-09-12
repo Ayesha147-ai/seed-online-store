@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help & FAQ - TrackSeed</title>
+
+    <!-- Required external CSS files load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css-f/style.css">
     <link rel="stylesheet" href="css-f/legal-pages.css">
@@ -11,20 +14,28 @@
 </head>
 <body>
 
+    <!-- HEADER -->
+    <!-- Website ka main navigation aur authentication area. -->
     <section id="header">
         <div class="logo">
             <i class="fas fa-seedling"></i>
             <span>TrackSeed</span>
         </div>
+
+        <!-- Main website navigation links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+
+        <!-- Login aur Sign Up buttons guest users ke liye. -->
         <div id="auth-buttons">
             <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
             <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
         </div>
+
+        <!-- Logged-in user ke dashboard, account aur logout options. -->
         <div id="user-info" style="display:none; align-items:center; gap:10px;">
             <a id="dashboard-link" href="#" style="display:none;" class="login-btn">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
@@ -34,18 +45,24 @@
             </a>
             <button class="login-btn" onclick="window.location.href='auth/logout.php'">Logout</button>
         </div>
+
+        <!-- Cart page open karne wala navigation button aur cart count. -->
         <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-cart"></i> My Cart
             <span class="cart-count">0</span>
         </button>
     </section>
 
+    <!-- HELP / FAQ SECTION -->
+    <!-- Common questions aur unke answers yahan show hote hain. -->
     <section class="legal-page-section">
         <h1><i class="fas fa-circle-question"></i> Help & FAQ</h1>
         <p class="legal-updated">Find answers to common questions below</p>
 
+        <!-- FAQ items ka main container. -->
         <div class="faq-list">
 
+            <!-- Order place karne se related FAQ. -->
             <div class="faq-item">
                 <button class="faq-question">
                     How do I place an order?
@@ -56,6 +73,7 @@
                 </div>
             </div>
 
+            <!-- Payment methods se related FAQ. -->
             <div class="faq-item">
                 <button class="faq-question">
                     What payment methods are accepted?
@@ -66,6 +84,7 @@
                 </div>
             </div>
 
+            <!-- Order tracking se related FAQ. -->
             <div class="faq-item">
                 <button class="faq-question">
                     How can I track my order?
@@ -76,6 +95,7 @@
                 </div>
             </div>
 
+            <!-- Order cancellation se related FAQ. -->
             <div class="faq-item">
                 <button class="faq-question">
                     Can I cancel my order?
@@ -86,6 +106,7 @@
                 </div>
             </div>
 
+            <!-- Seed agent registration se related FAQ. -->
             <div class="faq-item">
                 <button class="faq-question">
                     How do I become a seed agent?
@@ -96,6 +117,7 @@
                 </div>
             </div>
 
+            <!-- Password reset se related FAQ. -->
             <div class="faq-item">
                 <button class="faq-question">
                     I forgot my password. What do I do?
@@ -106,6 +128,7 @@
                 </div>
             </div>
 
+            <!-- Additional help ke liye contact information. -->
             <div class="faq-item">
                 <button class="faq-question">
                     Still need help?
@@ -119,6 +142,8 @@
         </div>
     </section>
 
+    <!-- FOOTER -->
+    <!-- Website ka footer aur useful navigation links. -->
     <footer class="section-p1">
         <div class="col">
             <div class="logo">
@@ -129,6 +154,8 @@
             <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
             <p><strong>Phone:</strong> +923316481168</p>
         </div>
+
+        <!-- About aur legal pages ke links. -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -136,6 +163,8 @@
             <a href="terms.html">Terms & Conditions</a>
             <a href="contact.html">Contact us</a>
         </div>
+
+        <!-- User account related links. -->
         <div class="col">
             <h4>My Account</h4>
             <a href="my-account.html">My Account</a>
@@ -143,12 +172,17 @@
             <a href="order-track.html">Track My Orders</a>
             <a href="help.html">Help</a>
         </div>
+
+        <!-- Copyright information. -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
     </footer>
 
+    <!-- Common website JavaScript file. -->
     <script src="js-f/script.js"></script>
+
+    <!-- FAQ page ki specific JavaScript file. -->
     <script src="js-f/help.js"></script>
 </body>
 </html>

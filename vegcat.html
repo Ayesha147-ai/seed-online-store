@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic settings aur required CSS files -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vegetable Seeds - TrackSeed</title>
@@ -9,8 +10,9 @@
 </head>
 <body>
 
-    <!-- HEADER -->
+    <!-- HEADER: Logo aur website navigation -->
     <section id="header">
+        <!-- Logo link -->
         <a href="javascript:void(0);" onclick="window.location.href='index.html';" class="logo" style="text-decoration: none;">
     <i class="fas fa-seedling"></i>
     <span>TrackSeed</span>
@@ -22,21 +24,24 @@
         </ul>
     </section>
 
-    <!-- HERO BANNER -->
+    <!-- HERO BANNER: Vegetable seeds ka introduction -->
     <section class="cat-hero">
+        <!-- Hero text content -->
         <div class="cat-hero-text">
             <h1><i class="fas fa-carrot"></i> Vegetable Seeds</h1>
             <p>Fresh, high-quality vegetable seeds for every season and soil type</p>
         </div>
     </section>
 
-    <!-- PRODUCTS SECTION -->
+    <!-- PRODUCTS SECTION: Vegetable seeds ke products -->
     <section id="product1" class="section-p1">
         <h2>Our Vegetable Seeds</h2>
         <p>Click on any seed to view full details</p>
 
+        <!-- Product cards container -->
         <div class="pro-container">
 
+            <!-- Har product card click hone par uski detail page open karta hai -->
             <div class="pro" onclick="window.location.href='veg-detail.html?id=1'">
                 <img src="css-f/img/v1.jpg" alt="Tomato">
                 <div class="des">
@@ -73,6 +78,7 @@
                 </div>
             </div>
 
+            
             <div class="pro" onclick="window.location.href='veg-detail.html?id=4'">
                 <img src="css-f/img/v4.jpg" alt="Bitter Gourd">
                 <div class="des">
@@ -160,10 +166,10 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- FOOTER: Contact information aur useful website links -->
     <footer class="section-p1">
         <div class="col">
-            <!-- Logo -->
+            <!-- Website logo -->
             <div class="logo">
                 <i class="fas fa-seedling"></i>
                 <span>TrackSeed</span>
@@ -172,6 +178,8 @@
             <p><strong>Address:</strong> Hafizabad road gujranwala </p>
             <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
             <p><strong>Hours:</strong>10:00 - 18:00. Mon-Sat</p>
+
+            <!-- Social media icons -->
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
@@ -185,6 +193,7 @@
         </div>
 
 
+        <!-- Footer ka About section -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -193,6 +202,7 @@
             <a href="contact.html">Contact us</a>
         </div>
 
+        <!-- Footer ka account aur order related section -->
         <div class="col">
             <h4>My Account</h4>
             <a href="cart.html">View Carts</a>
@@ -202,23 +212,39 @@
         </div>
 
 
+        <!-- Copyright information -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
 
     </footer>
 
+    <!-- JavaScript: Database se vegetable category ke products load karta hai -->
     <script>
     fetch('includes/get-category-products.php?category=Vegetable')
+
+        // Server response ko JSON mein convert karta hai
         .then(res => res.json())
+
+        // Database se milne wale products ko handle karta hai
         .then(products => {
             const container = document.querySelector('.pro-container');
+
+            // Agar product container ya products available na hon to process stop
             if (!container || !products.length) return;
+
+            // Har database product ka dynamic card create karta hai
             products.forEach(p => {
                 const img = p.image ? p.image : 'css-f/img/v1.jpg';
                 const card = document.createElement('div');
+
+                // Naye card ko product wali CSS class deta hai
                 card.className = 'pro';
+
+                // Database product ki detail page open karta hai
                 card.onclick = () => window.location.href = 'veg-detail.html?id=db-' + p.id;
+
+                // Product ki database information ko card ke HTML mein insert karta hai
                 card.innerHTML = `
                     <img src="${img}" alt="${p.name}">
                     <div class="des">
@@ -229,12 +255,18 @@
                             <span class="view-btn"><i class="fas fa-eye"></i> View</span>
                         </div>
                     </div>`;
+
+                // Dynamic card ko products container mein add karta hai
                 container.appendChild(card);
             });
         })
+
+        // Agar database se products load na hon to console mein message show karta hai
         .catch(() => console.log('Failed to load agent seeds'));
     </script>
 
+    <!-- External JavaScript file -->
     <script src="js-f/vegcat.js"></script>
 </body>
 </html>
+```

@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Browser tab mein seed detail page ka title show hoga. -->
     <title>Seed Detail - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Page ki styling yahan define ki gayi hai. -->
     <style>
+        /* Google Font ko page mein import kar rahe hain. */
         @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+        /* Reusable colors ko CSS variables mein store kar rahe hain. */
         :root {
             --dark-green: #16a34a;
             --light-green: #dcfce7;
@@ -20,6 +29,7 @@
             --gray: #666;
         }
 
+        /* Sabhi elements ka default margin, padding aur font set kar rahe hain. */
         * {
             margin: 0;
             padding: 0;
@@ -27,11 +37,14 @@
             font-family: 'Spartan', sans-serif;
         }
 
+        /* Page ka overall background color. */
         body { background-color: #f0fdf4; }
 
+        /* Common section padding. */
         .section-p1 { padding: 40px 80px; }
 
         /* HEADER */
+        /* Header ko flex layout mein arrange kar rahe hain. */
         #header {
             display: flex;
             align-items: center;
@@ -44,6 +57,7 @@
             z-index: 999;
         }
 
+        /* Website logo ki styling. */
         .logo {
             display: flex;
             gap: 10px;
@@ -52,6 +66,7 @@
             color: var(--dark-green);
         }
 
+        /* Navigation links ka layout. */
         .nav-links {
             display: flex;
             align-items: center;
@@ -59,12 +74,14 @@
             margin-right: 30px;
         }
 
+        /* Navigation list items ki styling. */
         .nav-links li {
             list-style: none;
             padding: 0 20px;
             position: relative;
         }
 
+        /* Navigation links ki styling. */
         .nav-links li a {
             text-decoration: none;
             font-size: 13px;
@@ -73,24 +90,29 @@
             transition: 0.3s;
         }
 
+        /* Mouse hover par navigation link ka color change hota hai. */
         .nav-links a:hover { color: var(--teal); }
 
         /* BREADCRUMB */
+        /* Page ke top par navigation path show karne ke liye. */
         .breadcrumb {
             padding: 15px 80px;
             font-size: 13px;
             color: var(--gray);
         }
 
+        /* Breadcrumb links ki styling. */
         .breadcrumb a {
             text-decoration: none;
             color: var(--teal);
             font-weight: 600;
         }
 
+        /* Breadcrumb separators ke around spacing. */
         .breadcrumb span { margin: 0 6px; }
 
         /* DETAIL SECTION */
+        /* Seed image aur information ko side-by-side display kar rahe hain. */
         .detail-section {
             padding: 30px 80px 60px 80px;
             display: flex;
@@ -98,6 +120,7 @@
             align-items: flex-start;
         }
 
+        /* Seed image container ki styling. */
         .detail-img {
             width: 420px;
             min-width: 420px;
@@ -106,6 +129,7 @@
             box-shadow: 0 8px 30px rgba(0,0,0,0.1);
         }
 
+        /* Seed image ko container ke according fit kar rahe hain. */
         .detail-img img {
             width: 100%;
             height: 380px;
@@ -113,8 +137,10 @@
             display: block;
         }
 
+        /* Seed information available remaining space use karegi. */
         .detail-info { flex: 1; }
 
+        /* Category badge ki styling. */
         .cat-badge {
             display: inline-block;
             font-size: 11px;
@@ -126,6 +152,7 @@
             margin-bottom: 14px;
         }
 
+        /* Seed name ki styling. */
         .detail-info h1 {
             font-size: 28px;
             font-weight: 700;
@@ -134,6 +161,7 @@
             line-height: 1.4;
         }
 
+        /* Seed price ki styling. */
         .detail-price {
             font-size: 26px;
             font-weight: 700;
@@ -141,12 +169,14 @@
             margin-bottom: 20px;
         }
 
+        /* Information sections ke darmiyan divider. */
         .detail-divider {
             border: none;
             border-top: 1px solid var(--border-green);
             margin: 20px 0;
         }
 
+        /* Seed description ki styling. */
         .detail-desc {
             font-size: 13px;
             color: var(--body-text);
@@ -154,6 +184,7 @@
             margin-bottom: 24px;
         }
 
+        /* Seed information table ki styling. */
         .info-table {
             width: 100%;
             border-collapse: collapse;
@@ -161,25 +192,30 @@
             font-size: 13px;
         }
 
+        /* Table rows ke neeche border. */
         .info-table tr { border-bottom: 1px solid var(--border-green); }
 
+        /* Table cells ki general styling. */
         .info-table td {
             padding: 10px 6px;
             color: var(--body-text);
         }
 
+        /* Table ke first column ko bold aur fixed width de rahe hain. */
         .info-table td:first-child {
             font-weight: 700;
             color: var(--dark-text);
             width: 140px;
         }
 
+        /* Action buttons ko flex layout mein rakh rahe hain. */
         .detail-buttons {
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
         }
 
+        /* Add to Cart button ki styling. */
         .btn-cart {
             background: var(--dark-green);
             color: #fff;
@@ -196,8 +232,10 @@
             text-decoration: none;
         }
 
+        /* Add to Cart button hover effect. */
         .btn-cart:hover { background: var(--teal); }
 
+        /* Back button ki styling. */
         .btn-back {
             background: transparent;
             color: var(--dark-green);
@@ -214,20 +252,24 @@
             text-decoration: none;
         }
 
+        /* Back button hover effect. */
         .btn-back:hover { background: var(--light-green); }
 
+        /* Jab seed na mile to message ki styling. */
         .not-found {
             text-align: center;
             padding: 80px;
             color: var(--gray);
         }
 
+        /* Not found icon ki styling. */
         .not-found i {
             font-size: 60px;
             color: var(--border-green);
             margin-bottom: 20px;
         }
 
+        /* Not found heading ki styling. */
         .not-found h2 {
             font-size: 22px;
             margin-bottom: 10px;
@@ -235,6 +277,7 @@
         }
 
         /* FOOTER */
+        /* Footer ka overall layout aur background. */
         footer {
             background: var(--footer-bg);
             color: var(--white);
@@ -244,6 +287,7 @@
             justify-content: space-between;
         }
 
+        /* Footer columns ko flex column mein arrange kar rahe hain. */
         footer .col {
             width: 22%;
             display: flex;
@@ -253,13 +297,28 @@
             color: var(--white);
         }
 
+        /* Footer logo ki styling. */
         footer .logo { margin-bottom: 30px; color: var(--white); }
+
+        /* Footer headings ki styling. */
         footer h4 { font-size: 14px; padding-bottom: 20px; }
+
+        /* Footer paragraphs ki styling. */
         footer p { font-size: 13px; margin: 0 0 8px 0; }
+
+        /* Follow us section ki spacing. */
         footer .follow { margin-top: 20px; }
+
+        /* Social media icons ki styling. */
         footer .follow i { color: var(--body-text); padding-right: 4px; cursor: pointer; }
+
+        /* Footer links aur social icons ka hover effect. */
         footer .follow i:hover, footer a:hover { color: var(--teal); transition: all 0.3s; }
+
+        /* Footer links ki styling. */
         footer a { font-size: 13px; text-decoration: none; color: var(--white); margin-bottom: 10px; }
+
+        /* Copyright section ki styling. */
         footer .copywrite {
             width: 100%;
             text-align: center;
@@ -273,11 +332,14 @@
 <body>
 
     <!-- HEADER -->
+    <!-- Website ka main navigation header. -->
     <section id="header">
         <div class="logo">
             <i class="fas fa-seedling"></i>
             <span>TrackSeed</span>
         </div>
+
+        <!-- Main website navigation links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -286,6 +348,7 @@
     </section>
 
     <!-- BREADCRUMB -->
+    <!-- User ko current page ka location/path show karta hai. -->
     <div class="breadcrumb">
         <a href="index.html">Home</a>
         <span>›</span>
@@ -295,19 +358,24 @@
     </div>
 
     <!-- DETAIL CONTENT -->
+    <!-- JavaScript selected seed ki complete details yahan render karega. -->
     <div id="detail-content"></div>
 
     <!-- FOOTER -->
+    <!-- Website ka footer aur contact information. -->
     <footer class="section-p1">
         <div class="col">
             <div class="logo">
                 <i class="fas fa-seedling"></i>
                 <span>TrackSeed</span>
             </div>
+
             <h4>Contact</h4>
             <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
             <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
             <p><strong>Hours:</strong> 10:00 - 18:00. Mon-Sat</p>
+
+            <!-- Social media icons. -->
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
@@ -319,6 +387,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- About related footer links. -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -326,18 +396,23 @@
             <a href="terms.html">Terms & Conditions</a>
             <a href="contact.html">Contact us</a>
         </div>
+
+        <!-- User account related footer links. -->
         <div class="col">
             <h4>My Account</h4>
             <a href="cart.html">View Carts</a>
             <a href="order-track.html">Track My Order</a>
             <a href="hel">Help</a>
         </div>
+
+        <!-- Copyright information. -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
     </footer>
 
     <script>
+        // Static fruit seeds ka data object.
         const seeds = {
             1: {
                 name: "Watermelon Sugar Baby Seed",
@@ -451,15 +526,24 @@
             }
         };
 
+        // Cart mein add hone wale selected product ke variables.
         let cartId = null, cartName = '', cartPrice = 0, cartImg = '', cartCategory = 'Fruit';
 
+        // Selected seed ko localStorage based cart mein add karta hai.
         function addToCart() {
             if (!cartId) return;
+
+            // Existing cart data ko localStorage se load kar rahe hain.
             const cart = JSON.parse(localStorage.getItem('tsCart')) || [];
+
+            // Check kar rahe hain ke product pehle se cart mein hai ya nahi.
             const existing = cart.find(i => i.id === cartId);
+
+            // Agar product already cart mein hai to quantity increase karte hain.
             if (existing) {
                 existing.qty += 1;
             } else {
+                // Agar product new hai to cart mein new item add karte hain.
                 cart.push({
                     id:       cartId,
                     name:     cartName,
@@ -469,17 +553,28 @@
                     qty:      1
                 });
             }
+
+            // Updated cart ko localStorage mein save kar rahe hain.
             localStorage.setItem('tsCart', JSON.stringify(cart));
+
+            // User ko successful add-to-cart notification show karte hain.
             showCartToast();
         }
 
+        // Cart mein product add hone ke baad temporary toast notification show karta hai.
         function showCartToast() {
+            // Agar pehle se toast maujood hai to usko remove karte hain.
             const existingToast = document.getElementById('cart-toast');
             if (existingToast) existingToast.remove();
 
+            // Naya toast element create kar rahe hain.
             const toast = document.createElement('div');
             toast.id = 'cart-toast';
+
+            // Toast ke andar success icon aur message add kar rahe hain.
             toast.innerHTML = '<i class="fas fa-check-circle"></i> Added to Cart!';
+
+            // Toast ki styling JavaScript se apply kar rahe hain.
             toast.style.cssText = `
                 position: fixed;
                 bottom: 24px;
@@ -499,15 +594,21 @@
                 align-items: center;
                 gap: 8px;
             `;
+
+            // Toast ko page ke body mein add kar rahe hain.
             document.body.appendChild(toast);
+
+            // 2 seconds ke baad toast ko fade out karke remove karte hain.
             setTimeout(() => {
                 toast.style.opacity = '0';
                 setTimeout(() => toast.remove(), 300);
             }, 2000);
         }
 
+        // Detail content ke container ko access kar rahe hain.
         const container = document.getElementById('detail-content');
 
+        // Jab product ID invalid ho ya product na mile to not-found content show karta hai.
         function renderNotFound() {
             container.innerHTML = `
                 <div class="not-found">
@@ -522,15 +623,21 @@
             `;
         }
 
+        // Selected seed ki complete detail UI mein render karta hai.
         function renderDetail(d) {
+            // Browser tab ka title selected seed ke name ke according update karte hain.
             document.title = d.name + " - TrackSeed";
+
+            // Breadcrumb mein selected seed ka naam show karte hain.
             document.getElementById('breadcrumb-name').textContent = d.name;
 
+            // Cart ke liye selected product ki information set kar rahe hain.
             cartName = d.name;
             cartPrice = d.priceNum;
             cartImg = d.image;
             cartCategory = d.category;
 
+            // Seed ki details dynamically HTML mein insert kar rahe hain.
             container.innerHTML = `
                 <div class="detail-section">
                     <div class="detail-img">
@@ -574,16 +681,22 @@
         }
 
         // ===== LOAD DETAIL (static demo OR dynamic database product) =====
+        // URL se product ID read karke decide karte hain ke static ya database product load karna hai.
         const params = new URLSearchParams(window.location.search);
         const rawId  = params.get('id');
 
+        // Agar ID db- se start ho to product database/API se load hoga.
         if (rawId && rawId.startsWith('db-')) {
             const dbId = rawId.replace('db-', '');
+
+            // Backend endpoint se database product ki details fetch kar rahe hain.
             fetch('includes/get-product-detail.php?id=' + dbId)
                 .then(res => res.json())
                 .then(p => {
+                    // Agar product response mein mil jaye to uski details render karte hain.
                     if (p) {
                         cartId = 'db-' + p.id;
+
                         renderDetail({
                             name: p.name,
                             priceDisplay: 'Rs ' + p.price,
@@ -597,15 +710,22 @@
                             soilType: p.seed_type ? p.seed_type : 'Not specified'
                         });
                     } else {
+                        // Product na mile to not-found message show karte hain.
                         renderNotFound();
                     }
                 })
                 .catch(() => renderNotFound());
         } else {
+            // Static product ke liye URL ID ko integer mein convert karte hain.
             const id = parseInt(rawId);
+
+            // Static seeds object se matching seed find karte hain.
             const seed = seeds[id];
+
+            // Agar seed mil jaye to uski details render karte hain.
             if (seed) {
                 cartId = 'fru-' + id;
+
                 renderDetail({
                     name: seed.name,
                     priceDisplay: seed.price,
@@ -619,6 +739,7 @@
                     soilType: seed.soilType
                 });
             } else {
+                // Invalid ya missing ID par not-found message show hota hai.
                 renderNotFound();
             }
         }

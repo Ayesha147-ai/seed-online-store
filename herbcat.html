@@ -2,21 +2,30 @@
 <html lang="en">
 
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Herb Seeds - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Herb category page ki CSS file. -->
     <link rel="stylesheet" href="css-f/herbcat.css">
 </head>
 
 <body>
 
     <!-- HEADER -->
+    <!-- Website ka main header aur navigation area. -->
     <section id="header">
+        <!-- Logo par click karne se homepage open hota hai. -->
         <a href="javascript:void(0);" onclick="window.location.href='index.html';" class="logo" style="text-decoration: none;">
     <i class="fas fa-seedling"></i>
     <span>TrackSeed</span>
 </a>
+
+        <!-- Main navigation links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -25,6 +34,7 @@
     </section>
 
     <!-- HERO BANNER -->
+    <!-- Herb seeds category ka main introductory banner. -->
     <section class="cat-hero cat-hero-herb">
         <div class="cat-hero-text">
             <h1><i class="fas fa-spa"></i> Herb Seeds</h1>
@@ -33,12 +43,15 @@
     </section>
 
     <!-- PRODUCTS SECTION -->
+    <!-- Available herb seed products yahan display kiye ja rahe hain. -->
     <section id="product1" class="section-p1">
         <h2>Our Herb Seeds</h2>
         <p>Click on any seed to view full details</p>
 
+        <!-- Product cards ka container. -->
         <div class="pro-container">
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=1'">
                 <img src="css-f/img/herb1.jpg" alt="Dill">
                 <div class="des">
@@ -51,6 +64,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=2'">
                 <img src="css-f/img/herb2.jpg" alt="Fennel">
                 <div class="des">
@@ -63,6 +77,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=3'">
                 <img src="css-f/img/herb3.jpg" alt="Basil">
                 <div class="des">
@@ -75,6 +90,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=4'">
                 <img src="css-f/img/herb4.jpg" alt="Coriander">
                 <div class="des">
@@ -87,6 +103,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=5'">
                 <img src="css-f/img/herb5.jpg" alt="Mint">
                 <div class="des">
@@ -99,6 +116,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=6'">
                 <img src="css-f/img/herb6.jpg" alt="Fenugreek">
                 <div class="des">
@@ -111,6 +129,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=7'">
                 <img src="css-f/img/herb7.jpg" alt="Parsley">
                 <div class="des">
@@ -123,6 +142,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=8'">
                 <img src="css-f/img/herb8.jpg" alt="Thyme">
                 <div class="des">
@@ -135,6 +155,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=9'">
                 <img src="css-f/img/herb9.jpg" alt="Oregano">
                 <div class="des">
@@ -147,6 +168,7 @@
                 </div>
             </div>
 
+            <!-- Static herb product card. -->
             <div class="pro" onclick="window.location.href='herb-detail.html?id=10'">
                 <img src="css-f/img/herb10.jpg" alt="Lemongrass">
                 <div class="des">
@@ -163,6 +185,7 @@
     </section>
 
     <!-- FOOTER -->
+    <!-- Website ka footer aur useful links. -->
     <footer class="section-p1">
         <div class="col">
             <div class="logo">
@@ -184,6 +207,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- About aur legal pages ke links. -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -191,17 +216,22 @@
             <a href="terms.html">Terms & Conditions</a>
             <a href="contact.html">Contact us</a>
         </div>
+
+        <!-- Account aur order related links. -->
         <div class="col">
             <h4>My Account</h4>
             <a href="cart.html">View Carts</a>
             <a href="order-track.html">Track My Order</a>
             <a href="help.html">Help</a>
         </div>
+
+        <!-- Copyright information. -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
     </footer>
 
+    <!-- Database se Herb category ke products dynamically load kar rahe hain. -->
     <script>
     fetch('includes/get-category-products.php?category=Herb')
         .then(res => res.json())
@@ -229,6 +259,7 @@
         .catch(() => console.log('Failed to load agent seeds'));
     </script>
 
+    <!-- Herb category page ki JavaScript file load kar rahe hain. -->
     <script src="js-f/herbcat.js"></script>
 </body>
 

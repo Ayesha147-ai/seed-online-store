@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Browser tab mein dashboard ka title show hoga. -->
     <title>Admin Dashboard - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Admin dashboard ki custom CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/admin-dashboard.css">
 </head>
 <body>
 
 <!-- SIDEBAR -->
+<!-- Dashboard ka left sidebar navigation ke liye use ho raha hai. -->
 <aside class="sidebar">
+
+    <!-- Sidebar mein website ka logo show kar rahe hain. -->
     <div class="sidebar-logo">
         <i class="fas fa-seedling"></i> TrackSeed
     </div>
 
+    <!-- Admin user ki basic information display kar rahe hain. -->
     <div class="sidebar-user">
         <div class="user-avatar">AD</div>
         <div class="user-info">
@@ -23,12 +35,16 @@
         </div>
     </div>
 
+    <!-- Sidebar ke tamam navigation options. -->
     <nav class="sidebar-nav">
+
+        <!-- Overview navigation group. -->
         <div class="nav-label">Overview</div>
         <div class="nav-item active" data-section="dashboard">
             <i class="fas fa-chart-line"></i> Dashboard
         </div>
 
+        <!-- User management ke navigation options. -->
         <div class="nav-label">User Management</div>
         <div class="nav-item" data-section="users">
             <i class="fas fa-users"></i> All Users
@@ -44,6 +60,7 @@
             <span class="nav-badge" id="pending-agents-badge">0</span>
         </div>
 
+        <!-- Seed management ke navigation options. -->
         <div class="nav-label">Seed Management</div>
         <div class="nav-item" data-section="approve-seeds">
             <i class="fas fa-check-circle"></i> Approve Seeds
@@ -53,17 +70,20 @@
             <i class="fas fa-seedling"></i> All Seeds
         </div>
 
+        <!-- Orders aur reports ka navigation section. -->
         <div class="nav-label">Orders & Reports</div>
         <div class="nav-item" data-section="orders">
             <i class="fas fa-shopping-bag"></i> All Orders
         </div>
 
+        <!-- Support/messages ka navigation section. -->
         <div class="nav-label">Support</div>
         <div class="nav-item" data-section="messages">
             <i class="fas fa-envelope"></i> Messages
             <span class="nav-badge" id="unread-messages-badge">0</span>
         </div>
 
+        <!-- System settings ka navigation option. -->
         <div class="nav-label">System</div>
         <div class="nav-item" data-section="settings">
             <i class="fas fa-cog"></i> System Settings
@@ -71,6 +91,7 @@
     </nav>
     </nav>
 
+    <!-- Sidebar ke bottom mein logout option. -->
     <div class="sidebar-bottom">
         <div class="nav-item" onclick="window.location.href='auth/logout.php'">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -79,9 +100,11 @@
 </aside>
 
 <!-- MAIN -->
+<!-- Dashboard ka main content area. -->
 <div class="main">
 
     <!-- TOPBAR -->
+    <!-- Topbar mein current page title aur admin role show hota hai. -->
     <div class="topbar">
         <div class="topbar-left">
             <h1 id="page-title">Dashboard</h1>
@@ -94,12 +117,17 @@
         </div>
     </div>
 
+    <!-- Dashboard ke different sections ka main container. -->
     <div class="content">
 
         <!-- ===== DASHBOARD ===== -->
+        <!-- Main dashboard section jahan summary statistics show hoti hain. -->
         <div class="section active" id="section-dashboard">
 
+            <!-- Different dashboard statistics ko cards mein show kar rahe hain. -->
             <div class="stats-grid">
+
+                <!-- Total farmers ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Total Farmers</span>
@@ -107,6 +135,8 @@
                     </div>
                     <div class="stat-val" id="stat-farmers">...</div>
                 </div>
+
+                <!-- Active agents ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Active Agents</span>
@@ -114,6 +144,8 @@
                     </div>
                     <div class="stat-val" id="stat-agents">...</div>
                 </div>
+
+                <!-- Total orders ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Total Orders</span>
@@ -121,6 +153,8 @@
                     </div>
                     <div class="stat-val" id="stat-orders">...</div>
                 </div>
+
+                <!-- Pending seeds ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Pending Seeds</span>
@@ -128,6 +162,8 @@
                     </div>
                     <div class="stat-val" id="stat-pending">...</div>
                 </div>
+
+                <!-- Total revenue ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Total Revenue</span>
@@ -138,6 +174,7 @@
             </div>
 
             <!-- Quick Actions -->
+            <!-- Common admin actions ko quick access buttons mein show kar rahe hain. -->
             <div class="quick-grid">
                 <div class="quick-btn" onclick="showSection('approve-seeds')">
                     <i class="fas fa-check-circle"></i>
@@ -160,7 +197,10 @@
         </div>
 
         <!-- ===== ALL USERS ===== -->
+        <!-- All registered users ko manage karne wala section. -->
         <div class="section" id="section-users">
+
+            <!-- Users ko different categories ke according filter karne ke buttons. -->
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterTable('users-tbody', 'all', this)">All</button>
                 <button class="filter-btn" onclick="filterTable('users-tbody', 'farmer', this)">Farmers</button>
@@ -168,6 +208,8 @@
                 <button class="filter-btn" onclick="filterTable('users-tbody', 'active', this)">Active</button>
                 <button class="filter-btn" onclick="filterTable('users-tbody', 'blocked', this)">Blocked</button>
             </div>
+
+            <!-- Users ki details table mein show hongi. -->
             <div class="card">
                 <div class="card-header">
                     <h3>All Users</h3>
@@ -192,6 +234,7 @@
         </div>
 
         <!-- ===== SELLERS ===== -->
+        <!-- Agents/sellers ki list display karne wala section. -->
         <div class="section" id="section-sellers">
             <div class="card">
                 <div class="card-header">
@@ -217,6 +260,7 @@
         </div>
 
         <!-- ===== BUYERS ===== -->
+        <!-- Farmers/buyers ki list display karne wala section. -->
         <div class="section" id="section-buyers">
             <div class="card">
                 <div class="card-header">
@@ -242,6 +286,7 @@
         </div>
 
         <!-- ===== APPROVE AGENTS (NEW) ===== -->
+        <!-- Pending agent applications ko approve karne wala section. -->
         <div class="section" id="section-approve-agents">
             <div class="card">
                 <div class="card-header">
@@ -267,6 +312,7 @@
         </div>
 
         <!-- ===== APPROVE SEEDS ===== -->
+        <!-- Pending seeds ko approve karne wala section. -->
         <div class="section" id="section-approve-seeds">
             <div class="card">
                 <div class="card-header">
@@ -292,13 +338,18 @@
         </div>
 
         <!-- ===== ALL SEEDS ===== -->
+        <!-- Platform par available tamam seeds ko manage karne wala section. -->
         <div class="section" id="section-all-seeds">
+
+            <!-- Seeds ko category ke according filter karne ke buttons. -->
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterTable('seeds-tbody', 'all', this)">All</button>
                 <button class="filter-btn" onclick="filterTable('seeds-tbody', 'Vegetable', this)">Vegetable</button>
                 <button class="filter-btn" onclick="filterTable('seeds-tbody', 'Fruit', this)">Fruit</button>
                 <button class="filter-btn" onclick="filterTable('seeds-tbody', 'Herb', this)">Herb</button>
             </div>
+
+            <!-- Seeds ki details table mein show hongi. -->
             <div class="card">
                 <div class="card-header">
                     <h3>All Seeds</h3>
@@ -324,7 +375,10 @@
         </div>
 
         <!-- ===== ALL ORDERS ===== -->
+        <!-- Platform ke tamam orders ko view aur manage karne wala section. -->
         <div class="section" id="section-orders">
+
+            <!-- Orders ko status ke according filter karne ke buttons. -->
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterOrders('all', this)">All</button>
                 <button class="filter-btn" onclick="filterOrders('placed', this)">Placed</button>
@@ -332,6 +386,8 @@
                 <button class="filter-btn" onclick="filterOrders('delivered', this)">Delivered</button>
                 <button class="filter-btn" onclick="filterOrders('cancelled', this)">Cancelled</button>
             </div>
+
+            <!-- Orders ki details table mein show hongi. -->
             <div class="card">
                 <div class="card-header">
                     <h3>All Orders</h3>
@@ -360,6 +416,7 @@
 
 
         <!-- ===== MESSAGES ===== -->
+        <!-- Contact form se receive hone wale messages ka section. -->
         <div class="section" id="section-messages">
             <div class="card">
                 <div class="card-header">
@@ -386,44 +443,69 @@
 
 
         <!-- ===== SETTINGS ===== -->
+        <!-- Platform aur admin account settings manage karne wala section. -->
         <div class="section" id="section-settings">
             <div class="card">
                 <div class="card-header">
                     <h3>System Settings</h3>
                     <span>Manage platform config</span>
                 </div>
+
+                <!-- Settings ke different forms ko grid mein arrange kar rahe hain. -->
                 <div class="settings-grid">
+
+                    <!-- Platform information settings. -->
                     <div class="settings-section">
                         <h4>Platform Information</h4>
+
+                        <!-- Platform name input. -->
                         <div class="form-group">
                             <label>Platform Name</label>
                             <input type="text" id="settings-platform-name" value="TrackSeed">
                         </div>
+
+                        <!-- Support email input. -->
                         <div class="form-group">
                             <label>Support Email</label>
                             <input type="email" id="settings-support-email" value="support@trackseed.pk">
                         </div>
+
+                        <!-- Support phone input. -->
                         <div class="form-group">
                             <label>Support Phone</label>
                             <input type="text" id="settings-support-phone" value="+92 313 7487800">
                         </div>
+
+                        <!-- Settings save operation ka status message. -->
                         <p id="settings-status" style="font-size:13px; margin-top:8px; display:none;"></p>
+
+                        <!-- Platform settings save karne ka button. -->
                         <button class="btn-submit" style="margin-top:8px;" onclick="savePlatformSettings()">Save Changes</button>
                     </div>
+
+                    <!-- Admin password change settings. -->
                     <div class="settings-section">
                         <h4>Admin Password</h4>
+
+                        <!-- Current password input. -->
                         <div class="form-group">
                             <label>Current Password</label>
                             <input type="password" id="current-password" placeholder="Enter current password">
                         </div>
+
+                        <!-- New password input. -->
                         <div class="form-group">
                             <label>New Password</label>
                             <input type="password" id="new-password" placeholder="Enter new password">
                         </div>
+
+                        <!-- New password confirmation input. -->
                         <div class="form-group">
                             <label>Confirm Password</label>
                             <input type="password" id="confirm-password" placeholder="Confirm new password">
                         </div>
+
+                        <!-- Admin password update karne ka button. -->
                         <button class="btn-submit" style="margin-top:8px;" onclick="changeMyPassword()">Update Password</button>
                     </div>
                 </div>
@@ -433,6 +515,7 @@
     </div><!-- end content -->
 </div><!-- end main -->
 
+<!-- Admin dashboard ki JavaScript functionality load kar rahe hain. -->
 <script src="js-f/admin-dashboard.js"></script>
 </body>
 </html>

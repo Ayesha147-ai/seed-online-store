@@ -1,4 +1,8 @@
 <?php
+// ============================================================
+//   admin/get-pending-seeds.php — Fetch Pending Seed Products
+//   Yeh file database se un seed products ki list hasil karti hai jinki approval pending hai
+// ============================================================
 // Session aur database ki required files load karo aur admin access verify karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';

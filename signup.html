@@ -2,20 +2,27 @@
 <html lang="en">
 
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - TrackSeeds</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Signup page ki CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/signup.css">
 </head>
 
 <body>
 
     <!-- Signup Section -->
+    <!-- User registration ka main section. -->
     <section class="signup-section">
         <div class="signup-box">
 
             <!-- Left Side Image -->
+            <!-- Signup page ke left side par promotional image aur text show hota hai. -->
             <div class="signup-image">
                 <img src="css-f/img/flow(page).jpg" alt="Seeds">
                 <div class="overlay">
@@ -25,51 +32,61 @@
             </div>
 
             <!-- Right Side Form -->
+            <!-- User ki registration information enter karne ka form. -->
             <div class="signup-form">
                <form action="auth/register.php" method="POST">
                 <h3>Create Your Account</h3>
                 <p>Enter your details below</p>
 
+                <!-- User ka full name input. -->
                 <div class="input-group">
                     <i class="fas fa-user"></i>
                     <input type="text" placeholder="Full Name" name="fullname">
                 </div>
 
+                <!-- User ka email address input. -->
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
                     <input type="email" placeholder="Email Address" name="email">
                 </div>
 
+                <!-- User ka phone number input. -->
                 <div class="input-group">
                     <i class="fas fa-phone"></i>
                     <input type="tel" placeholder="Phone Number" name="phone">
                 </div>
 
+                <!-- User ka password input. -->
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
                     <input type="password" placeholder="Password" name="password">
                 </div>
 
+                <!-- Password confirmation input. -->
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
                     <input type="password" placeholder="Confirm Password" name="confirm_password">
                 </div>
 
                 <!-- Role Selector -->
+                <!-- User yahan choose karta hai ke woh farmer ya agent ke taur par register karna chahta hai. -->
                 <div class="form-options role-select">
                     <p style="margin-bottom:8px; font-weight:600;">How would you like to register?</p>
 
+                    <!-- Farmer role ka option. -->
                     <label style="display:flex; align-items:center; gap:6px; font-weight:400;">
                         <input type="radio" name="role" value="farmer" checked>
                         Farmer (Buy seeds)
                     </label>
 
+                    <!-- Agent role ka option. -->
                     <label style="display:flex; align-items:center; gap:6px; font-weight:400; margin-top:6px;">
                         <input type="radio" name="role" value="agent">
                         Agent (Sell / supply seeds)
                     </label>
                 </div>
 
+                <!-- Terms and Conditions accept karne ka checkbox. -->
                 <div class="form-options">
                     <label>
                         <input type="checkbox"> I agree to 
@@ -77,13 +94,16 @@
                     </label>
                 </div>
 
+                <!-- Registration form submit karne wala button. -->
                 <button class="signup-submit-btn">Sign Up</button>
 
+                <!-- Existing account wale users ke liye login link. -->
                 <p class="switch-text">
                     Already have an account?
                     <a href="login.html">Login</a>
                 </p>
 
+                <!-- User ko home page par wapas le jane wala link. -->
                 <p class="back-home">
                     <a href="index.html">
                         <i class="fas fa-arrow-left"></i> Back to Home

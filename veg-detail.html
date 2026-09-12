@@ -7,8 +7,10 @@
     <title>Seed Detail - TrackSeed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Google font import */
         @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+        /* Reusable color variables */
         :root {
             --dark-green: #16a34a;
             --light-green: #dcfce7;
@@ -21,6 +23,7 @@
             --gray: #666;
         }
 
+        /* Reset default spacing and apply font */
         * {
             margin: 0;
             padding: 0;
@@ -28,15 +31,18 @@
             font-family: 'Spartan', sans-serif;
         }
 
+        /* Page background */
         body {
             background-color: #f0fdf4;
         }
 
+        /* Common section padding */
         .section-p1 {
             padding: 40px 80px;
         }
 
         /* HEADER */
+        /* Main header layout */
         #header {
             display: flex;
             align-items: center;
@@ -49,6 +55,7 @@
             z-index: 999;
         }
 
+        /* Website logo */
         .logo {
             display: flex;
             gap: 10px;
@@ -57,6 +64,7 @@
             color: var(--dark-green);
         }
 
+        /* Navigation links container */
         .nav-links {
             display: flex;
             align-items: center;
@@ -64,12 +72,14 @@
             margin-right: 30px;
         }
 
+        /* Navigation list items */
         .nav-links li {
             list-style: none;
             padding: 0 20px;
             position: relative;
         }
 
+        /* Navigation links */
         .nav-links li a {
             text-decoration: none;
             font-size: 13px;
@@ -78,28 +88,33 @@
             transition: 0.3s;
         }
 
+        /* Navigation hover effect */
         .nav-links a:hover {
             color: var(--teal);
         }
 
         /* BREADCRUMB */
+        /* Breadcrumb navigation area */
         .breadcrumb {
             padding: 15px 80px;
             font-size: 13px;
             color: var(--gray);
         }
 
+        /* Breadcrumb link */
         .breadcrumb a {
             text-decoration: none;
             color: var(--teal);
             font-weight: 600;
         }
 
+        /* Breadcrumb separator spacing */
         .breadcrumb span {
             margin: 0 6px;
         }
 
         /* DETAIL SECTION */
+        /* Main seed detail layout */
         .detail-section {
             padding: 30px 80px 60px 80px;
             display: flex;
@@ -107,6 +122,7 @@
             align-items: flex-start;
         }
 
+        /* Seed image container */
         .detail-img {
             width: 420px;
             min-width: 420px;
@@ -115,6 +131,7 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
         }
 
+        /* Seed detail image */
         .detail-img img {
             width: 100%;
             height: 380px;
@@ -122,10 +139,12 @@
             display: block;
         }
 
+        /* Seed information area */
         .detail-info {
             flex: 1;
         }
 
+        /* Category badge */
         .cat-badge {
             display: inline-block;
             font-size: 11px;
@@ -137,6 +156,7 @@
             margin-bottom: 14px;
         }
 
+        /* Seed title */
         .detail-info h1 {
             font-size: 28px;
             font-weight: 700;
@@ -145,6 +165,7 @@
             line-height: 1.4;
         }
 
+        /* Seed price */
         .detail-price {
             font-size: 26px;
             font-weight: 700;
@@ -152,12 +173,14 @@
             margin-bottom: 20px;
         }
 
+        /* Divider line */
         .detail-divider {
             border: none;
             border-top: 1px solid var(--border-green);
             margin: 20px 0;
         }
 
+        /* Seed description */
         .detail-desc {
             font-size: 13px;
             color: var(--body-text);
@@ -166,6 +189,7 @@
         }
 
         /* Info Table */
+        /* Seed information table */
         .info-table {
             width: 100%;
             border-collapse: collapse;
@@ -173,15 +197,18 @@
             font-size: 13px;
         }
 
+        /* Table row separator */
         .info-table tr {
             border-bottom: 1px solid var(--border-green);
         }
 
+        /* Table cell spacing */
         .info-table td {
             padding: 10px 6px;
             color: var(--body-text);
         }
 
+        /* First column styling */
         .info-table td:first-child {
             font-weight: 700;
             color: var(--dark-text);
@@ -189,12 +216,14 @@
         }
 
         /* Buttons */
+        /* Container for detail page buttons */
         .detail-buttons {
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
         }
 
+        /* Add to cart button */
         .btn-cart {
             background: var(--dark-green);
             color: #fff;
@@ -211,10 +240,12 @@
             text-decoration: none;
         }
 
+        /* Add to cart hover effect */
         .btn-cart:hover {
             background: var(--teal);
         }
 
+        /* Back button */
         .btn-back {
             background: transparent;
             color: var(--dark-green);
@@ -231,23 +262,27 @@
             text-decoration: none;
         }
 
+        /* Back button hover effect */
         .btn-back:hover {
             background: var(--light-green);
         }
 
         /* Not Found */
+        /* Not-found message container */
         .not-found {
             text-align: center;
             padding: 80px;
             color: var(--gray);
         }
 
+        /* Not-found icon */
         .not-found i {
             font-size: 60px;
             color: var(--border-green);
             margin-bottom: 20px;
         }
 
+        /* Not-found heading */
         .not-found h2 {
             font-size: 22px;
             margin-bottom: 10px;
@@ -255,6 +290,7 @@
         }
 
         /* FOOTER */
+        /* Main footer layout */
         footer {
             background: var(--footer-bg);
             color: var(--white);
@@ -264,6 +300,7 @@
             justify-content: space-between;
         }
 
+        /* Footer columns */
         footer .col {
             width: 22%;
             display: flex;
@@ -273,37 +310,44 @@
             color: var(--white);
         }
 
+        /* Footer logo */
         footer .logo {
             margin-bottom: 30px;
             color: var(--white);
         }
 
+        /* Footer headings */
         footer h4 {
             font-size: 14px;
             padding-bottom: 20px;
         }
 
+        /* Footer paragraphs */
         footer p {
             font-size: 13px;
             margin: 0 0 8px 0;
         }
 
+        /* Social media section */
         footer .follow {
             margin-top: 20px;
         }
 
+        /* Social media icons */
         footer .follow i {
             color: var(--body-text);
             padding-right: 4px;
             cursor: pointer;
         }
 
+        /* Footer hover effects */
         footer .follow i:hover,
         footer a:hover {
             color: var(--teal);
             transition: all 0.3s;
         }
 
+        /* Footer links */
         footer a {
             font-size: 13px;
             text-decoration: none;
@@ -311,6 +355,7 @@
             margin-bottom: 10px;
         }
 
+        /* Copyright area */
         footer .copywrite {
             width: 100%;
             text-align: center;
@@ -322,6 +367,8 @@
     </style>
 </head>
 
+
+```html
 <body>
 
     <!-- HEADER -->
@@ -504,9 +551,11 @@
             }
         };
 
-        // ===== CART STATE (set when detail renders, used by addToCart) =====
+        // ===== CART STATE =====
+        // These variables store the current seed information for the cart
         let cartId = null, cartName = '', cartPrice = 0, cartImg = '', cartCategory = 'Vegetable';
 
+        // ===== ADD PRODUCT TO CART =====
         function addToCart() {
             if (!cartId) return;
             const cart = JSON.parse(localStorage.getItem('tsCart')) || [];
@@ -527,6 +576,7 @@
             showCartToast();
         }
 
+        // ===== SHOW CART SUCCESS MESSAGE =====
         function showCartToast() {
             const existingToast = document.getElementById('cart-toast');
             if (existingToast) existingToast.remove();
@@ -560,8 +610,10 @@
             }, 2000);
         }
 
+        // Detail content ka main container
         const container = document.getElementById('detail-content');
 
+        // ===== SHOW NOT FOUND MESSAGE =====
         function renderNotFound() {
             container.innerHTML = `
                 <div class="not-found">
@@ -576,6 +628,7 @@
             `;
         }
 
+        // ===== RENDER SEED DETAIL =====
         function renderDetail(d) {
             document.title = d.name + " - TrackSeed";
             document.getElementById('breadcrumb-name').textContent = d.name;
@@ -585,6 +638,7 @@
             cartImg = d.image;
             cartCategory = d.category;
 
+            // Dynamic HTML for seed detail information
             container.innerHTML = `
                 <div class="detail-section">
                     <div class="detail-img">
@@ -628,9 +682,12 @@
         }
 
         // ===== LOAD DETAIL (static demo OR dynamic database product) =====
+        // URL se product ID read karta hai
         const params = new URLSearchParams(window.location.search);
         const rawId  = params.get('id');
 
+        // ===== DATABASE PRODUCT =====
+        // Agar ID db- se start ho to database se product detail fetch hoti hai
         if (rawId && rawId.startsWith('db-')) {
             const dbId = rawId.replace('db-', '');
             fetch('includes/get-product-detail.php?id=' + dbId)
@@ -656,6 +713,8 @@
                 })
                 .catch(() => renderNotFound());
         } else {
+            // ===== STATIC PRODUCT =====
+            // Static catalog se product ID ke through seed find karta hai
             const id = parseInt(rawId);
             const seed = seeds[id];
             if (seed) {
@@ -673,6 +732,7 @@
                     soilType: seed.soilType
                 });
             } else {
+                // Product na milne par not-found message show hota hai
                 renderNotFound();
             }
         }
@@ -681,3 +741,4 @@
 </body>
 
 </html>
+```

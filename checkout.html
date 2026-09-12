@@ -2,12 +2,23 @@
 <html lang="en">
 
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Browser tab mein checkout page ka title show hoga. -->
     <title>Checkout - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Checkout page ki custom CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/checkout.css">
+
+    <!-- Stripe.js payment functionality ke liye load ho rahi hai. -->
     <script src="https://js.stripe.com/v3/"></script>
+
+    <!-- General website styling wali CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/style.css">
 </head>
 
@@ -15,13 +26,16 @@
 
     <!-- ===== HEADER ===== -->
      <section id="header">
+
         <!-- Logo -->
+        <!-- Website ka logo aur name show kar rahe hain. -->
         <div class="logo">
             <i class="fas fa-seedling"></i>
             <span>TrackSeed</span>
         </div>
 
         <!-- Navigation Links -->
+        <!-- Website ke main pages ke links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
@@ -29,11 +43,15 @@
         </ul>
 
         <!-- Login Button -->
+        <!-- User ko login page par le jane ka button. -->
         <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
 
         <!-- Signin Button -->
+        <!-- User ko signup page par le jane ka button. -->
         <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+
         <!-- My Cart Button -->
+        <!-- Cart page par jane aur cart item count show karne ka button. -->
         <button class="cart-btn-nav" onclick="window.location.href='cart.html'"><i class="fas fa-shopping-cart"></i> My
             Cart
             <span class="cart-count">0</span>
@@ -41,16 +59,20 @@
     </section>
 
     <!-- ===== MAIN CHECKOUT ===== -->
+    <!-- Checkout ka main layout. -->
     <section class="checkout-section">
         <div class="checkout-layout">
 
             <!-- LEFT: Form -->
+            <!-- Left side par shipping aur payment information ka form hai. -->
             <div class="checkout-left">
 
                 <!-- Shipping Info -->
+                <!-- Customer ki delivery information collect kar rahe hain. -->
                 <div class="form-card">
                     <h3><span class="step-num">1</span> Shipping Information</h3>
 
+                    <!-- Full name aur email fields. -->
                     <div class="form-row">
                         <div class="input-group">
                             <label>Full Name</label>
@@ -68,6 +90,7 @@
                         </div>
                     </div>
 
+                    <!-- Phone aur city fields. -->
                     <div class="form-row">
                         <div class="input-group">
                             <label>Phone Number</label>
@@ -85,6 +108,7 @@
                         </div>
                     </div>
 
+                    <!-- Province aur nearest warehouse fields. -->
                     <div class="form-row">
                         <div class="input-group">
                             <label>Province</label>
@@ -117,6 +141,7 @@
                         </div>
                     </div>
 
+                    <!-- Delivery address ka input. -->
                     <div class="input-group full-width">
                         <label>Full Business / Delivery Address</label>
                         <textarea id="address" rows="3" placeholder="Street, Area, Landmark..."></textarea>
@@ -124,10 +149,13 @@
                 </div>
 
                 <!-- Payment Method -->
+                <!-- Customer ke liye payment method select karne ka section. -->
                 <div class="form-card">
                     <h3><span class="step-num">3</span> Payment Method</h3>
 
                     <div class="payment-options">
+
+                        <!-- Stripe card payment option. -->
                         <label class="pay-option">
                             <input type="radio" name="payment" value="stripe" checked>
                             <div class="pay-card">
@@ -136,6 +164,7 @@
                             </div>
                         </label>
 
+                        <!-- Cash on Delivery payment option. -->
                         <label class="pay-option">
                             <input type="radio" name="payment" value="cod">
                             <div class="pay-card">
@@ -146,14 +175,20 @@
                     </div>
 
                     <!-- Stripe Card Box — sirf "Card (Stripe)" select hone par dikhta hai -->
+                    <!-- Stripe card details enter karne ke liye container. -->
                     <div id="stripe-card-box" style="margin-top:16px;">
                         <label style="font-size:13px;font-weight:600;color:#333;">Card Details</label>
+
+                        <!-- Stripe.js card element yahan mount hota hai. -->
                         <div id="card-element" style="padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:6px;background:#fff;"></div>
+
+                        <!-- Stripe card errors yahan display ho sakte hain. -->
                         <div id="card-errors" style="color:#dc2626;font-size:13px;margin-top:6px;"></div>
                     </div>
                 </div>
 
                 <!-- Terms -->
+                <!-- Order place karne se pehle terms accept karne ka checkbox. -->
                 <div class="terms-row">
                     <input type="checkbox" id="terms">
                     <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
@@ -162,29 +197,40 @@
             </div>
 
             <!-- RIGHT: Order Summary -->
+            <!-- Right side par selected cart items aur final amount show hota hai. -->
             <div class="checkout-right">
                 <div class="order-summary-card">
+
+                    <!-- Order summary ka heading. -->
                     <h3><span class="step-num">2</span> Order Summary</h3>
 
+                    <!-- JavaScript cart items ko yahan load karegi. -->
                     <div id="orderItemsList">
                         <!-- Items will be loaded from JS -->
                     </div>
 
+                    <!-- Summary ko separate karne wali divider. -->
                     <div class="summary-divider"></div>
 
+                    <!-- Subtotal aur item count. -->
                     <div class="summary-row">
                         <span>Subtotal (<span id="itemCount">0</span> items)</span>
                         <span id="summarySubtotal">Rs 0</span>
                     </div>
+
+                    <!-- Fixed estimated delivery charges. -->
                     <div class="summary-row">
                         <span>Estimated Delivery</span>
                         <span>Rs 50</span>
                     </div>
+
+                    <!-- Final grand total. -->
                     <div class="summary-row grand">
                         <span>Grand Total</span>
                         <span id="summaryGrand">Rs 50</span>
                     </div>
 
+                    <!-- Order submit aur payment start karne ka button. -->
                     <button class="place-order-btn" onclick="placeOrder()">
                         <i class="fas fa-lock"></i> Place Order & Pay
                     </button>
@@ -195,14 +241,23 @@
     </section>
 
     <!-- ===== SUCCESS MODAL ===== -->
+    <!-- Successful order ke baad confirmation modal show hoga. -->
     <div class="modal-overlay" id="successModal">
         <div class="modal-box">
+
+            <!-- Success icon. -->
             <div class="modal-icon">
                 <i class="fas fa-check-circle"></i>
             </div>
+
+            <!-- Success message. -->
             <h2>Order Placed!</h2>
             <p>Thank you! Your order has been successfully submitted.</p>
+
+            <!-- Generated order ID yahan show hoga. -->
             <p class="order-id">Order ID: <strong id="orderId"></strong></p>
+
+            <!-- User ko home page par wapas le jane ka button. -->
             <button onclick="window.location.href='index.html'" class="modal-btn">
                 <i class="fas fa-home"></i> Back to Home
             </button>
@@ -210,17 +265,23 @@
     </div>
 
     <!-- ===== FOOTER ===== -->
+    <!-- Website ka footer section. -->
     <footer class="section-p1">
         <div class="col">
+
             <!-- Logo -->
             <div class="logo">
                 <i class="fas fa-seedling"></i>
                 <span>TrackSeed</span>
             </div>
+
+            <!-- Contact information. -->
             <h4>Contact</h4>
             <p><strong>Address:</strong> Hafizabad road gujranwala </p>
             <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
             <p><strong>Hours:</strong>10:00 - 18:00. Mon-Sat</p>
+
+            <!-- Social media icons. -->
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
@@ -234,6 +295,7 @@
         </div>
 
 
+        <!-- About related footer links. -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -242,6 +304,7 @@
             <a href="contact.html">Contact us</a>
         </div>
 
+        <!-- Account related footer links. -->
         <div class="col">
             <h4>My Account</h4>
             <a href="cart.html">View Carts</a>
@@ -251,12 +314,14 @@
         </div>
 
 
+        <!-- Copyright information. -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
 
     </footer>
 
+    <!-- Checkout ki dynamic functionality wali JavaScript file load kar rahe hain. -->
     <script src="js-f/checkout.js"></script>
 
 </body>
