@@ -91,7 +91,14 @@ $stmt = mysqli_prepare($conn, "INSERT INTO products
         (agent_id, category_id, name, seed_type, description, price, stock, quality, weight, season, image, status)
         VALUES
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
-mysqli_stmt_bind_param($stmt, 'iisssdiisss', $agentId, $categoryId, $name, $seedType, $description, $price, $stock, $quality, $weight, $season, $imagePath);
+
+// Bind types, position ke hisab se (FIX: 8th position 'quality' string hai,
+// isay 'i' (integer) ki jagah 's' (string) se bind karna zaroori tha —
+// warna "Premium"/"A-Grade" jaisi values 0 ban ke save ho rahi thi):
+//  1: agentId (i)   2: categoryId (i)  3: name (s)      4: seedType (s)
+//  5: description (s) 6: price (d)     7: stock (i)     8: quality (s)
+//  9: weight (s)   10: season (s)     11: imagePath (s)
+mysqli_stmt_bind_param($stmt, 'iisssdissss', $agentId, $categoryId, $name, $seedType, $description, $price, $stock, $quality, $weight, $season, $imagePath);
 
 // Check karo ke seed successfully database mein add hua hai ya nahi
 if (mysqli_stmt_execute($stmt)) {
