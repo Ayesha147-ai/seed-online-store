@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register as Agent - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Agent registration page ki CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/register-agent.css">
 </head>
 <body>
 
+    <!-- Website ka navigation header. -->
     <section id="header">
         <div class="logo">
             <i class="fas fa-seedling"></i>
             <span>TrackSeed</span>
         </div>
+
+        <!-- Main navigation links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+
+        <!-- Login aur signup buttons. -->
         <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
         <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
     </section>
 
+    <!-- Agent registration page ka main content. -->
     <main class="register-main section-p1">
+
+        <!-- Agent network ke benefits aur information ka panel. -->
         <div class="info-panel">
             <div class="info-top">
                 <div class="info-icon"><i class="fas fa-user-tie"></i></div>
                 <h2>Join TrackSeed Network</h2>
                 <p>Register to connect with the agricultural community of Pakistan.</p>
             </div>
+
+            <!-- Agent registration ke benefits. -->
             <div class="benefits">
                 <div class="benefit-item">
                     <div class="benefit-icon"><i class="fas fa-check-circle"></i></div>
@@ -41,22 +56,27 @@
             </div>
         </div>
 
+        <!-- Agent registration form ka main panel. -->
         <div class="form-panel">
             <h3 id="form-title">Agent Registration Form</h3>
             <p class="form-subtitle">Apply to become a seed agent using your existing TrackSeed account.</p>
 
             <!-- Not logged in -->
+            <!-- Agar user login nahi hai to yeh message show hoga. -->
             <div id="not-logged-in-msg" style="display:none; padding:16px; background:#fee2e2; border-radius:8px; margin-bottom:16px; color:#991b1b; font-size:14px;">
                 <i class="fas fa-exclamation-circle"></i> Please <a href="login.html" style="font-weight:700; text-decoration:underline;">login</a> or
                 <a href="signup.html" style="font-weight:700; text-decoration:underline;">sign up</a> first to register as an agent.
             </div>
 
             <!-- Already agent / admin / pending message -->
+            <!-- Existing agent, admin ya pending application ka status yahan show hoga. -->
             <div id="status-msg" style="display:none; padding:16px; background:#fef9c3; border-radius:8px; margin-bottom:16px; color:#92400e; font-size:14px;"></div>
 
             <!-- Main form -->
+            <!-- Agent registration ke main fields aur submit button ka wrapper. -->
             <div id="agent-form-wrapper">
 
+                <!-- Logged-in applicant ka naam aur email show karne wala area. -->
                 <div style="background:#f0fdf4; border:1px solid #cce7d0; padding:12px 16px; border-radius:8px; margin-bottom:20px;">
                     <p style="font-size:13px; color:#465b52; margin:0;">
                         Applying as: <strong id="applicant-name">—</strong>
@@ -64,7 +84,10 @@
                     </p>
                 </div>
 
+                <!-- Agent-specific registration fields. -->
                 <div id="agent-only-fields">
+
+                    <!-- City aur province ke fields. -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="city">City <span class="required">*</span></label>
@@ -73,6 +96,7 @@
                                 <input type="text" id="city" placeholder="e.g. Lahore">
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="province">Province <span class="required">*</span></label>
                             <div class="input-wrapper select-wrapper">
@@ -88,6 +112,7 @@
                         </div>
                     </div>
 
+                    <!-- Business ya shop name ka field. -->
                     <div class="form-group">
                         <label for="businessName">Business / Shop Name <span class="required">*</span></label>
                         <div class="input-wrapper">
@@ -96,6 +121,7 @@
                         </div>
                     </div>
 
+                    <!-- Agent jin seed categories mein deal karta hai unko select karne ke checkboxes. -->
                     <div class="form-group">
                         <label>Seed Categories You Deal In</label>
                         <div class="checkbox-group">
@@ -105,6 +131,7 @@
                         </div>
                     </div>
 
+                    <!-- CNIC number enter karne ka field. -->
                     <div class="form-group">
                         <label for="cnic">CNIC Number <span class="required">*</span></label>
                         <div class="input-wrapper">
@@ -114,12 +141,14 @@
                     </div>
                 </div>
 
+                <!-- Terms and Conditions agree karne ka checkbox. -->
                 <div class="form-group terms-group">
                     <label class="checkbox-label">
                         <input type="checkbox" id="agreeTerms"> I agree to TrackSeed's <a href="#">Terms & Conditions</a>
                     </label>
                 </div>
 
+                <!-- Registration form submit karne wala button. -->
                 <button class="submit-btn" id="submitBtn">
                     <i class="fas fa-paper-plane"></i> Submit Registration
                 </button>
@@ -127,6 +156,7 @@
         </div>
     </main>
 
+    <!-- Agent registration page ki JavaScript file load kar rahe hain. -->
     <script src="js-f/register-agent.js"></script>
 </body>
 </html>

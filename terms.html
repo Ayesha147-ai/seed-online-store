@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +11,7 @@
 </head>
 <body>
 
+    <!-- HEADER -->
     <section id="header">
         <div class="logo">
             <i class="fas fa-seedling"></i>
@@ -20,10 +22,14 @@
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+
+        <!-- Login and signup buttons for users who are not logged in -->
         <div id="auth-buttons">
             <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
             <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
         </div>
+
+        <!-- User account buttons shown after login -->
         <div id="user-info" style="display:none; align-items:center; gap:10px;">
             <a id="dashboard-link" href="#" style="display:none;" class="login-btn">
                 <i class="fas fa-tachometer-alt"></i> Dashboard
@@ -33,16 +39,20 @@
             </a>
             <button class="login-btn" onclick="window.location.href='auth/logout.php'">Logout</button>
         </div>
+
+        <!-- Cart button with item count -->
         <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-cart"></i> My Cart
             <span class="cart-count">0</span>
         </button>
     </section>
 
+    <!-- TERMS AND CONDITIONS CONTENT -->
     <section class="legal-page-section">
         <h1><i class="fas fa-file-contract"></i> Terms & Conditions</h1>
         <p class="legal-updated">Last updated: September 2026</p>
 
+        <!-- Legal terms and conditions -->
         <div class="legal-content">
 
             <h2>1. Acceptance of Terms</h2>
@@ -81,6 +91,7 @@
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="section-p1">
         <div class="col">
             <div class="logo">
@@ -91,6 +102,7 @@
             <p><strong>Address:</strong> Hafizabad road Gujranwala</p>
             <p><strong>Phone:</strong> +923316481168</p>
         </div>
+
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -98,6 +110,7 @@
             <a href="terms.html">Terms & Conditions</a>
             <a href="contact.html">Contact us</a>
         </div>
+
         <div class="col">
             <h4>My Account</h4>
             <a href="my-account.html">My Account</a>
@@ -105,11 +118,15 @@
             <a href="order-track.html">Track My Orders</a>
             <a href="help.html">Help</a>
         </div>
+
+        <!-- Copyright section -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
     </footer>
 
+    <!-- Main website JavaScript -->
     <script src="js-f/script.js"></script>
 </body>
 </html>
+```

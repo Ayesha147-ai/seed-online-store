@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmed - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Order confirmation page ki CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/order-confirmed.css">
 </head>
 <body>
 
     <!-- HEADER -->
+    <!-- Website ka navigation header. -->
     <section id="header">
         <div class="logo">
             <i class="fas fa-seedling"></i>
             <span>TrackSeed</span>
         </div>
+
+        <!-- Main navigation links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+
+        <!-- Login aur signup ke buttons. -->
         <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
         <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+
+        <!-- Cart page par jane aur cart item count show karne wala button. -->
         <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-cart"></i> My Cart
             <span class="cart-count">0</span>
@@ -29,44 +41,63 @@
     </section>
 
     <!-- MAIN -->
+    <!-- Order confirmation page ka main content wrapper. -->
     <div class="confirm-wrapper">
 
         <!-- Success Box -->
+        <!-- Successful order placement ka message aur order ID. -->
         <div class="success-box">
             <div class="success-icon">
                 <i class="fas fa-check"></i>
             </div>
             <h1>Order Placed Successfully!</h1>
             <p>Thank you for your order. We have received your request and it is being processed.</p>
+
+            <!-- Order ID yahan display hoti hai. -->
             <div class="order-id-badge">
                 Order ID: <span id="order-id">#TS-1042</span>
             </div>
         </div>
 
         <!-- Order Details -->
+        <!-- Order ki basic details display karne wala card. -->
         <div class="detail-card">
             <h3><i class="fas fa-receipt"></i> Order Details</h3>
+
+            <!-- Order details ko grid format mein show kar rahe hain. -->
             <div class="detail-grid">
+
+                <!-- Payment method ki information. -->
                 <div class="detail-item">
                     <span class="d-label">Payment Method</span>
                     <span class="d-value" id="payment-method">JazzCash</span>
                 </div>
+
+                <!-- Delivery city ki information. -->
                 <div class="detail-item">
                     <span class="d-label">Delivery City</span>
                     <span class="d-value" id="delivery-city">Gujranwala</span>
                 </div>
+
+                <!-- Nearest warehouse ki information. -->
                 <div class="detail-item">
                     <span class="d-label">Nearest Warehouse</span>
                     <span class="d-value">Gujranwala Central Warehouse</span>
                 </div>
+
+                <!-- Estimated delivery time. -->
                 <div class="detail-item">
                     <span class="d-label">Estimated Delivery</span>
                     <span class="d-value">3 - 5 Business Days</span>
                 </div>
+
+                <!-- Ordered items ki total quantity. -->
                 <div class="detail-item">
                     <span class="d-label">Items Ordered</span>
                     <span class="d-value" id="item-count">4 items</span>
                 </div>
+
+                <!-- Order ka grand total. -->
                 <div class="detail-item">
                     <span class="d-label">Grand Total</span>
                     <span class="d-value green" id="grand-total">Rs 480</span>
@@ -75,19 +106,28 @@
         </div>
 
         <!-- Order Items List -->
+        <!-- Order mein shamil products aur totals ka card. -->
         <div class="detail-card">
             <h3><i class="fas fa-seedling"></i> Items in Your Order</h3>
+
+            <!-- JavaScript yahan ordered items dynamically add karega. -->
             <div id="order-items-list">
                 <!-- Filled by JS -->
             </div>
+
+            <!-- Order subtotal. -->
             <div class="total-row">
                 <span>Subtotal</span>
                 <span id="subtotal-val">Rs 430</span>
             </div>
+
+            <!-- Fixed delivery charges. -->
             <div class="total-row">
                 <span>Delivery Charges</span>
                 <span>Rs 50</span>
             </div>
+
+            <!-- Final grand total. -->
             <div class="total-row grand">
                 <span>Grand Total</span>
                 <span id="grand-val">Rs 480</span>
@@ -95,10 +135,15 @@
         </div>
 
         <!-- Buttons -->
+        <!-- Order tracking aur shopping continue karne ke buttons. -->
         <div class="action-btns">
+
+            <!-- User ko order tracking page par le jata hai. -->
             <button class="btn-track" onclick="window.location.href='order-track.html'">
                 <i class="fas fa-map-marker-alt"></i> Track My Order
             </button>
+
+            <!-- User ko home page par wapas le jata hai. -->
             <button class="btn-home" onclick="window.location.href='index.html'">
                 <i class="fas fa-home"></i> Continue Shopping
             </button>
@@ -107,17 +152,25 @@
     </div>
 
     <!-- FOOTER -->
+    <!-- Website ka footer section. -->
    <footer class="section-p1">
+
+        <!-- Contact aur social media information. -->
         <div class="col">
+
             <!-- Logo -->
             <div class="logo">
                 <i class="fas fa-seedling"></i>
                 <span>TrackSeed</span>
             </div>
+
+            <!-- Contact information. -->
             <h4>Contact</h4>
             <p><strong>Address:</strong> Hafizabad road gujranwala </p>
             <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
             <p><strong>Hours:</strong>10:00 - 18:00. Mon-Sat</p>
+
+            <!-- Social media icons. -->
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
@@ -130,7 +183,7 @@
             </div>
         </div>
 
-
+        <!-- About section ke footer links. -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -139,6 +192,7 @@
             <a href="contact.html">Contact us</a>
         </div>
 
+        <!-- Account related footer links. -->
         <div class="col">
             <h4>My Account</h4>
             <a href="cart.html">View Carts</a>
@@ -147,13 +201,14 @@
             <a href="help.html">Help</a>
         </div>
 
-
+        <!-- Copyright information. -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
 
     </footer>
 
+    <!-- Order confirmation page ki JavaScript file load kar rahe hain. -->
     <script src="js-f/order-confirm.js"></script>
 </body>
 </html>
