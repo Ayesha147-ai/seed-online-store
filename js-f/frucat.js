@@ -1,28 +1,43 @@
-// ============================================================
-//   js-f/frucat.js — Fruit Seeds Page & Cart Count Logic
-//   Yeh file fruit seeds page par cart count badge ko dynamically update karti hai
-// ================================================================
+// ============================================
+//   FRUCAT.JS — Fruit Seeds Page
+// ============================================
 
-// Page load hone ke baad cart count update kar rahe hain.
 document.addEventListener('DOMContentLoaded', () => {
-
     updateCartCount();
-
 });
 
-// Navbar ya cart badge mein total cart quantity show karne ka function.
 function updateCartCount() {
-
-    // LocalStorage se cart data load kar rahe hain; agar data na ho to empty array use hoga.
     const cart = JSON.parse(localStorage.getItem('tsCart')) || [];
-
-    // Cart ke tamam items ki quantities ko add karke total quantity calculate kar rahe hain.
     const total = cart.reduce((sum, item) => sum + item.qty, 0);
-
-    // Cart count badge ko select kar rahe hain.
     const badge = document.querySelector('.cart-count');
-
-    // Agar badge page par available ho to calculated total display kar rahe hain.
     if (badge) badge.textContent = total;
-
 }
+document.getElementById("submitReview").addEventListener("click", async () => {
+    const rating = document.getElementById("rating").value;
+    const reviewText = document.getElementById("reviewText").value;
+
+    if (!rating || !reviewText.trim()) {
+        alert("Please provide a rating and review.");
+        return;
+    }
+
+    const response = await fetch("api/add-review.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            product_id: productId,
+            rating: rating,
+            review: reviewText
+        })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        alert("Thanks! Your review has been submitted.");
+    } else {
+        alert(result.message);
+    }
+});
