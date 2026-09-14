@@ -9,6 +9,9 @@
 // Database aur helper functions ki required files load karo
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 // Response ko JSON format mein set karo
 header('Content-Type: application/json');
@@ -59,12 +62,32 @@ mysqli_stmt_bind_param($insertStmt, 'ss', $email, $otp);
 
 // Check karo ke OTP successfully database mein save hua hai ya nahi
 if (mysqli_stmt_execute($insertStmt)) {
-    // Demo/FYP mode mein generated OTP response ke andar send karo
-    echo json_encode([
-        'status'   => 'success',
-        'message'  => 'OTP generated successfully.',
-        'demo_otp' => $otp   // Sirf demo/FYP ke liye — production mein yeh kabhi frontend ko nahi bhejte
-    ]);
+    $env = parse_ini_file(__DIR__ . '/../.env');
+    $gmailAddress  = $env['GMAIL_ADDRESS'] ?? '';
+    $gmailPassword = $env['GMAIL_APP_PASSWORD'] ?? '';
+
+    $mail = new PHPMailer(true);
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $gmailAddress;
+        $mail->Password   = $gmailPassword;
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+
+        $mail->setFrom($gmailAddress, 'TrackSeed Support');
+        $mail->addAddress($email);
+        $mail->Subject = 'Your TrackSeed Password Reset Code';
+        $mail->Body    = "Your OTP code is: $otp\n\nThis code expires in 10 minutes.";
+
+        $mail->send();
+
+        echo json_encode(['status' => 'success', 'message' => 'OTP sent to your email.']);
+    } catch (Exception $e) {
+        error_log('Email send failed: ' . $mail->ErrorInfo);
+        echo json_encode(['status' => 'error', 'message' => 'Failed to send email. Please try again.']);
+    }
 } else {
     // OTP save karne ki database error ko log karo
     error_log('OTP insert failed: ' . mysqli_error($conn));
