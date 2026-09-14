@@ -55,20 +55,6 @@ function sendCode() {
 
             document.getElementById('email-display').textContent = email;
 
-            // Demo OTP ab yahan persistently dikhega — koi timeout nahi,
-
-            // jab tak step badal na jaye ya dobara code bheja na jaye
-
-            const demoDisplay = document.getElementById('demo-otp-display');
-
-            if (demoDisplay) {
-
-                demoDisplay.textContent = 'Demo OTP: ' + data.demo_otp;
-
-            }
-
-            console.log('Demo OTP:', data.demo_otp);
-
             showStep('step-otp');
 
             setTimeout(() => {
