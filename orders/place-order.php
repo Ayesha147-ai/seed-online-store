@@ -7,6 +7,7 @@
 // Session, database aur helper functions ki required files load karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';
+require_once '../includes/config.php';
 require_once '../includes/helpers.php';
 
 // Check karo ke user logged in hai aur response JSON format mein do
@@ -110,7 +111,7 @@ if ($payment === 'stripe') {
     }
 
     // Yahan apni Stripe ki Secret Test Key daliye (sk_test_...)
-    $stripeSecretKey = 'sk_test_51UAQgmQodAeOwyHCYg1EEcCwEAsznbGUU4MMFNDZ8FzBEPUL7BAz0pHYziYeAdSo3tKDDk4mRHuKHubxisC3EeRJ00T0X16oUr'; 
+    $stripeSecretKey = 'STRIPE_SECRET_KEY'; 
 
     // Stripe Charges API ke liye cURL request initialize karo
     $ch = curl_init('https://api.stripe.com/v1/charges');
