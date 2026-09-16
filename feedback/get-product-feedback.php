@@ -31,6 +31,5 @@ echo json_encode([
     'avg_rating' => $avgRating,
     'count'      => $count
 ]);
-<link rel="stylesheet" href="css/feedback.css">
 
 ?>
