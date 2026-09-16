@@ -1,4 +1,8 @@
 <?php
+// ============================================================
+//   admin/get-pending-agents.php — Fetch Pending Agent Applications
+//   Yeh file database se un agents ki list hasil karti hai jinki approval pending hai
+// ============================================================
 // Session aur database ki required files load karo aur admin access verify karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';

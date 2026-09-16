@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Browser tab mein agent dashboard ka title show hoga. -->
     <title>Agent Dashboard - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Agent dashboard ki custom CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/agent-dashboard.css">
 </head>
 <body>
 
 <!-- SIDEBAR -->
+<!-- Dashboard ka left sidebar navigation ke liye use ho raha hai. -->
 <aside class="sidebar">
+
+    <!-- Sidebar mein website ka logo show kar rahe hain. -->
     <div class="sidebar-logo">
         <i class="fas fa-seedling"></i> TrackSeed
     </div>
 
+    <!-- Agent ki basic information display kar rahe hain. -->
     <div class="sidebar-user">
         <div class="user-avatar">AG</div>
         <div class="user-info">
@@ -23,30 +34,45 @@
         </div>
     </div>
 
+    <!-- Sidebar ke tamam navigation options. -->
     <nav class="sidebar-nav">
+
+        <!-- Main dashboard navigation group. -->
         <div class="nav-label">Main</div>
         <div class="nav-item active" data-section="dashboard">
             <i class="fas fa-chart-pie"></i> Dashboard
         </div>
+
+        <!-- Agent ke seeds manage karne ka section. -->
         <div class="nav-item" data-section="my-seeds">
             <i class="fas fa-seedling"></i> My Seeds
         </div>
+
+        <!-- Naya seed add karne ka section. -->
         <div class="nav-item" data-section="add-seed">
             <i class="fas fa-plus-circle"></i> Add New Seed
         </div>
+
+        <!-- Agent ke orders ka section. -->
         <div class="nav-item" data-section="orders">
             <i class="fas fa-shopping-bag"></i> Orders
         </div>
 
+        <!-- Account related navigation group. -->
         <div class="nav-label">Account</div>
+
+        <!-- Agent ki earnings ka section. -->
         <div class="nav-item" data-section="earnings">
             <i class="fas fa-wallet"></i> Earnings
         </div>
+
+        <!-- Account settings ka section. -->
         <div class="nav-item" data-section="settings">
             <i class="fas fa-cog"></i> Settings
         </div>
     </nav>
 
+    <!-- Agent logout karne ka option. -->
         <div class="nav-item" onclick="window.location.href='auth/logout.php'">
             <i class="fas fa-sign-out-alt"></i> Logout
         </div>
@@ -54,27 +80,35 @@
 </aside>
 
 <!-- MAIN -->
+<!-- Dashboard ka main content area. -->
 <div class="main">
 
     <!-- TOPBAR -->
+    <!-- Topbar mein current section ka title, date aur Add Seed button show hota hai. -->
     <div class="topbar">
         <div class="topbar-left">
             <h1 id="page-title">Dashboard</h1>
             <p id="page-date"></p>
         </div>
         <div class="topbar-right">
+            <!-- Directly Add Seed section open karne ka button. -->
             <button class="add-btn" onclick="showSection('add-seed')">
                 <i class="fas fa-plus"></i> Add Seed
             </button>
         </div>
     </div>
 
+    <!-- Dashboard ke different sections ka main container. -->
     <div class="content">
 
         <!-- ===== DASHBOARD ===== -->
+        <!-- Main dashboard section jahan agent ki summary information show hoti hai. -->
         <div class="section active" id="section-dashboard">
 
+            <!-- Agent ke important statistics cards. -->
             <div class="stats-grid">
+
+                <!-- Total seeds ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Total Seeds</span>
@@ -82,6 +116,8 @@
                     </div>
                     <div class="stat-val" id="stat-total-seeds">...</div>
                 </div>
+
+                <!-- Active seeds ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Active Seeds</span>
@@ -89,6 +125,8 @@
                     </div>
                     <div class="stat-val" id="stat-active-seeds">...</div>
                 </div>
+
+                <!-- Pending seeds ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Pending Seeds</span>
@@ -96,6 +134,8 @@
                     </div>
                     <div class="stat-val" id="stat-pending-seeds">...</div>
                 </div>
+
+                <!-- Total orders ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Total Orders</span>
@@ -103,6 +143,8 @@
                     </div>
                     <div class="stat-val" id="stat-total-orders">...</div>
                 </div>
+
+                <!-- Pending orders ka statistic card. -->
                 <div class="stat-card">
                     <div class="stat-top">
                         <span class="stat-label">Pending Orders</span>
@@ -113,19 +155,28 @@
             </div>
 
             <!-- Quick Actions -->
+            <!-- Common agent actions ko quick access buttons mein show kar rahe hain. -->
             <div class="quick-grid">
+
+                <!-- Add Seed section open karne ka quick button. -->
                 <div class="quick-btn" onclick="showSection('add-seed')">
                     <i class="fas fa-plus-circle"></i>
                     <p>Add Seed</p>
                 </div>
+
+                <!-- My Seeds section open karne ka quick button. -->
                 <div class="quick-btn" onclick="showSection('my-seeds')">
                     <i class="fas fa-boxes"></i>
                     <p>Manage Seeds</p>
                 </div>
+
+                <!-- Orders section open karne ka quick button. -->
                 <div class="quick-btn" onclick="showSection('orders')">
                     <i class="fas fa-truck"></i>
                     <p>View Orders</p>
                 </div>
+
+                <!-- Earnings section open karne ka quick button. -->
                 <div class="quick-btn" onclick="showSection('earnings')">
                     <i class="fas fa-wallet"></i>
                     <p>Earnings</p>
@@ -133,7 +184,10 @@
             </div>
 
             <!-- Recent Seeds + Recent Orders -->
+            <!-- Recent seeds aur orders ki summary tables. -->
             <div class="dash-grid">
+
+                <!-- Recent seeds ki table. -->
                 <div class="card">
                     <div class="card-header">
                         <h3>Recent Seeds</h3>
@@ -154,6 +208,7 @@
                     </table>
                 </div>
 
+                <!-- Recent orders ki table. -->
                 <div class="card">
                     <div class="card-header">
                         <h3>Recent Orders</h3>
@@ -179,6 +234,7 @@
         </div>
 
         <!-- ===== MY SEEDS ===== -->
+        <!-- Agent ke apne seeds ki complete list. -->
         <div class="section" id="section-my-seeds">
             <div class="card">
                 <div class="card-header">
@@ -204,18 +260,27 @@
         </div>
 
         <!-- ===== ADD SEED ===== -->
+        <!-- Naya seed add karne ka form. -->
         <div class="section" id="section-add-seed">
             <div class="card">
                 <div class="card-header">
                     <h3>Add New Seed</h3>
                     <span>Fill all details carefully</span>
                 </div>
+
+                <!-- Seed details submit karne wala form. -->
                 <form id="add-seed-form" onsubmit="handleAddSeed(event)" enctype="multipart/form-data">
+
+                    <!-- Seed form ke inputs ko grid mein arrange kar rahe hain. -->
                     <div class="form-grid">
+
+                        <!-- Seed name input. -->
                         <div class="form-group">
                             <label>Seed Name *</label>
                             <input type="text" id="seed-name" name="seed-name" placeholder="e.g. Sweet Corn F1 Hybrid" required>
                         </div>
+
+                        <!-- Seed category select karne ka option. -->
                         <div class="form-group">
                             <label>Category *</label>
                             <select id="seed-category" name="seed-category" required>
@@ -225,26 +290,38 @@
                                 <option value="Herb">Herb</option>
                             </select>
                         </div>
+
+                        <!-- Seed price input. -->
                         <div class="form-group">
                             <label>Price (Rs) *</label>
                             <input type="number" id="seed-price" name="seed-price" placeholder="e.g. 100" required>
                         </div>
+
+                        <!-- Seed stock input. -->
                         <div class="form-group">
                             <label>Stock (packs) *</label>
                             <input type="number" id="seed-stock" name="seed-stock" placeholder="e.g. 200" required>
                         </div>
+
+                        <!-- Seed type input. -->
                         <div class="form-group">
                             <label>Seed Type</label>
                             <input type="text" name="seed-type" placeholder="e.g. Hybrid, Organic">
                         </div>
+
+                        <!-- Seed quality input. -->
                         <div class="form-group">
                             <label>Quality</label>
                             <input type="text" name="seed-quality" placeholder="e.g. Premium, Standard">
                         </div>
+
+                        <!-- Seed pack weight input. -->
                         <div class="form-group">
                             <label>Weight per Pack</label>
                             <input type="text" name="seed-weight" placeholder="e.g. 10g, 50g">
                         </div>
+
+                        <!-- Seed growing season select karne ka option. -->
                         <div class="form-group">
                             <label>Growing Season</label>
                             <select name="seed-season">
@@ -256,20 +333,28 @@
                                 <option>All Season</option>
                             </select>
                         </div>
+
+                        <!-- Seed description ka input area. -->
                         <div class="form-group form-full">
                             <label>Description</label>
                             <textarea id="seed-desc" name="seed-desc" placeholder="Describe the seed..."></textarea>
                         </div>
+
+                        <!-- Seed image upload karne ka field. -->
                         <div class="form-group form-full">
                             <label>Seed Image</label>
                             <input type="file" name="seed-image" accept="image/*">
                         </div>
                     </div>
+
+                    <!-- Form submit aur cancel buttons. -->
                     <div class="form-actions">
                         <button type="submit" class="btn-submit">Add Seed</button>
                         <button type="button" class="btn-cancel" onclick="showSection('my-seeds')">Cancel</button>
                     </div>
                 </form>
+
+                <!-- Seed successfully submit hone ke baad success message. -->
                 <div id="seed-success" class="success-msg" style="display:none;">
                     <i class="fas fa-check-circle"></i> Seed submitted! Admin will review it shortly.
                 </div>
@@ -277,7 +362,10 @@
         </div>
 
         <!-- ===== ORDERS ===== -->
+        <!-- Agent ke orders ko status ke according filter aur view karne wala section. -->
         <div class="section" id="section-orders">
+
+            <!-- Order status filters. -->
             <div class="filter-bar">
                 <button class="filter-btn active" onclick="filterOrders('all', this)">All</button>
                 <button class="filter-btn" onclick="filterOrders('placed', this)">Placed</button>
@@ -285,6 +373,8 @@
                 <button class="filter-btn" onclick="filterOrders('delivered', this)">Delivered</button>
                 <button class="filter-btn" onclick="filterOrders('cancelled', this)">Cancelled</button>
             </div>
+
+            <!-- Orders ki details table. -->
             <div class="card">
                 <div class="card-header">
                     <h3>My Orders</h3>
@@ -310,18 +400,27 @@
         </div>
 
         <!-- ===== EARNINGS ===== -->
+        <!-- Agent ki earnings ki summary. -->
         <div class="section" id="section-earnings">
+
+            <!-- Earnings ke different statistics cards. -->
             <div class="earn-grid">
+
+                <!-- Total earnings ka card. -->
                 <div class="earn-card">
                     <div class="big" id="earn-total">Rs 0</div>
                     <div class="lbl">Total Earnings</div>
                     <div class="sub">From delivered orders</div>
                 </div>
+
+                <!-- Delivered orders count ka card. -->
                 <div class="earn-card">
                     <div class="big" id="earn-orders">0</div>
                     <div class="lbl">Delivered Orders</div>
                     <div class="sub">Successfully completed</div>
                 </div>
+
+                <!-- Average order earning ka card. -->
                 <div class="earn-card">
                     <div class="big" id="earn-avg">Rs 0</div>
                     <div class="lbl">Avg per Order</div>
@@ -331,43 +430,66 @@
         </div>
 
         <!-- ===== SETTINGS ===== -->
+        <!-- Agent account ki personal information aur password settings. -->
         <div class="section" id="section-settings">
             <div class="card">
                 <div class="card-header">
                     <h3>Account Settings</h3>
                     <span>Update your information</span>
                 </div>
+
+                <!-- Profile aur password settings ko grid mein arrange kar rahe hain. -->
                 <div class="settings-grid">
+
+                    <!-- Personal information update section. -->
                     <div class="settings-section">
                         <h4>Personal Information</h4>
+
+                        <!-- Agent ka name input. -->
                         <div class="form-group">
                             <label>Full Name</label>
                             <input type="text" id="profile-name" placeholder="Your name">
                         </div>
+
+                        <!-- Agent ka email input. -->
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" id="profile-email" placeholder="Your email">
                         </div>
+
+                        <!-- Agent ka phone input. -->
                         <div class="form-group">
                             <label>Phone</label>
                             <input type="tel" id="profile-phone" placeholder="Your phone">
                         </div>
+
+                        <!-- Profile changes save karne ka button. -->
                         <button class="btn-submit" style="margin-top:8px;" onclick="saveProfile()">Save Changes</button>
                     </div>
+
+                    <!-- Password change section. -->
                     <div class="settings-section">
                         <h4>Change Password</h4>
+
+                        <!-- Current password input. -->
                         <div class="form-group">
                             <label>Current Password</label>
                             <input type="password" id="current-password" placeholder="Enter current password">
                         </div>
+
+                        <!-- New password input. -->
                         <div class="form-group">
                             <label>New Password</label>
                             <input type="password" id="new-password" placeholder="Enter new password">
                         </div>
+
+                        <!-- New password confirmation input. -->
                         <div class="form-group">
                             <label>Confirm Password</label>
                             <input type="password" id="confirm-password" placeholder="Confirm new password">
                         </div>
+
+                        <!-- Password update karne ka button. -->
                         <button class="btn-submit" style="margin-top:8px;" onclick="changeMyPassword()">Update Password</button>
                     </div>
                 </div>
@@ -377,6 +499,7 @@
     </div>
 </div>
 
+<!-- Agent dashboard ki JavaScript functionality load kar rahe hain. -->
 <script src="js-f/agent-dashboard.js"></script>
 </body>
 </html>

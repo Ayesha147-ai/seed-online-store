@@ -2,9 +2,11 @@
 <html lang="en">
 
 <head>
+    <!-- Yahan document ka character set aur mobile responsiveness set ki gayi hai -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - TrackSeeds</title>
+    <!-- Font Awesome icons aur custom CSS stylesheet ko link kiya gaya hai -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css-f/login.css">
 </head>
@@ -18,6 +20,7 @@
         <div class="login-box">
 
             <!-- Left Side Image -->
+            <!-- Login page ka left side jahan image aur welcome message display hota hai -->
             <div class="login-image">
                 <img src="css-f/img/veg(page).jpg" alt="Seeds">
                 <div class="overlay">
@@ -27,22 +30,27 @@
             </div>
 
             <!-- Right Side Form -->
+            <!-- Login page ka right side jahan user details enter karne ka form hai -->
             <div class="login-form">
                 <h3>Login to Your Account</h3>
                 <p>Enter your details below</p>
 
+                <!-- Login form jo data ko backend authentication file par POST method ke zariye bhejta hai -->
                 <form action="auth/login.php" method="POST">
 
+                    <!-- Email input field -->
                     <div class="input-group">
                         <i class="fas fa-envelope"></i>
                         <input type="email" placeholder="Email Address" name="email">
                     </div>
 
+                    <!-- Password input field -->
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
                         <input type="password" placeholder="Password" name="password">
                     </div>
 
+                    <!-- Remember me checkbox aur Forgot Password link -->
                     <div class="form-options">
                         <label>
                             <input type="checkbox" name="remember"> Remember Me
@@ -50,15 +58,18 @@
                         <a href="#" onclick="window.location.href='forgot-password.html'">Forgot Password?</a>
                     </div>
 
+                    <!-- Login submit button -->
                     <button type="submit" class="login-submit-btn">Login</button>
 
                 </form>
 
+                <!-- Signup page par jaane ke liye switch link -->
                 <p class="switch-text">
                     Don't have an account?
                     <a href="signup.html">Sign Up</a>
                 </p>
 
+                <!-- Home page par wapas jaane ka link -->
                 <p class="back-home">
                     <a href="index.html">
                         <i class="fas fa-arrow-left"></i> Back to Home
@@ -69,17 +80,19 @@
         </div>
     </section>
 
+    <!-- JavaScript code jo URL se error messages read karke screen par show karta hai -->
     <script>
 // Error messages URL se read karo
 const params = new URLSearchParams(window.location.search);
 const error  = params.get('error');
 
+// Mukhtalif error codes ke mukhtalif messages define kiye gaye hain
 const messages = {
-    'empty':           'Email and password are both required.',
-    'no_account':       'No account found with this email. Please sign up first.',
-    'wrong_password':   'Incorrect password. Please try again.',
-    'not_approved':     'Your agent application has not been approved yet.',
-    'blocked':          'Your account has been blocked. Please contact support.'
+    'empty':             'Email and password are both required.',
+    'no_account':        'No account found with this email. Please sign up first.',
+    'wrong_password':    'Incorrect password. Please try again.',
+    'not_approved':      'Your agent application has not been approved yet.',
+    'blocked':           'Your account has been blocked. Please contact support.'
 };
 
 

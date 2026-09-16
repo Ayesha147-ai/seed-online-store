@@ -2,10 +2,17 @@
 <html lang="en">
 
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Browser tab mein cart page ka title show hoga. -->
     <title>My Cart - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Cart page ki custom CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/cart.css">
     <!-- cart.css file css-f folder mein rakhna -->
 </head>
@@ -13,20 +20,29 @@
 <body>
 
     <!-- ===== HEADER (same as index.html) ===== -->
+    <!-- Header mein logo, navigation aur cart button show ho raha hai. -->
     <section id="header">
+
+        <!-- Logo par click karne se user home page par chala jayega. -->
         <a href="javascript:void(0);" onclick="window.location.href='index.html';" class="logo" style="text-decoration: none;">
     <i class="fas fa-seedling"></i>
     <span>TrackSeed</span>
 </a>
 
+        <!-- Main website navigation links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
 
+        <!-- Login page par jane ka button. -->
         <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+
+        <!-- Signup page par jane ka button. -->
         <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+
+        <!-- Current cart open karne aur cart quantity show karne ka button. -->
         <button class="cart-btn-nav">
             <i class="fas fa-shopping-cart"></i> My Cart
             <span class="cart-count" id="cartCount">0</span>
@@ -34,19 +50,23 @@
     </section>
 
     <!-- ===== CART HERO ===== -->
+    <!-- Cart page ka heading aur short description. -->
     <section class="cart-hero">
         <h1>My Cart</h1>
         <p>Review your selected seeds before checkout</p>
     </section>
 
     <!-- ===== MAIN CART SECTION ===== -->
+    <!-- Cart items aur order summary ka main area. -->
     <section class="cart-section section-p1">
         <div class="cart-layout">
 
             <!-- LEFT: Cart Items -->
+            <!-- Left side par selected products display honge. -->
             <div class="cart-items-box">
 
                 <!-- Cart Table Header -->
+                <!-- Cart columns ke headings. -->
                 <div class="cart-header-row">
                     <span>Product</span>
                     <span>Price</span>
@@ -56,23 +76,32 @@
                 </div>
 
                 <!-- Cart Items will show here -->
+                <!-- JavaScript selected cart items is container mein add karegi. -->
                 <div id="cartItemsList">
                     <!-- JS se items yahan aayengi -->
                 </div>
 
                 <!-- Empty Cart Message -->
+                <!-- Jab cart empty ho to yeh message show hoga. -->
                 <div class="empty-cart" id="emptyCart" style="display:none;">
                     <i class="fas fa-shopping-cart"></i>
                     <h3>Your cart is empty!</h3>
                     <p>Go back and add some seeds.</p>
+
+                    <!-- User ko products par wapas le jane ka button. -->
                     <a href="index.html" class="continue-btn">Continue Shopping</a>
                 </div>
 
                 <!-- Continue Shopping Button -->
+                <!-- Cart ko continue shopping ya clear karne ke actions. -->
                 <div class="cart-actions" id="cartActions">
+
+                    <!-- Home/products page par wapas jane ka link. -->
                     <a href="index.html" class="continue-btn">
                         <i class="fas fa-arrow-left"></i> Continue Shopping
                     </a>
+
+                    <!-- JavaScript se cart clear karne ka button. -->
                     <button class="clear-btn" onclick="clearCart()">
                         <i class="fas fa-trash"></i> Clear Cart
                     </button>
@@ -81,32 +110,44 @@
             </div>
 
             <!-- RIGHT: Order Summary -->
+            <!-- Right side par cart ka price summary show hoga. -->
             <div class="order-summary">
                 <h3>Order Summary</h3>
 
+                <!-- Products ka subtotal. -->
                 <div class="summary-row">
                     <span>Subtotal</span>
                     <span id="subtotalAmt">Rs 0</span>
                 </div>
+
+                <!-- Fixed delivery charges. -->
                 <div class="summary-row">
                     <span>Delivery Charges</span>
                     <span>Rs 50</span>
                 </div>
+
+                <!-- Discount amount display karne ke liye field. -->
                 <div class="summary-row discount-row">
                     <span>Discount</span>
                     <span id="discountAmt">Rs 0</span>
                 </div>
+
+                <!-- Summary ko visually separate karne wali divider. -->
                 <div class="summary-divider"></div>
+
+                <!-- Final payable amount. -->
                 <div class="summary-row total-row">
                     <span>Grand Total</span>
                     <span id="grandTotalAmt">Rs 0</span>
                 </div>
 
+                <!-- Checkout page par jane ka button. -->
                 <button class="checkout-btn" onclick="proceedToCheckout()">
                     <i class="fas fa-lock"></i> Proceed to Checkout
                 </button>
 
                 <!-- Payment Icons -->
+                <!-- Available payment methods display kar rahe hain. -->
                 <div class="payment-icons">
                     <p>We accept:</p>
                     <div class="pay-icons-row">
@@ -122,17 +163,23 @@
 
 
     <!-- ===== FOOTER (same as index.html) ===== -->
+    <!-- Website ka footer section. -->
    <footer class="section-p1">
         <div class="col">
+
             <!-- Logo -->
             <div class="logo">
                 <i class="fas fa-seedling"></i>
                 <span>TrackSeed</span>
             </div>
+
+            <!-- Contact information. -->
             <h4>Contact</h4>
             <p><strong>Address:</strong> Hafizabad road gujranwala </p>
             <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
             <p><strong>Hours:</strong>10:00 - 18:00. Mon-Sat</p>
+
+            <!-- Social media icons. -->
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
@@ -146,6 +193,7 @@
         </div>
 
 
+        <!-- About related footer links. -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -154,6 +202,7 @@
             <a href="contact.html">Contact us</a>
         </div>
 
+        <!-- Account related footer links. -->
         <div class="col">
             <h4>My Account</h4>
             <a href="cart.html">View Carts</a>
@@ -163,12 +212,14 @@
         </div>
 
 
+        <!-- Copyright information. -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
 
     </footer>
 
+    <!-- Cart ki dynamic functionality wali JavaScript file load kar rahe hain. -->
     <script src="js-f/cart.js"></script>
 
 

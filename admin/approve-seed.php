@@ -1,4 +1,8 @@
 <?php
+// ============================================================
+//   admin/approve-seed.php — Seed Approval Action
+//   Yeh file admin ke zariye seed products ko approve ya reject karti hai
+// ============================================================
 // Session aur database ki required files load karo aur admin access verify karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';

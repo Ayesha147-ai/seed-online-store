@@ -1,11 +1,16 @@
 <?php
 // ============================================================
 //   includes/process-contact.php
-//   Contact form ka data save karta hai — ab login zaroori hai
+//   Contact form ka message seedha Gmail par bhejta hai
+//   (ab database mein save nahi hota — admin apne Gmail se
+//   directly reply karega)
 // ============================================================
-require_once __DIR__ . '/session.php';
+
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 header('Content-Type: application/json');
 
@@ -14,28 +19,59 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false, 'msg' => 'Please login first to send a message.', 'need_login' => true]);
-    exit();
-}
+// Form ki values hasil aur sanitize karo
+$email   = clean($conn, trim($_POST['email']   ?? ''));
+$message = clean($conn, trim($_POST['message'] ?? ''));
 
-$userId  = $_SESSION['user_id'];
-$name    = clean($conn, $_POST['name']    ?? '');
-$phone   = clean($conn, $_POST['phone']   ?? '');
-$message = clean($conn, $_POST['message'] ?? '');
-
-if (empty($name) || empty($phone) || empty($message)) {
+// Required fields check
+if (empty($email) || empty($message)) {
     echo json_encode(['success' => false, 'msg' => 'Please fill all required fields.']);
     exit();
 }
 
-$stmt = mysqli_prepare($conn, "INSERT INTO contact_messages (user_id, name, phone, message) VALUES (?, ?, ?, ?)");
-mysqli_stmt_bind_param($stmt, 'isss', $userId, $name, $phone, $message);
+// Email format valid hai ya nahi
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['success' => false, 'msg' => 'Please enter a valid email address.']);
+    exit();
+}
 
-if (mysqli_stmt_execute($stmt)) {
+// .env se Gmail credentials uthao (send-otp.php jaisa pattern)
+$env = parse_ini_file(__DIR__ . '/../.env');
+$gmailAddress  = $env['GMAIL_ADDRESS'] ?? '';
+$gmailPassword = $env['GMAIL_APP_PASSWORD'] ?? '';
+
+
+$destinationEmail = 'trackseedsupport+admin@gmail.com';
+
+$mail = new PHPMailer(true);
+try {
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = $gmailAddress;
+    $mail->Password   = $gmailPassword;
+    $mail->SMTPSecure = 'tls';
+    $mail->Port       = 587;
+
+    // Email TrackSeed ke Gmail account se jayegi
+    $mail->setFrom($gmailAddress, 'TrackSeed Contact Form');
+
+    // Reply-To user ka email set kiya — admin "Reply" dabayega to
+    // seedha user ko jayega, TrackSeed ke Gmail ko nahi
+    $mail->addReplyTo($email);
+
+    // Destination — jahan message deliver hoga
+    $mail->addAddress($destinationEmail);
+
+    $mail->Subject = "New Contact Message from $email";
+    $mail->Body    = "From: $email\n\nMessage:\n$message";
+
+    $mail->send();
+
     echo json_encode(['success' => true, 'msg' => 'Message sent successfully!']);
-} else {
-    error_log('Contact form insert failed: ' . mysqli_stmt_error($stmt));
+
+} catch (Exception $e) {
+    error_log('Contact email send failed: ' . $mail->ErrorInfo);
     echo json_encode(['success' => false, 'msg' => 'Failed to send message. Please try again.']);
 }
 ?>

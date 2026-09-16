@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account - TrackSeeds</title>
+
+    <!-- Font Awesome icons aur account page ki CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css-f/myaccount.css">
 </head>
 <body>
 
+    <!-- Account card jahan user ki profile information show hogi. -->
     <div class="account-card" id="account-card" style="display:none;">
+
+        <!-- Account header mein avatar, name aur role show hoga. -->
         <div class="account-header">
             <div class="avatar"><i class="fas fa-user"></i></div>
             <h2 id="acc-name">—</h2>
             <p id="acc-role">—</p>
         </div>
 
+        <!-- Success ya error messages yahan display honge. -->
         <div id="msgBox"></div>
 
+        <!-- Account ki detailed information. -->
         <div class="account-body" id="account-body">
+
+            <!-- Full name ki information aur edit input. -->
             <div class="info-row">
                 <i class="fas fa-user"></i>
                 <div style="flex:1;">
@@ -27,6 +37,8 @@
                     <input type="text" id="acc-name-input">
                 </div>
             </div>
+
+            <!-- Email ki information aur edit input. -->
             <div class="info-row">
                 <i class="fas fa-envelope"></i>
                 <div style="flex:1;">
@@ -35,6 +47,8 @@
                     <input type="email" id="acc-email-input">
                 </div>
             </div>
+
+            <!-- Phone number ki information aur edit input. -->
             <div class="info-row">
                 <i class="fas fa-phone"></i>
                 <div style="flex:1;">
@@ -43,16 +57,21 @@
                     <input type="text" id="acc-phone-input">
                 </div>
             </div>
+
+            <!-- User ki location show hoti hai. -->
             <div class="info-row">
                 <i class="fas fa-map-marker-alt"></i>
                 <div><div class="label">Location</div><div class="value" id="acc-location">—</div></div>
             </div>
+
+            <!-- User ke account creation/member date show hoti hai. -->
             <div class="info-row">
                 <i class="fas fa-calendar"></i>
                 <div><div class="label">Member Since</div><div class="value" id="acc-since">—</div></div>
             </div>
         </div>
 
+        <!-- Account actions jaise Home, Edit, Save aur Cancel. -->
         <div class="account-actions">
             <a href="index.html" class="btn-home"><i class="fas fa-arrow-left"></i> Home</a>
             <button class="btn-edit" id="editBtn" onclick="enableEdit()"><i class="fas fa-edit"></i> Edit</button>
@@ -61,8 +80,10 @@
         </div>
     </div>
 
+    <!-- Account data load hone tak loading message show hota hai. -->
     <div id="loading">Loading your account...</div>
 
+    <!-- Account page ki JavaScript file load kar rahe hain. -->
     <script src="js-f/myaccount.js"></script>
 
 </body>

@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account - TrackSeeds</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Page ki internal CSS styling. -->
     <style>
+        /* Website ke common color variables define kar rahe hain. */
         :root { --primary-green: #22c55e; --teal: #088178; }
+
+        /* Default margin, padding aur box sizing reset kar rahe hain. */
         * { margin:0; padding:0; box-sizing:border-box; }
+
+        /* Account page ka main body layout aur background. */
         body {
             font-family: 'Segoe UI', sans-serif;
             background: #f4f7f6;
@@ -17,6 +27,8 @@
             justify-content: center;
             padding: 20px;
         }
+
+        /* Account card ka main container. */
         .account-card {
             background: #fff;
             border-radius: 16px;
@@ -25,12 +37,16 @@
             max-width: 480px;
             overflow: hidden;
         }
+
+        /* Account header ka gradient background aur text alignment. */
         .account-header {
             background: linear-gradient(135deg, var(--primary-green), var(--teal));
             padding: 30px;
             text-align: center;
             color: #fff;
         }
+
+        /* User avatar icon ka circular design. */
         .account-header .avatar {
             width: 70px; height: 70px;
             border-radius: 50%;
@@ -39,71 +55,118 @@
             font-size: 28px;
             margin: 0 auto 12px;
         }
+
+        /* Account name ki styling. */
         .account-header h2 { font-size: 20px; margin-bottom: 4px; }
+
+        /* User role ki styling. */
         .account-header p { font-size: 13px; opacity: 0.9; text-transform: capitalize; }
+
+        /* Account information area ki spacing. */
         .account-body { padding: 24px 30px; }
+
+        /* Har account information row ka layout. */
         .info-row {
             display: flex; align-items: center; gap: 12px;
             padding: 14px 0;
             border-bottom: 1px solid #f0f0f0;
         }
+
+        /* Last information row ke neeche border remove kar rahe hain. */
         .info-row:last-child { border-bottom: none; }
+
+        /* Information icons ka color aur width. */
         .info-row i { color: var(--primary-green); width: 20px; text-align: center; }
+
+        /* Information labels ki styling. */
         .info-row .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Information values ki styling. */
         .info-row .value { font-size: 14px; color: #222; font-weight: 600; }
+
+        /* Account action buttons ka layout. */
         .account-actions { padding: 20px 30px 30px; display: flex; gap: 10px; }
+
+        /* Account action links ki common styling. */
         .account-actions a {
             flex: 1; text-align: center; padding: 12px;
             border-radius: 8px; text-decoration: none;
             font-weight: 600; font-size: 14px;
         }
+
+        /* Home button ki styling. */
         .btn-home { background: #f0f0f0; color: #333; }
+
+        /* Logout button ki styling. */
         .btn-logout { background: #fee2e2; color: #991b1b; }
+
+        /* Account data load hone tak loading message ki styling. */
         #loading { text-align:center; padding: 40px; color: #888; }
     </style>
 </head>
 <body>
 
+    <!-- User account ki main card. -->
     <div class="account-card" id="account-card" style="display:none;">
+
+        <!-- Account header mein avatar, name aur role show hoga. -->
         <div class="account-header">
             <div class="avatar"><i class="fas fa-user"></i></div>
             <h2 id="acc-name">—</h2>
             <p id="acc-role">—</p>
         </div>
+
+        <!-- User ki account information display ho rahi hai. -->
         <div class="account-body">
+
+            <!-- User email information. -->
             <div class="info-row">
                 <i class="fas fa-envelope"></i>
                 <div><div class="label">Email</div><div class="value" id="acc-email">—</div></div>
             </div>
+
+            <!-- User phone information. -->
             <div class="info-row">
                 <i class="fas fa-phone"></i>
                 <div><div class="label">Phone</div><div class="value" id="acc-phone">—</div></div>
             </div>
+
+            <!-- User location information. -->
             <div class="info-row">
                 <i class="fas fa-map-marker-alt"></i>
                 <div><div class="label">Location</div><div class="value" id="acc-location">—</div></div>
             </div>
+
+            <!-- Account membership date information. -->
             <div class="info-row">
                 <i class="fas fa-calendar"></i>
                 <div><div class="label">Member Since</div><div class="value" id="acc-since">—</div></div>
             </div>
         </div>
+
+        <!-- Account actions jaise Home aur Logout. -->
         <div class="account-actions">
             <a href="index.html" class="btn-home"><i class="fas fa-arrow-left"></i> Home</a>
             <a href="auth/logout.php" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
 
+    <!-- Profile data load hone tak loading message show hota hai. -->
     <div id="loading">Loading your account...</div>
 
+    <!-- Profile data fetch aur account information display karne ka JavaScript logic. -->
     <script>
+        // Backend se current logged-in user ka profile data fetch kar rahe hain.
         fetch('includes/get-profile.php')
             .then(res => res.json())
             .then(data => {
+                // Agar user logged in nahi hai to login page par redirect kar rahe hain.
                 if (!data.logged_in) {
                     window.location.href = 'login.html';
                     return;
                 }
+
+                // Backend se received user information ko page par display kar rahe hain.
                 document.getElementById('acc-name').textContent = data.name;
                 document.getElementById('acc-role').textContent = data.role;
                 document.getElementById('acc-email').textContent = data.email;
@@ -111,9 +174,11 @@
                 document.getElementById('acc-location').textContent = data.location || '—';
                 document.getElementById('acc-since').textContent = data.member_since;
 
+                // Data load hone ke baad loading message hide aur account card show kar rahe hain.
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('account-card').style.display = 'block';
             })
+            // Fetch ya JSON response mein error aaye to login page par redirect kar rahe hain.
             .catch(() => window.location.href = 'login.html');
     </script>
 

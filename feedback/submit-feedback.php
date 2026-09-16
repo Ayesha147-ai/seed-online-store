@@ -1,7 +1,7 @@
 <?php
 // ============================================================
 //   feedback/submit-feedback.php
-//   Sirf logged-in farmer jo order kar chuka ho feedback de sakta hai
+//   Sirf logged-in user jo order kar chuka ho feedback de sakta hai
 // ============================================================
 
 require_once '../includes/session.php';

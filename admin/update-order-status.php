@@ -1,4 +1,8 @@
 <?php
+// ============================================================
+//   admin/update-order-status.php — Update Order Status Action
+//   Yeh file admin ke zariye kisi bhi order ka status update karti hai
+// ============================================================
 // Session aur database ki required files load karo aur admin access verify karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';

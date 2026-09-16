@@ -2,28 +2,40 @@
 <html lang="en">
 
 <head>
+    <!-- Page ki basic HTML settings define kar rahe hain. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Order - TrackSeed</title>
+
+    <!-- Font Awesome icons ke liye external stylesheet load kar rahe hain. -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Order tracking page ki CSS file load kar rahe hain. -->
     <link rel="stylesheet" href="css-f/order-track.css">
 </head>
 
 <body>
 
     <!-- HEADER -->
+    <!-- Website ka navigation header. -->
     <section id="header">
         <div class="logo">
             <i class="fas fa-seedling"></i>
             <span>TrackSeed</span>
         </div>
+
+        <!-- Main navigation links. -->
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
+
+        <!-- Login aur signup buttons. -->
         <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
         <button class="Signin-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+
+        <!-- Cart page par jane aur cart count show karne wala button. -->
         <button class="cart-btn-nav" onclick="window.location.href='cart.html'">
             <i class="fas fa-shopping-cart"></i> My Cart
             <span class="cart-count">0</span>
@@ -31,47 +43,66 @@
     </section>
 
     <!-- PAGE HERO -->
+    <!-- Order tracking page ka introductory hero section. -->
     <div class="track-hero">
         <h1><i class="fas fa-map-marker-alt"></i> Track Your Order</h1>
         <p>Enter your Order ID to see the latest status of your delivery</p>
     </div>
 
     <!-- MAIN CONTENT -->
+    <!-- Order search aur tracking result ka main wrapper. -->
     <div class="track-wrapper">
 
         <!-- Search Box -->
+        <!-- User yahan Order ID enter karke order track kar sakta hai. -->
         <div class="search-card">
             <div class="search-row">
+
+                <!-- Order ID input field ka wrapper. -->
                 <div class="search-input-wrap">
                     <i class="fas fa-search"></i>
                     <input type="text" id="order-input" placeholder="Enter Order ID  e.g. #TS-1042" />
                 </div>
+
+                <!-- Track order function ko call karne wala button. -->
                 <button class="search-btn" onclick="trackOrder()">
                     <i class="fas fa-search"></i> Track Order
                 </button>
             </div>
+
+            <!-- Invalid Order ID ki error message. -->
             <p id="search-error" class="search-error" style="display:none;">
                 <i class="fas fa-exclamation-circle"></i> Order ID not found. Please check and try again.
             </p>
         </div>
 
         <!-- Result Section (hidden until search) -->
+        <!-- Search successful hone ke baad order details yahan show hongi. -->
         <div id="result-section" style="display:none;">
 
             <!-- Order Info Bar -->
+            <!-- Order ki basic information display karne wala section. -->
             <div class="order-info-bar">
+
+                <!-- Order ID display. -->
                 <div class="info-pill">
                     <span class="pill-label">Order ID</span>
                     <span class="pill-val" id="res-order-id">#TS-1042</span>
                 </div>
+
+                <!-- Order date display. -->
                 <div class="info-pill">
                     <span class="pill-label">Order Date</span>
                     <span class="pill-val" id="res-date">07 May 2026</span>
                 </div>
+
+                <!-- Delivery city display. -->
                 <div class="info-pill">
                     <span class="pill-label">Delivery City</span>
                     <span class="pill-val" id="res-city">Gujranwala</span>
                 </div>
+
+                <!-- Order ka grand total display. -->
                 <div class="info-pill">
                     <span class="pill-label">Grand Total</span>
                     <span class="pill-val green" id="res-total">Rs 480</span>
@@ -79,11 +110,13 @@
             </div>
 
             <!-- Status Timeline -->
+            <!-- Order ke different delivery statuses timeline mein show ho rahe hain. -->
             <div class="timeline-card">
                 <h3><i class="fas fa-truck"></i> Delivery Status</h3>
 
                 <div class="timeline">
 
+                    <!-- Order placed status. -->
                     <div class="tl-step done" id="step-placed">
                         <div class="tl-icon">
                             <i class="fas fa-check-circle"></i>
@@ -95,6 +128,7 @@
                         </div>
                     </div>
 
+                    <!-- Order confirmed status. -->
                     <div class="tl-step" id="step-confirmed">
                         <div class="tl-icon">
                             <i class="fas fa-store"></i>
@@ -106,6 +140,7 @@
                         </div>
                     </div>
 
+                    <!-- Order processing aur packing status. -->
                     <div class="tl-step" id="step-processing">
                         <div class="tl-icon">
                             <i class="fas fa-box-open"></i>
@@ -117,6 +152,7 @@
                         </div>
                     </div>
 
+                    <!-- Order shipped status. -->
                     <div class="tl-step" id="step-shipped">
                         <div class="tl-icon">
                             <i class="fas fa-truck"></i>
@@ -128,6 +164,7 @@
                         </div>
                     </div>
 
+                    <!-- Final delivered status. -->
                     <div class="tl-step" id="step-delivered">
                         <div class="tl-icon">
                             <i class="fas fa-home"></i>
@@ -143,6 +180,7 @@
             </div>
 
             <!-- Items Ordered -->
+            <!-- Current order mein shamil items yahan dynamically show honge. -->
             <div class="items-card">
                 <h3><i class="fas fa-seedling"></i> Items in This Order</h3>
                 <div id="track-items-list">
@@ -155,17 +193,23 @@
     </div><!-- end track-wrapper -->
 
     <!-- FOOTER -->
+    <!-- Website ka footer section. -->
     <footer class="section-p1">
         <div class="col">
+
             <!-- Logo -->
             <div class="logo">
                 <i class="fas fa-seedling"></i>
                 <span>TrackSeed</span>
             </div>
+
+            <!-- Contact information. -->
             <h4>Contact</h4>
             <p><strong>Address:</strong> Hafizabad road gujranwala </p>
             <p><strong>Phone:</strong> +923316481168 / +92 300 6449344</p>
             <p><strong>Hours:</strong>10:00 - 18:00. Mon-Sat</p>
+
+            <!-- Social media icons. -->
             <div class="follow">
                 <h4>Follow us</h4>
                 <div class="icon">
@@ -179,6 +223,7 @@
         </div>
 
 
+        <!-- About section ke footer links. -->
         <div class="col">
             <h4>About</h4>
             <a href="about.html">About us</a>
@@ -187,6 +232,7 @@
             <a href="contact.html">Contact us</a>
         </div>
 
+        <!-- Account related footer links. -->
         <div class="col">
             <h4>My Account</h4>
             <a href="cart.html">View Carts</a>
@@ -196,12 +242,14 @@
         </div>
 
 
+        <!-- Copyright information. -->
         <div class="copywrite">
             <p>&copy; 2025, TrackSeed - All Rights Reserved</p>
         </div>
 
     </footer>
 
+    <!-- Order tracking page ki JavaScript file load kar rahe hain. -->
     <script src="js-f/order-track.js"></script>
 </body>
 

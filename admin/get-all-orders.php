@@ -1,4 +1,8 @@
 <?php
+// ============================================================
+//   admin/get-all-orders.php — Fetch All Orders Data
+//   Yeh file database se tamam orders aur unke items ki details hasil karti hai
+// ============================================================
 // Session aur database ki required files load karo aur admin access verify karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';

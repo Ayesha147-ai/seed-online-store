@@ -1,4 +1,8 @@
 <?php
+// ============================================================
+//   admin/get-stats.php — Fetch Admin Dashboard Statistics
+//   Yeh file admin dashboard ke liye mukhtalif stats aur counts calculate karke bhejti hai
+// ============================================================
 // Session aur database ki required files load karo aur admin access verify karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';
