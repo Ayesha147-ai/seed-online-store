@@ -224,3 +224,16 @@ body {
 .back-home a:hover {
     color: #22c55e;
 }
+
+/* ===== EYE ICON STYLING ===== */
+.toggle-password-icon {
+    margin-left: auto;
+    cursor: pointer;
+    color: #088178;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.toggle-password-icon:hover {
+    color: #22c55e;
+}
