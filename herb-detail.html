@@ -270,6 +270,138 @@
             color: var(--dark-text);
         }
 
+        /* Added: feedback form and review list styles. */
+        /* FEEDBACK */
+        .feedback-section {
+            padding: 0 80px 60px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feedback-heading {
+            color: var(--dark-text);
+            font-size: 22px;
+            margin-bottom: 24px;
+        }
+
+        .feedback-layout {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
+            gap: 24px;
+        }
+
+        .feedback-form,
+        .feedback-reviews {
+            background: var(--white);
+            border: 1px solid var(--border-green);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .feedback-form h3,
+        .feedback-reviews h3 {
+            color: var(--dark-text);
+            font-size: 16px;
+            margin-bottom: 18px;
+        }
+
+        .feedback-form label {
+            display: block;
+            color: var(--body-text);
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feedback-form input,
+        .feedback-form textarea {
+            width: 100%;
+            border: 1px solid var(--border-green);
+            border-radius: 8px;
+            color: var(--dark-text);
+            font-size: 13px;
+            margin-bottom: 16px;
+            padding: 11px 12px;
+        }
+
+        .feedback-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .feedback-form input:focus,
+        .feedback-form textarea:focus {
+            border-color: var(--teal);
+            outline: 2px solid rgba(8, 129, 120, 0.15);
+        }
+
+        .star-picker {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 18px;
+        }
+
+        .star-button {
+            background: transparent;
+            border: 0;
+            color: #cbd5d1;
+            cursor: pointer;
+            font-size: 28px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .star-button.selected,
+        .star-button:hover,
+        .star-button:focus { color: #f59e0b; }
+
+        .feedback-submit {
+            background: var(--dark-green);
+            border: 0;
+            border-radius: 8px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 12px 18px;
+        }
+
+        .feedback-submit:hover { background: var(--teal); }
+        .feedback-submit:disabled { cursor: wait; opacity: 0.65; }
+
+        .feedback-message,
+        .feedback-empty,
+        .feedback-loading {
+            color: var(--gray);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .feedback-message { margin-top: 14px; }
+        .feedback-message.success { color: var(--dark-green); }
+        .feedback-message.error { color: #b91c1c; }
+
+        .review-summary {
+            color: var(--body-text);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .review-item {
+            border-top: 1px solid var(--border-green);
+            padding: 16px 0;
+        }
+
+        .review-item:first-of-type { border-top: 0; padding-top: 0; }
+        .review-name { color: var(--dark-text); font-size: 13px; font-weight: 700; }
+        .review-stars { color: #f59e0b; font-size: 15px; margin: 6px 0; }
+        .review-comment { color: var(--body-text); font-size: 12px; line-height: 1.7; }
+
+        @media (max-width: 760px) {
+            .feedback-section { padding: 0 20px 40px; }
+            .feedback-layout { grid-template-columns: 1fr; }
+        }
+
         /* FOOTER */
         /* Main footer layout */
         footer {
@@ -350,6 +482,43 @@
     <!-- DETAIL CONTENT -->
     <div id="detail-content"></div>
 
+    <!-- Added: feedback form and customer review list. -->
+    <!-- FEEDBACK -->
+    <section id="feedback-section" class="feedback-section" hidden>
+        <h2 class="feedback-heading">Customer feedback</h2>
+        <div class="feedback-layout">
+            <form id="feedback-form" class="feedback-form">
+                <h3>Share your experience</h3>
+
+                <label for="feedback-order-id">Delivered order ID</label>
+                <input id="feedback-order-id" name="order_id" type="number" min="1" required>
+
+                <label>Rating</label>
+                <div id="star-picker" class="star-picker" role="radiogroup" aria-label="Product rating">
+                    <button type="button" class="star-button" data-rating="1" role="radio" aria-label="1 star">★</button>
+                    <button type="button" class="star-button" data-rating="2" role="radio" aria-label="2 stars">★</button>
+                    <button type="button" class="star-button" data-rating="3" role="radio" aria-label="3 stars">★</button>
+                    <button type="button" class="star-button" data-rating="4" role="radio" aria-label="4 stars">★</button>
+                    <button type="button" class="star-button" data-rating="5" role="radio" aria-label="5 stars">★</button>
+                </div>
+
+                <label for="feedback-comment">Comment</label>
+                <textarea id="feedback-comment" name="comment" maxlength="1000" placeholder="Tell us about this seed..." required></textarea>
+                <button class="feedback-submit" type="submit">Submit feedback</button>
+                <p id="feedback-message" class="feedback-message" role="status"></p>
+            </form>
+
+            <div class="feedback-reviews">
+                <h3>What customers say</h3>
+                <p id="review-summary" class="review-summary"></p>
+                <div id="feedback-list">
+                    <p class="feedback-loading">Loading feedback...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
     <!-- FOOTER -->
     <footer class="section-p1">
         <div class="col">
@@ -519,6 +688,8 @@
         // ===== CART STATE =====
         // Current herb information used when adding the product to cart
         let cartId = null, cartName = '', cartPrice = 0, cartImg = '', cartCategory = 'Herb';
+        let feedbackProductId = null;
+        let selectedRating = 0;
 
         // ===== ADD PRODUCT TO CART =====
         function addToCart() {
@@ -574,6 +745,127 @@
                 setTimeout(() => toast.remove(), 300);
             }, 2000);
         }
+
+        // Added: load and display feedback for the current product.
+        // Show reviews for the current database product
+        function loadFeedback(productId) {
+            const list = document.getElementById('feedback-list');
+            const summary = document.getElementById('review-summary');
+
+            list.replaceChildren();
+            const loading = document.createElement('p');
+            loading.className = 'feedback-loading';
+            loading.textContent = 'Loading feedback...';
+            list.appendChild(loading);
+
+            fetch('feedback/get-product-feedback.php?product_id=' + encodeURIComponent(productId))
+                .then(response => {
+                    if (!response.ok) throw new Error('Could not load feedback');
+                    return response.json();
+                })
+                .then(data => {
+                    const reviews = Array.isArray(data.reviews) ? data.reviews : [];
+                    summary.textContent = `${data.avg_rating || 0} / 5 from ${data.count || 0} review${data.count === 1 ? '' : 's'}`;
+                    list.replaceChildren();
+
+                    if (reviews.length === 0) {
+                        const empty = document.createElement('p');
+                        empty.className = 'feedback-empty';
+                        empty.textContent = 'No feedback yet. Be the first to share your experience.';
+                        list.appendChild(empty);
+                        return;
+                    }
+
+                    reviews.forEach(review => {
+                        const item = document.createElement('article');
+                        item.className = 'review-item';
+
+                        const name = document.createElement('p');
+                        name.className = 'review-name';
+                        name.textContent = review.farmer_name || 'Customer';
+
+                        const stars = document.createElement('p');
+                        stars.className = 'review-stars';
+                        const rating = Math.min(5, Math.max(0, Number(review.rating) || 0));
+                        stars.textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+
+                        const comment = document.createElement('p');
+                        comment.className = 'review-comment';
+                        comment.textContent = review.comment || 'No comment provided.';
+
+                        item.append(name, stars, comment);
+                        list.appendChild(item);
+                    });
+                })
+                .catch(() => {
+                    summary.textContent = '';
+                    list.replaceChildren();
+                    const error = document.createElement('p');
+                    error.className = 'feedback-empty';
+                    error.textContent = 'Feedback could not be loaded right now.';
+                    list.appendChild(error);
+                });
+        }
+
+        // Added: show feedback for static and database product IDs.
+        // Enable the form only when the page has a database product ID
+        function showFeedback(productId) {
+            const section = document.getElementById('feedback-section');
+            feedbackProductId = productId || null;
+            section.hidden = !feedbackProductId;
+
+            if (feedbackProductId) loadFeedback(feedbackProductId);
+        }
+
+        // Display the selected number of stars
+        function selectRating(rating) {
+            selectedRating = rating;
+            document.querySelectorAll('.star-button').forEach(button => {
+                const isSelected = Number(button.dataset.rating) <= rating;
+                button.classList.toggle('selected', isSelected);
+                button.setAttribute('aria-checked', isSelected && Number(button.dataset.rating) === rating ? 'true' : 'false');
+            });
+        }
+
+        document.querySelectorAll('.star-button').forEach(button => {
+            button.addEventListener('click', () => selectRating(Number(button.dataset.rating)));
+        });
+
+        document.getElementById('feedback-form').addEventListener('submit', event => {
+            event.preventDefault();
+            const message = document.getElementById('feedback-message');
+            const submitButton = event.target.querySelector('.feedback-submit');
+
+            message.className = 'feedback-message';
+            if (!selectedRating) {
+                message.classList.add('error');
+                message.textContent = 'Please choose a star rating.';
+                return;
+            }
+
+            const formData = new FormData(event.target);
+            formData.append('product_id', feedbackProductId);
+            formData.append('rating', selectedRating);
+            submitButton.disabled = true;
+
+            fetch('feedback/submit-feedback.php', { method: 'POST', body: formData })
+                .then(response => response.json().then(data => ({ response, data })))
+                .then(({ response, data }) => {
+                    if (!response.ok || !data.success) throw new Error(data.msg || data.error || 'Feedback could not be submitted.');
+                    message.classList.add('success');
+                    message.textContent = data.msg;
+                    event.target.reset();
+                    selectRating(0);
+                    loadFeedback(feedbackProductId);
+                })
+                .catch(error => {
+                    message.classList.add('error');
+                    message.textContent = error.message;
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                });
+        });
 
         // Detail content container
         const container = document.getElementById('detail-content');
@@ -668,6 +960,7 @@
                 .then(p => {
                     if (p) {
                         cartId = 'db-' + p.id;
+                        showFeedback(p.id);
                         renderDetail({
                             name: p.name,
                             urdu: null,
@@ -693,6 +986,7 @@
             const seed = seeds[id];
             if (seed) {
                 cartId = 'herb-' + id;
+                showFeedback(id);
                 renderDetail({
                     name: seed.name,
                     urdu: seed.urdu,

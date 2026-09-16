@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seed Detail - TrackSeed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Added: shared feedback form styles. -->
+    <link rel="stylesheet" href="css-f/feedback.css">
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
@@ -349,6 +351,36 @@
     <!-- DETAIL CONTENT -->
     <div id="detail-content"></div>
 
+    <!-- Added: feedback form and customer review list. -->
+    <!-- FEEDBACK -->
+    <section id="feedback-section" class="feedback-section" hidden>
+        <h2 class="feedback-heading">Customer feedback</h2>
+        <div class="feedback-layout">
+            <form id="feedback-form" class="feedback-form">
+                <h3>Share your experience</h3>
+                <label for="feedback-order-id">Delivered order ID</label>
+                <input id="feedback-order-id" name="order_id" type="number" min="1" required>
+                <label>Rating</label>
+                <div class="star-picker" role="radiogroup" aria-label="Product rating">
+                    <button type="button" class="star-button" data-rating="1" role="radio" aria-label="1 star">★</button>
+                    <button type="button" class="star-button" data-rating="2" role="radio" aria-label="2 stars">★</button>
+                    <button type="button" class="star-button" data-rating="3" role="radio" aria-label="3 stars">★</button>
+                    <button type="button" class="star-button" data-rating="4" role="radio" aria-label="4 stars">★</button>
+                    <button type="button" class="star-button" data-rating="5" role="radio" aria-label="5 stars">★</button>
+                </div>
+                <label for="feedback-comment">Comment</label>
+                <textarea id="feedback-comment" name="comment" maxlength="1000" placeholder="Tell us about this seed..." required></textarea>
+                <button class="feedback-submit" type="submit">Submit feedback</button>
+                <p id="feedback-message" class="feedback-message" role="status"></p>
+            </form>
+            <div class="feedback-reviews">
+                <h3>What customers say</h3>
+                <p id="review-summary" class="review-summary"></p>
+                <div id="feedback-list"><p class="feedback-loading">Loading feedback...</p></div>
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="section-p1">
         <div class="col">
@@ -389,6 +421,8 @@
         </div>
     </footer>
 
+    <!-- Added: shared feedback form behavior. -->
+    <script src="js-f/feedback.js"></script>
     <script>
         // ===== VEGETABLE SEEDS DATA (static demo catalog) =====
         const seeds = {
@@ -638,6 +672,8 @@
                 .then(p => {
                     if (p) {
                         cartId = 'db-' + p.id;
+                        // Added: connect this database product to feedback.
+                        showFeedback(p.id);
                         renderDetail({
                             name: p.name,
                             priceDisplay: 'Rs ' + p.price,
@@ -660,6 +696,8 @@
             const seed = seeds[id];
             if (seed) {
                 cartId = 'veg-' + id;
+                // Added: connect this static product to feedback.
+                showFeedback(id);
                 renderDetail({
                     name: seed.name,
                     priceDisplay: seed.price,
