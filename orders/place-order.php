@@ -7,6 +7,9 @@
 require_once '../includes/session.php';
 require_once '../includes/db.php';
 require_once '../includes/helpers.php';
+require_once '../vendor/autoload.php';
+
+$env = parse_ini_file(__DIR__ . '/../.env');
 
 requireLogin();
 header('Content-Type: application/json');
@@ -90,8 +93,7 @@ if ($payment === 'stripe') {
         exit();
     }
 
-    // Yahan apni Stripe ki Secret Test Key daliye (sk_test_...)
-    $stripeSecretKey = 'sk_test_51UAQgmQodAeOwyHCYg1EEcCwEAsznbGUU4MMFNDZ8FzBEPUL7BAz0pHYziYeAdSo3tKDDk4mRHuKHubxisC3EeRJ00T0X16oUr'; 
+    $stripeSecretKey = $env['STRIPE_SECRET_KEY'];
 
     $ch = curl_init('https://api.stripe.com/v1/charges');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
