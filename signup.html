@@ -34,7 +34,7 @@
             <!-- Right Side Form -->
             <!-- User ki registration information enter karne ka form. -->
             <div class="signup-form">
-               <form action="auth/register.php" method="POST">
+                <form action="auth/register.php" method="POST">
                 <h3>Create Your Account</h3>
                 <p>Enter your details below</p>
 
@@ -59,13 +59,15 @@
                 <!-- User ka password input. -->
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Password" name="password">
+                    <input type="password" placeholder="Password" name="password" id="signupPassword">
+                    <i class="fas fa-eye toggle-password-icon" onclick="toggleField('signupPassword', this)"></i>
                 </div>
 
                 <!-- Password confirmation input. -->
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="Confirm Password" name="confirm_password">
+                    <input type="password" placeholder="Confirm Password" name="confirm_password" id="confirmPassword">
+                    <i class="fas fa-eye toggle-password-icon" onclick="toggleField('confirmPassword', this)"></i>
                 </div>
 
                 <!-- Role Selector -->
@@ -110,13 +112,26 @@
                     </a>
                 </p>
 
-
-
-</form>
-            
-</div>
+                </form>
+            </div>
         </div>
     </section>
+
+    <!-- Password Show/Hide Script -->
+    <script>
+    function toggleField(inputId, icon) {
+        const field = document.getElementById(inputId);
+        if (field.type === 'password') {
+            field.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            field.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+    </script>
 
 </body>
 </html>

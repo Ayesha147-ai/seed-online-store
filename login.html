@@ -45,10 +45,11 @@
                     </div>
 
                     <!-- Password input field -->
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password" name="password">
-                    </div>
+                   <div class="input-group password-group">
+    <i class="fas fa-lock"></i>
+    <input type="password" placeholder="Password" name="password" id="passwordInput">
+    <i class="fas fa-eye toggle-password-icon" id="toggleEye" onclick="togglePasswordVisibility()"></i>
+</div>
 
                     <!-- Remember me checkbox aur Forgot Password link -->
                     <div class="form-options">
@@ -115,6 +116,21 @@ if (error && messages[error]) {
     // Login form ke upar insert karo
     const form = document.querySelector('.login-form');
     if (form) form.insertBefore(div, form.querySelector('h3').nextSibling);
+}
+// Password Show/Hide Function
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('passwordInput');
+    const toggleEye = document.getElementById('toggleEye');
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleEye.classList.remove('fa-eye');
+        toggleEye.classList.add('fa-eye-slash');
+    } else {
+        passwordInput.type = 'password';
+        toggleEye.classList.remove('fa-eye-slash');
+        toggleEye.classList.add('fa-eye');
+    }
 }
 </script>
 </body>
