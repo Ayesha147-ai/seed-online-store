@@ -89,7 +89,7 @@ function buildOrderCard(order) {
             <div class="order-id-wrap">
                 <span class="order-id-label">Order Number</span>
                 <span class="order-id-val">${order.order_number || order.orderId}</span>
-                <span class="order-id-label" style="margin-top:4px;">Order ID (feedback ke liye): ${numericId}</span>
+                <span class="order-id-label" style="margin-top:4px;">Order ID (for feedback): ${numericId}</span>
             </div>
             <span class="status-badge ${badge}">${label}</span>
         </div>

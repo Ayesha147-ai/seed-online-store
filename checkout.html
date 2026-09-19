@@ -25,7 +25,7 @@
 <body>
 
     <!-- ===== HEADER ===== -->
-     <section id="header">
+    <section id="header">
 
         <!-- Logo -->
         <!-- Website ka logo aur name show kar rahe hain. -->
@@ -180,7 +180,9 @@
                         <label style="font-size:13px;font-weight:600;color:#333;">Card Details</label>
 
                         <!-- Stripe.js card element yahan mount hota hai. -->
-                        <div id="card-element" style="padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:6px;background:#fff;"></div>
+                        <div id="card-element"
+                            style="padding:12px;border:1px solid #ddd;border-radius:8px;margin-top:6px;background:#fff;">
+                        </div>
 
                         <!-- Stripe card errors yahan display ho sakte hain. -->
                         <div id="card-errors" style="color:#dc2626;font-size:13px;margin-top:6px;"></div>
@@ -256,7 +258,7 @@
 
             <!-- Generated order ID yahan show hoga. -->
             <p class="order-id">Order Number: <strong id="orderId"></strong></p>
-<p class="order-id">Order ID (feedback ke liye): <strong id="orderNumericId"></strong></p>
+            <p class="order-id">Order ID (for feedback): <strong id="orderNumericId"></strong></p>
 
             <!-- User ko home page par wapas le jane ka button. -->
             <button onclick="window.location.href='index.html'" class="modal-btn">
@@ -326,4 +328,5 @@
     <script src="js-f/checkout.js"></script>
 
 </body>
+
 </html>
