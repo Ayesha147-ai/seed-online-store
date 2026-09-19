@@ -154,6 +154,7 @@ async function placeOrder() {
         if (data.success) {
             const existingOrders = JSON.parse(localStorage.getItem('tsOrders')) || [];
             existingOrders.unshift({
+                id:       data.order_id,
                 orderId:  data.order_number,
                 date:     new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }),
                 status:   'placed',
@@ -172,8 +173,11 @@ async function placeOrder() {
             localStorage.removeItem('tsCart');
             cartItems = [];
 
-            // Success modal mein generated order number show kar rahe hain.
+            // Success modal mein generated order number aur numeric order ID dono show kar rahe hain
+            // (numeric ID feedback form ke liye chahiye hota hai).
             document.getElementById('orderId').textContent = data.order_number;
+            const numericIdEl = document.getElementById('orderNumericId');
+            if (numericIdEl) numericIdEl.textContent = data.order_id;
             document.getElementById('successModal').classList.add('active');
         } else {
             // Backend se failure response aaye to error message show kar rahe hain.

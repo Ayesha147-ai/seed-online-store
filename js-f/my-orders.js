@@ -79,13 +79,17 @@ function buildOrderCard(order) {
     const delivery = order.delivery_charge || order.delivery || 50;
     const grand    = order.grand_total || order.grand || (subtotal + delivery);
 
+    // Feedback ke liye chahiye wali numeric order ID (orders.id) — order_number se alag hoti hai.
+    const numericId = order.id !== undefined ? order.id : '';
+
     // Complete order card ka HTML return kar rahe hain.
     return `
     <div class="order-card">
         <div class="order-top">
             <div class="order-id-wrap">
-                <span class="order-id-label">Order ID</span>
+                <span class="order-id-label">Order Number</span>
                 <span class="order-id-val">${order.order_number || order.orderId}</span>
+                <span class="order-id-label" style="margin-top:4px;">Order ID (feedback ke liye): ${numericId}</span>
             </div>
             <span class="status-badge ${badge}">${label}</span>
         </div>
