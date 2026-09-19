@@ -35,7 +35,7 @@ function showSection(sectionName) {
         'buyers': 'Buyers', 'approve-agents': 'Approve Agents',
         'approve-seeds': 'Approve Seeds', 'all-seeds': 'All Seeds',
         'orders': 'All Orders', 'reports': 'Reports', 'complaints': 'Complaints',
-        'messages': 'Contact Messages', 'settings': 'System Settings'
+        'settings': 'System Settings'
     };
 
     // Page title element ko find karke selected section ka title show kar rahe hain.
@@ -60,7 +60,6 @@ function showSection(sectionName) {
     if (sectionName === 'approve-seeds')  loadPendingSeeds();
     if (sectionName === 'all-seeds')      loadAllSeeds();
     if (sectionName === 'orders')         loadOrders();
-    if (sectionName === 'messages')       loadMessages();
     if (sectionName === 'settings')       loadSettings();
 }
 
@@ -574,133 +573,6 @@ function payAgent(orderId) {
         .catch(() => showAlert('Failed to process payment', 'error'));
 }
 
-// Contact messages load karne ka function.
-function loadMessages() {
-    // Contact messages backend se fetch kar rahe hain.
-    fetch('admin/get-contact-messages.php')
-        .then(res => res.json())
-        .then(messages => {
-            // Messages table body find kar rahe hain.
-            var tbody = document.getElementById('messages-tbody');
-            if (!tbody) return;
-
-            // Agar messages nahi hain to message show kar rahe hain.
-            if (messages.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#888;">No messages yet</td></tr>';
-                setEl('messages-count', '0 messages');
-                return;
-            }
-
-            var html = '';
-            var unreadCount = 0;
-
-            // Har message ko process kar rahe hain.
-            messages.forEach(function(msg) {
-                // New messages ka unread count increase kar rahe hain.
-                if (msg.status === 'new') unreadCount++;
-
-                // Message status ke according badge class set kar rahe hain.
-                var statusBadge = msg.status === 'new' ? 'b-pending' : msg.status === 'replied' ? 'b-delivered' : 'b-processing';
-
-                // Message status ka readable label set kar rahe hain.
-                var statusLabel = msg.status === 'new' ? 'New' : msg.status === 'replied' ? 'Replied' : 'Read';
-
-                // Message creation date ko readable format me convert kar rahe hain.
-                var date = new Date(msg.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
-
-                // Message ki main table row generate kar rahe hain.
-                html += `<tr>
-                    <td><strong>${msg.name}</strong></td>
-                    <td>${msg.phone}</td>
-                    <td style="max-width:300px;">${msg.message}</td>
-                    <td>${date}</td>
-                    <td><span class="badge ${statusBadge}">${statusLabel}</span></td>
-                    <td>
-                        ${msg.status === 'new' ? `<button class="act-btn approve" onclick="markMessageRead(${msg.id})"><i class="fas fa-check"></i> Mark Read</button>` : ''}
-                    </td>
-                </tr>`;
-
-                // Jab tak reply nahi hua, isi row ke neeche reply-form dikhao
-                // Unreplied message ke liye reply textarea aur send button create kar rahe hain.
-                if (msg.status !== 'replied') {
-                    html += `<tr id="reply-row-${msg.id}">
-                        <td colspan="6" style="background:#f9fafb;">
-                            <div style="display:flex;gap:8px;align-items:flex-start;padding:8px 4px;">
-                                <textarea id="reply-text-${msg.id}" rows="2" placeholder="Type a reply for ${msg.name}..." style="flex:1;padding:8px;border:1px solid #ddd;border-radius:6px;font-family:inherit;font-size:13px;"></textarea>
-                                <button class="act-btn approve" onclick="sendReply(${msg.id})"><i class="fas fa-paper-plane"></i> Send Reply</button>
-                            </div>
-                        </td>
-                    </tr>`;
-                }
-            });
-
-            // Generated message rows ko table me insert kar rahe hain.
-            tbody.innerHTML = html;
-
-            // Total messages count show kar rahe hain.
-            setEl('messages-count', messages.length + ' messages');
-
-            // Unread messages ka badge update kar rahe hain.
-            setBadge(document.getElementById('unread-messages-badge'), unreadCount);
-        })
-        .catch(() => console.log('Messages load failed'));
-}
-
-// Message ko read mark karne ka function.
-function markMessageRead(msgId) {
-    // Message ID ke sath form data prepare kar rahe hain.
-    var formData = new FormData();
-    formData.append('msg_id', msgId);
-
-    // Backend ko read status update request send kar rahe hain.
-    fetch('admin/mark-message-read.php', { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
-            // Successful update ke baad messages reload kar rahe hain.
-            if (data.success) {
-                loadMessages();
-            } else {
-                showAlert('Failed to update message', 'error');
-            }
-        })
-        .catch(() => showAlert('Failed to update message', 'error'));
-}
-
-// Message ka reply send karne ka function.
-function sendReply(msgId) {
-    // Relevant textarea find kar rahe hain.
-    var textarea = document.getElementById('reply-text-' + msgId);
-    if (!textarea) return;
-
-    // Reply text ko trim karke le rahe hain.
-    var reply = textarea.value.trim();
-
-    // Empty reply ko prevent kar rahe hain.
-    if (!reply) {
-        showAlert('Please type a reply first', 'error');
-        return;
-    }
-
-    // Reply request ke liye form data prepare kar rahe hain.
-    var formData = new FormData();
-    formData.append('msg_id', msgId);
-    formData.append('reply', reply);
-
-    // Backend ko reply send request kar rahe hain.
-    fetch('admin/reply-message.php', { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
-            // Reply successful hone par messages reload kar rahe hain.
-            if (data.success) {
-                showAlert('Reply sent!', 'success');
-                loadMessages();
-            } else {
-                showAlert(data.msg || 'Failed to send reply', 'error');
-            }
-        })
-        .catch(() => showAlert('Failed to send reply', 'error'));
-}
-
 // Current admin ka password change karne ka function.
 function changeMyPassword() {
     // Password fields se values read kar rahe hain.
@@ -942,9 +814,6 @@ function checkAuth() {
 
             // Dashboard ko default section ke taur par show kar rahe hain.
             showSection('dashboard');
-
-            // Sidebar badge ko immediately show karne ke liye messages load kar rahe hain.
-            loadMessages(); // sidebar badge turant dikh jaye
         })
         .catch(() => {
             // Authentication request fail hone par login page par redirect kar rahe hain.

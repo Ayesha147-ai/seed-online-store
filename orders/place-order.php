@@ -196,6 +196,7 @@ mysqli_stmt_execute($tStmt);
 // Successful order ka order number aur final total response mein return karo
 echo json_encode([
     'success'      => true,
+    'order_id'     => $orderId,
     'order_number' => $orderNumber,
     'grand_total'  => $grandTotal
 ]);
