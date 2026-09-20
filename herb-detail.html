@@ -401,57 +401,74 @@
             .feedback-layout { grid-template-columns: 1fr; }
         }
 
-        /* FOOTER */
-        /* Main footer layout */
-        footer {
-            background: var(--footer-bg);
-            color: var(--white);
-            padding: 40px 80px 20px 80px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
+        /* ============================================
+   FOOTER SECTION
+   ============================================ */
+footer {
+    background: var(--footer-bg);
+    color: var(--white);
+    padding: 40px 80px 20px 80px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
-        /* Footer columns */
-        footer .col {
-            width: 22%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            color: var(--white);
-        }
+footer .col {
+    width: 22%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    color: var(--white);
+}
 
-        /* Footer logo */
-        footer .logo { margin-bottom: 30px; color: var(--white); }
+footer .logo {
+    margin-bottom: 30px;
+}
 
-        /* Footer headings */
-        footer h4 { font-size: 14px; padding-bottom: 20px; }
+footer h4 {
+    font-size: 14px;
+    padding-bottom: 20px;
+}
 
-        /* Footer paragraphs */
-        footer p { font-size: 13px; margin: 0 0 8px 0; }
+footer p {
+    font-size: 13px;
+    margin: 0 0 8px 0;
+}
 
-        /* Social media section */
-        footer .follow { margin-top: 20px; }
+footer .follow {
+    margin-top: 20px;
+}
 
-        /* Social media icons */
-        footer .follow i { color: var(--body-text); padding-right: 4px; cursor: pointer; }
+footer .follow i {
+    color: var(--body-text);
+    padding-right: 4px;
+    cursor: pointer;
+}
 
-        /* Footer hover effects */
-        footer .follow i:hover, footer a:hover { color: var(--teal); transition: all 0.3s; }
+footer .follow i:hover,
+footer a:hover {
+    color: var(--teal);
+    transition: all 0.3s;
+}
 
-        /* Footer links */
-        footer a { font-size: 13px; text-decoration: none; color: var(--white); margin-bottom: 10px; }
+footer a {
+    font-size: 13px;
+    text-decoration: none;
+    color: var(--white);
+    margin-bottom: 10px;
+}
 
-        /* Copyright section */
-        footer .copywrite {
-            width: 100%;
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-            font-size: 13px;
-            color: #888;
-        }
+footer .install .row img {
+    border: 1px solid var(--teal);
+    border-radius: 6px;
+    margin: 10px 0 15px 0;
+}
+
+footer .copywrite {
+    width: 100%;
+    text-align: center;
+}
     </style>
 </head>
 <body>
@@ -518,10 +535,9 @@
     </section>
 
     
-    <!-- FOOTER -->
     <footer class="section-p1">
         <div class="col">
-            <a href="index.html" class="logo" style="text-decoration: none;">
+             <a href="index.html" class="logo" style="text-decoration: none;">
     <i class="fas fa-seedling"></i>
     <span>TrackSeed</span>
 </a>
@@ -998,4 +1014,4 @@
 
 </body>
 </html>
-```
+

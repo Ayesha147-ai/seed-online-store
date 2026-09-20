@@ -213,7 +213,9 @@ body {
     margin-bottom: 4px;
 }
 
-/* ===== FOOTER ===== */
+/* ============================================
+   FOOTER SECTION
+   ============================================ */
 footer {
     background: var(--footer-bg);
     color: var(--white);
@@ -234,7 +236,6 @@ footer .col {
 
 footer .logo {
     margin-bottom: 30px;
-    color: var(--white);
 }
 
 footer h4 {
@@ -247,7 +248,9 @@ footer p {
     margin: 0 0 8px 0;
 }
 
-footer .follow { margin-top: 20px; }
+footer .follow {
+    margin-top: 20px;
+}
 
 footer .follow i {
     color: var(--body-text);
@@ -268,12 +271,13 @@ footer a {
     margin-bottom: 10px;
 }
 
+footer .install .row img {
+    border: 1px solid var(--teal);
+    border-radius: 6px;
+    margin: 10px 0 15px 0;
+}
+
 footer .copywrite {
     width: 100%;
     text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid #333;
-    font-size: 13px;
-    color: #888;
-    
 }
