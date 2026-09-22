@@ -62,7 +62,7 @@ mysqli_stmt_execute($cancelStmt);
 $itemsStmt = mysqli_prepare($conn, "SELECT * FROM order_items WHERE order_id = ?");
 mysqli_stmt_bind_param($itemsStmt, 'i', $orderId);
 mysqli_stmt_execute($itemsStmt);
-$items = mysqli_stmt_get_result($items);
+$items = mysqli_stmt_get_result($itemsStmt);
 
 // Har ordered product ki quantity stock mein restore karo
 $restoreStmt = mysqli_prepare($conn, "UPDATE products SET stock = stock + ? WHERE id = ?");
