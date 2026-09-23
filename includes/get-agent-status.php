@@ -47,6 +47,6 @@ if (!$row) {
     echo json_encode(['logged_in' => true, 'show_button' => true]);
 } else {
     // is_approved == 1: approved (yeh case normally index.html pe aata hi nahi)
-    echo json_encode(['logged_in' => true, 'show_button' => true]);
+    echo json_encode(['logged_in' => true, 'show_button' => false]);
 }
 ?>
