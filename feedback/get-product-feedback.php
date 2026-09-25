@@ -6,13 +6,17 @@ if ($productId <= 0) {
     echo json_encode([]); exit();
 }
 
-$sql = "SELECT f.rating, f.comment, f.created_at, u.name as farmer_name
+// Product ke tamam reviews aur farmer ka naam database se fetch karne ke liye query prepare karo
+$stmt = mysqli_prepare($conn, "SELECT f.rating, f.comment, f.created_at, u.name as farmer_name
         FROM feedback f
         JOIN users u ON f.user_id = u.id
-        WHERE f.product_id = $productId
-        ORDER BY f.created_at DESC";
+        WHERE f.product_id = ?
+        ORDER BY f.created_at DESC");
+// Product ID ko query ke parameter ke saath bind karo
+mysqli_stmt_bind_param($stmt, 'i', $productId);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-$result   = mysqli_query($conn, $sql);
 $reviews  = [];
 $totalRating = 0;
 $count    = 0;
