@@ -152,6 +152,9 @@ function cancelOrder(orderId) {
             if (data.success) {
                 alert('Order cancelled successfully.');
                 loadOrders();
+            } else if (data.error) {
+                alert('Your session has expired. Please log in again.');
+                window.location.href = 'login.html';
             } else {
                 alert(data.msg || 'Failed to cancel order.');
             }
