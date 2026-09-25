@@ -31,4 +31,4 @@ if (mysqli_stmt_execute($stmt)) {
     // Agar update fail ho jaye to failure ka response send karo
     echo json_encode(['success' => false, 'msg' => 'Failed']);
 }
-?>
+?>]
