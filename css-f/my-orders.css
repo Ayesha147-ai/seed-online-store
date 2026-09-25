@@ -217,6 +217,33 @@
     transform: translateY(-1px);
 }
 
+/* Cancel aur Track buttons ko ek row mein saath rakhta hai */
+.order-footer-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-cancel-order {
+    background: #fff;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Spartan', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+}
+
+.btn-cancel-order:hover {
+    background: #fee2e2;
+}
+
 @media (max-width: 768px) {
     .order-meta {
         grid-template-columns: repeat(2, 1fr);
