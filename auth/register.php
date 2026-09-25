@@ -34,6 +34,13 @@ if (empty($name) || empty($email) || empty($password)) {
     exit();
 }
 
+// Check email format is a real email address
+// Email ka format valid hai ya nahi check karo (fake/galat email rokne ke liye)
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header('Location: ../signup.html?error=invalid_email');
+    exit();
+}
+
 // Check karo ke password aur confirm password same hain
 if ($password !== $confirm) {
     header('Location: ../signup.html?error=mismatch');

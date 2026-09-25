@@ -133,5 +133,43 @@
     }
     </script>
 
+    <!-- JavaScript code jo URL se error messages read karke screen par show karta hai -->
+    <script>
+// Error messages URL se read karo
+const params = new URLSearchParams(window.location.search);
+const error  = params.get('error');
+
+// Mukhtalif error codes ke mukhtalif messages define kiye gaye hain
+const messages = {
+    'empty':          'All required fields must be filled.',
+    'invalid_email':  'Please enter a valid email address.',
+    'mismatch':       'Password and Confirm Password do not match.',
+    'weak':           'Password must be at least 6 characters.',
+    'exists':         'An account with this email already exists.',
+    'failed':         'Registration failed. Please try again.'
+};
+
+if (error && messages[error]) {
+    // Error div banao
+    const div = document.createElement('div');
+    div.style.cssText = `
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fca5a5;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        font-family: 'Spartan', sans-serif;
+    `;
+    div.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + messages[error];
+
+    // Signup form ke upar insert karo
+    const form = document.querySelector('.signup-form');
+    if (form) form.insertBefore(div, form.querySelector('h3').nextSibling);
+}
+</script>
+
 </body>
 </html>

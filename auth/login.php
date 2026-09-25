@@ -26,6 +26,13 @@ if (empty($email) || empty($password)) {
     exit();
 }
 
+// Check email format is a real email address
+// Email ka format valid hai ya nahi check karo
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    header('Location: ../login.html?error=invalid_email');
+    exit();
+}
+
 // Find user (status check alag se karenge for better messages)
 // Email ke through user ka record database se fetch karo
 $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE email = ? LIMIT 1");
