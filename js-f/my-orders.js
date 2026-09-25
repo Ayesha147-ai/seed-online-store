@@ -112,14 +112,21 @@ function buildOrderCard(order) {
             </div>
         </div>
         <div class="order-items">${itemsHtml}</div>
-        <div class="order-footer">
+                <div class="order-footer">
             <div class="total-info">
                 <span>Subtotal Rs ${subtotal} + Delivery Rs ${delivery}</span>
                 <strong>Grand Total: Rs ${grand}</strong>
             </div>
-            <button class="btn-track-order" onclick="trackOrder('${order.order_number || order.orderId}')">
-                <i class="fas fa-map-marker-alt"></i> Track This Order
-            </button>
+            <div class="order-footer-actions">
+                ${['placed', 'confirmed', 'processing'].includes(order.status) ? `
+                <button class="btn-cancel-order" onclick="cancelOrder(${numericId})">
+                    <i class="fas fa-times"></i> Cancel Order
+                </button>` : ''}
+                <!-- Sirf placed/confirmed/processing status pe cancel button dikhta hai -->
+                <button class="btn-track-order" onclick="trackOrder('${order.order_number || order.orderId}')">
+                    <i class="fas fa-map-marker-alt"></i> Track This Order
+                </button>
+            </div>
         </div>
     </div>`;
 }
@@ -129,6 +136,27 @@ function buildOrderCard(order) {
 function trackOrder(orderId) {
     sessionStorage.setItem('tsOrderId', orderId);
     window.location.href = 'order-track.html';
+}
+
+// ── Cancel button ──
+// Order cancel karti hai aur list dobara load karti hai
+function cancelOrder(orderId) {
+    if (!confirm('Are you sure you want to cancel this order?')) return;
+
+    const formData = new FormData();
+    formData.append('order_id', orderId);
+
+    fetch('orders/cancel-order.php', { method: 'POST', body: formData })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert('Order cancelled successfully.');
+                loadOrders();
+            } else {
+                alert(data.msg || 'Failed to cancel order.');
+            }
+        })
+        .catch(() => alert('Failed to cancel order. Please try again.'));
 }
 
 // ── Format date ──
