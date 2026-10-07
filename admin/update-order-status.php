@@ -22,6 +22,24 @@ if ($orderId <= 0 || !in_array($status, $allowed)) {
     exit();
 }
 
+// FIX: cancelled order ka status aage badalne se rokne ke liye current status check karo
+$checkStmt = mysqli_prepare($conn, "SELECT status FROM orders WHERE id = ? LIMIT 1");
+mysqli_stmt_bind_param($checkStmt, 'i', $orderId);
+mysqli_stmt_execute($checkStmt);
+$current = mysqli_fetch_assoc(mysqli_stmt_get_result($checkStmt));
+
+// FIX: order nahi mila to yahin rok do
+if (!$current) {
+    echo json_encode(['success' => false, 'msg' => 'Order not found']);
+    exit();
+}
+
+// FIX: agar order pehle se cancelled hai to status update na hone do
+if ($current['status'] === 'cancelled') {
+    echo json_encode(['success' => false, 'msg' => 'Cannot change status of a cancelled order']);
+    exit();
+}
+
 // Order ka status update karne ke liye database query prepare karo
 $stmt = mysqli_prepare($conn, "UPDATE orders SET status = ? WHERE id = ?");
 mysqli_stmt_bind_param($stmt, 'si', $status, $orderId);

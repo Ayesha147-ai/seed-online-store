@@ -540,9 +540,9 @@ function updateOrderStatus(orderId) {
             if (data.success) {
                 showAlert('Order status updated!', 'success');
                 loadOrders();
-            } else {
+                       } else {
                 // Update failure ka alert show kar rahe hain.
-                showAlert('Failed to update order status', 'error');
+                showAlert(data.msg || 'Failed to update order status', 'error');
             }
         })
         .catch(() => showAlert('Failed to update order status', 'error'));
