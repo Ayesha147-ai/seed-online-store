@@ -45,7 +45,8 @@
 
 body {
     width: 100%;
-    background-color: #f0fdf4;
+        background-color: #f0fdf4 !important;
+
 }
 
 /* Header start */
