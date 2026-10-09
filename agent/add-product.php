@@ -76,7 +76,10 @@ if (!empty($_FILES['seed-image']['name'])) {
 
         // Image ke liye unique filename generate karo
         $filename  = 'seed_' . time() . '_' . $agentId . '_' . uniqid() . '.' . $ext;
-        move_uploaded_file($_FILES['seed-image']['tmp_name'], $uploadDir . $filename);
+        if (!move_uploaded_file($_FILES['seed-image']['tmp_name'], $uploadDir . $filename)) {
+            echo json_encode(['success' => false, 'msg' => 'Image upload failed. Please try again.']);
+            exit();
+        }
         $imagePath = 'css-f/img/products/' . $filename;
     } else {
         // Agar image valid na ho to error response send karo
