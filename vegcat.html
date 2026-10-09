@@ -219,12 +219,14 @@
         .then(products => {
             const container = document.querySelector('.pro-container');
 
-            // Agar product container ya products available na hon to process stop
-            if (!container || !products.length) return;
+            if (!container) return;
+            container.replaceChildren();
+            if (!products.length) return;
 
             // Har database product ka dynamic card create karta hai
             products.forEach(p => {
-                const img = p.image ? p.image : 'css-f/img/v1.jpg';
+                const fallbackImg = 'css-f/img/v1.jpg';
+                const img = p.image || fallbackImg;
                 const card = document.createElement('div');
 
                 // Naye card ko product wali CSS class deta hai
@@ -235,7 +237,7 @@
 
                 // Product ki database information ko card ke HTML mein insert karta hai
                 card.innerHTML = `
-                    <img src="${img}" alt="${p.name}">
+                    <img src="${img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg}'">
                     <div class="des">
                         <span class="cat-badge">Vegetable</span>
                         <h5>${p.name}</h5>

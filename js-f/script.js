@@ -98,6 +98,16 @@ function updateCartBadge() {
     badges.forEach(badge => badge.textContent = totalQty);
 }
 
+function syncCartFromStorage() {
+    cartItems = JSON.parse(localStorage.getItem('tsCart')) || [];
+    updateCartBadge();
+}
+
+window.addEventListener('pageshow', syncCartFromStorage);
+window.addEventListener('storage', event => {
+    if (event.key === 'tsCart') syncCartFromStorage();
+});
+
 // 4. Add to cart function
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
@@ -117,7 +127,7 @@ function addToCart(productId) {
 // 5. Page load pe sab setup karo
 document.addEventListener('DOMContentLoaded', () => {
 
-    updateCartBadge();
+    syncCartFromStorage();
 
     // Har "Add to Cart" button ko product se link karo
     document.querySelectorAll('.cart-btn').forEach((btn, index) => {
