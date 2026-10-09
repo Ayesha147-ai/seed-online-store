@@ -79,6 +79,7 @@ function loadStats() {
             // Pending seeds aur agents ke navigation badges update kar rahe hain.
             setBadge(document.querySelector('[data-section="approve-seeds"] .nav-badge'), data.pending_seeds);
             setBadge(document.querySelector('[data-section="approve-agents"] .nav-badge'), data.pending_agents);
+            setBadge(document.getElementById('orders-badge'), data.total_orders);
         })
         .catch(() => console.log('Stats load failed'));
 }
@@ -438,6 +439,7 @@ function loadOrders() {
             // Orders table body find kar rahe hain.
             var tbody = document.getElementById('orders-tbody');
             if (!tbody) return;
+            setBadge(document.getElementById('orders-badge'), orders.length);
 
             // Agar orders nahi hain to message show kar rahe hain.
             if (orders.length === 0) {
