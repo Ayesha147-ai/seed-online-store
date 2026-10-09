@@ -231,14 +231,17 @@
         .then(res => res.json())
         .then(products => {
             const container = document.querySelector('.pro-container');
-            if (!container || !products.length) return;
+            if (!container) return;
+            container.replaceChildren();
+            if (!products.length) return;
             products.forEach(p => {
-                const img = p.image ? p.image : 'css-f/img/herb1.jpg';
+                const fallbackImg = 'css-f/img/herb1.jpg';
+                const img = p.image || fallbackImg;
                 const card = document.createElement('div');
                 card.className = 'pro';
                 card.onclick = () => window.location.href = 'herb-detail.html?id=db-' + p.id;
                 card.innerHTML = `
-                    <img src="${img}" alt="${p.name}">
+                    <img src="${img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg}'">
                     <div class="des">
                         <span class="cat-badge badge-herb">Herb</span>
                         <h5>${p.name}</h5>
