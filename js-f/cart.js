@@ -42,7 +42,7 @@ function renderCart() {
         listHTML += `
             <div class="cart-item-row">
                 <div class="item-product">
-                    <img src="${item.img}" class="item-img">
+                    <img src="${item.img || 'css-f/img/v1.jpg'}" class="item-img" onerror="this.onerror=null;this.src='css-f/img/v1.jpg'">
                     <div>
                         <div class="item-name">${item.name}</div>
                         <div class="item-cat">${item.category || 'Seeds'}</div>
@@ -104,8 +104,17 @@ function calculateTotal() {
     document.getElementById('grandTotalAmt').textContent = `Rs ${subtotal + delivery}`;
 }
 
-// Page load hone ke baad cart ko render kar rahe hain.
-document.addEventListener('DOMContentLoaded', renderCart);
+function refreshCartFromStorage() {
+    cartItems = JSON.parse(localStorage.getItem('tsCart')) || [];
+    renderCart();
+}
+
+// Initial load, browser Back restore, and changes from another tab.
+document.addEventListener('DOMContentLoaded', refreshCartFromStorage);
+window.addEventListener('pageshow', refreshCartFromStorage);
+window.addEventListener('storage', event => {
+    if (event.key === 'tsCart') refreshCartFromStorage();
+});
 
 function proceedToCheckout() {
     // Checkout par jaane se pehle check kar rahe hain ke cart empty to nahi.
