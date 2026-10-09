@@ -232,13 +232,15 @@
             // Product cards ke container ko select kar rahe hain.
             const container = document.querySelector('.pro-container');
 
-            // Agar container na mile ya products empty hon to function stop kar dete hain.
-            if (!container || !products.length) return;
+            if (!container) return;
+            container.replaceChildren();
+            if (!products.length) return;
 
             // Har database product ke liye dynamic card create kar rahe hain.
             products.forEach(p => {
                 // Agar product image na ho to default fruit image use hogi.
-                const img = p.image ? p.image : 'css-f/img/fru1.jpg';
+                const fallbackImg = 'css-f/img/fru1.jpg';
+                const img = p.image || fallbackImg;
 
                 // Naya product card element create kar rahe hain.
                 const card = document.createElement('div');
@@ -249,7 +251,7 @@
 
                 // Product ki information ko card ke HTML mein insert kar rahe hain.
                 card.innerHTML = `
-                    <img src="${img}" alt="${p.name}">
+                    <img src="${img}" alt="${p.name}" onerror="this.onerror=null;this.src='${fallbackImg}'">
                     <div class="des">
                         <span class="cat-badge badge-fruit">Fruit</span>
                         <h5>${p.name}</h5>
