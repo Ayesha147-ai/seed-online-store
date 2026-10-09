@@ -912,7 +912,7 @@ footer .copywrite {
             container.innerHTML = `
                 <div class="detail-section">
                     <div class="detail-img">
-                        <img src="${d.image}" alt="${d.name}">
+                        <img src="${d.image || 'css-f/img/herb1.jpg'}" alt="${d.name}" onerror="this.onerror=null;this.src='css-f/img/herb1.jpg'">
                     </div>
                     <div class="detail-info">
                         <span class="cat-badge">${d.category}</span>
