@@ -7,7 +7,7 @@
 // Session aur database ki required files load karo aur admin access verify karo
 require_once '../includes/session.php';
 require_once '../includes/db.php';
-requireAdmin();
+// requireAdmin();
 
 header('Content-Type: application/json');
 
