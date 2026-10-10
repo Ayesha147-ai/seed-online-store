@@ -148,7 +148,20 @@ async function placeOrder() {
     try {
         // Backend endpoint ko order data POST request ke through send kar rahe hain.
         const res  = await fetch('orders/place-order.php', { method: 'POST', body: formData });
-        const data = await res.json();
+        const responseText = await res.text();
+        let data;
+
+        try {
+            data = JSON.parse(responseText);
+        } catch {
+            const backendUrl = new URL('orders/place-order.php', window.location.href);
+            const serverHint = window.location.port === '5500'
+                ? ' Open this page through XAMPP Apache (http://localhost/TrackSeed/seed-online-store/checkout.html), not Live Server.'
+                : '';
+            throw new Error(
+                `Checkout backend returned a non-JSON response (HTTP ${res.status}) from ${backendUrl}.${serverHint}`
+            );
+        }
 
         // Backend se successful response milne par local order history update kar rahe hain.
         if (data.success) {
