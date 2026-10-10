@@ -36,10 +36,16 @@ $payment   = clean($conn, $_POST['payment']   ?? 'cod');
 $stripeToken = $_POST['stripeToken'] ?? '';
 $cartJson  = $_POST['cart'] ?? '[]';
 
+if (!in_array($payment, ['cod', 'stripe'], true)) {
+    http_response_code(422);
+    echo json_encode(['success' => false, 'msg' => 'Please select a valid payment method.']);
+    exit();
+}
+
 // Parse cart from JSON
 // Cart ke JSON data ko PHP array mein convert karo
 $cartItems = json_decode($cartJson, true);
-if (empty($cartItems)) {
+if (!is_array($cartItems) || empty($cartItems)) {
     echo json_encode(['success' => false, 'msg' => 'Cart is empty']);
     exit();
 }
@@ -55,25 +61,55 @@ if (empty($fullName) || empty($email) || empty($phone) || empty($city) || empty(
 // Har product ki real price database se verify karke subtotal calculate karo
 $subtotal = 0;
 $verifiedItems = [];
+$itemErrors = [];
 
 // Cart ke har item ko verify aur process karo
 foreach ($cartItems as $item) {
-    // Product ID aur quantity ko cart se hasil karo
-    $rawId = $item['id'] ?? 0;
-    $productId = intval(preg_replace('/[^0-9]/', '', $rawId));
-    $qty       = intval($item['qty'] ?? 1);
+    if (!is_array($item)) {
+        $itemErrors[] = 'The cart contains an invalid item. Remove it and add the product again.';
+        continue;
+    }
 
-    // Invalid product ID ya quantity ko skip karo
-    if ($productId <= 0 || $qty <= 0) continue;
+    // Sirf database product IDs accept karo; idx-/veg-/fru-/herb- IDs demo catalog ke hain.
+    $rawId = $item['id'] ?? '';
+    if ((!is_string($rawId) && !is_int($rawId)) ||
+        !preg_match('/^(?:db-)?([1-9][0-9]*)$/D', (string)$rawId, $idMatch)) {
+        $itemName = isset($item['name']) && is_string($item['name']) && trim($item['name']) !== ''
+            ? trim($item['name'])
+            : 'This item';
+        $itemErrors[] = $itemName . ' is not linked to an approved store product. Remove it and add a seed from a category page.';
+        continue;
+    }
+    $productId = (int)$idMatch[1];
 
-    // Approved product ki price aur available stock database se fetch karo
-    $priceStmt = mysqli_prepare($conn, "SELECT id, name, price, stock FROM products WHERE id = ? AND status = 'approved' LIMIT 1");
+    // Product quantity ko positive integer hona chahiye.
+    $qty = filter_var($item['qty'] ?? 1, FILTER_VALIDATE_INT);
+    if ($qty === false || $qty <= 0) {
+        $itemName = isset($item['name']) && is_string($item['name']) && trim($item['name']) !== ''
+            ? trim($item['name'])
+            : 'This item';
+        $itemErrors[] = $itemName . ' has an invalid quantity. Remove it and add the product again.';
+        continue;
+    }
+
+    // Product details fetch karo taa-ke unavailable status aur stock ki specific wajah di ja sake.
+    $priceStmt = mysqli_prepare($conn, "SELECT id, name, price, stock, status FROM products WHERE id = ? LIMIT 1");
     mysqli_stmt_bind_param($priceStmt, 'i', $productId);
     mysqli_stmt_execute($priceStmt);
     $product = mysqli_fetch_assoc(mysqli_stmt_get_result($priceStmt));
 
-    // Product invalid ho ya stock required quantity se kam ho to item skip karo
-    if (!$product || $product['stock'] < $qty) continue;
+    if (!$product) {
+        $itemErrors[] = 'A product in your cart is no longer available. Remove it and add it again from a category page.';
+        continue;
+    }
+    if ($product['status'] !== 'approved') {
+        $itemErrors[] = $product['name'] . ' is not approved for sale yet. Remove it and choose an approved seed.';
+        continue;
+    }
+    if ((int)$product['stock'] < $qty) {
+        $itemErrors[] = $product['name'] . ' has only ' . (int)$product['stock'] . ' in stock; reduce the quantity or remove it.';
+        continue;
+    }
 
     // Database wali real price se subtotal calculate karo
     $realPrice = floatval($product['price']);
@@ -88,9 +124,16 @@ foreach ($cartItems as $item) {
     ];
 }
 
-// Agar koi valid item nahi mila to order create na karo
+// Invalid item ho to partial order create na karo; user ko exact wajah batao.
+if (!empty($itemErrors)) {
+    http_response_code(422);
+    echo json_encode(['success' => false, 'msg' => implode(' ', $itemErrors)]);
+    exit();
+}
+
 if (empty($verifiedItems)) {
-    echo json_encode(['success' => false, 'msg' => 'No valid items in cart']);
+    http_response_code(422);
+    echo json_encode(['success' => false, 'msg' => 'Your cart is empty. Add an approved seed before placing the order.']);
     exit();
 }
 
