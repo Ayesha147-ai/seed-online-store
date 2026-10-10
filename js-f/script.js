@@ -80,18 +80,7 @@ function checkAgentButtonVisibility() {
 // 1. Cart data initialization
 let cartItems = JSON.parse(localStorage.getItem('tsCart')) || [];
 
-// 2. Product Database — index page ke 6 products
-// Yeh names bilkul index.html ke cards se match karte hain
-const products = [
-    { id: 'idx-1', name: 'Tomato Round Red Seed',    price: 100, category: 'Vegetable Seeds', img: 'css-f/img/v1.jpg' },
-    { id: 'idx-2', name: 'Cucumber Seed',            price: 150, category: 'Vegetable Seeds', img: 'css-f/img/v2.jpg' },
-    { id: 'idx-3', name: 'Watermelon Seed',          price: 80,  category: 'Fruit Seeds',     img: 'css-f/img/fru1.jpg' },
-    { id: 'idx-4', name: 'Muskmelon Seed',           price: 80,  category: 'Fruit Seeds',     img: 'css-f/img/fru2.jpg' },
-    { id: 'idx-5', name: 'Niazbo Seed Organic',      price: 120, category: 'Herb Seeds',      img: 'css-f/img/herb1.jpg' },
-    { id: 'idx-6', name: 'Fennel Leaf Seed',         price: 100, category: 'Herb Seeds',      img: 'css-f/img/herb2.jpg' },
-];
-
-// 3. Cart badge update
+// Cart badge update
 function updateCartBadge() {
     const badges = document.querySelectorAll('.cart-count');
     const totalQty = cartItems.reduce((sum, item) => sum + item.qty, 0);
@@ -108,44 +97,110 @@ window.addEventListener('storage', event => {
     if (event.key === 'tsCart') syncCartFromStorage();
 });
 
-// 4. Add to cart function
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-
+// Database product ko cart mein add karo.
+function addToCart(product) {
+    const productId = `db-${product.id}`;
     const existingItem = cartItems.find(item => item.id === productId);
     if (existingItem) {
         existingItem.qty += 1;
     } else {
-        cartItems.push({ ...product, qty: 1 });
+        cartItems.push({
+            id: productId,
+            name: product.name,
+            price: Number(product.price),
+            category: product.category,
+            img: product.image || product.fallbackImage,
+            qty: 1
+        });
     }
 
     localStorage.setItem('tsCart', JSON.stringify(cartItems));
     updateCartBadge();
 }
 
-// 5. Page load pe sab setup karo
+async function loadHomeProducts() {
+    const container = document.querySelector('#product1 .pro-container');
+    if (!container) return;
+
+    const categories = [
+        { name: 'Vegetable', label: 'Vegetable Seeds', fallbackImage: 'css-f/img/v1.jpg' },
+        { name: 'Fruit', label: 'Fruit Seeds', fallbackImage: 'css-f/img/fru1.jpg' },
+        { name: 'Herb', label: 'Herb Seeds', fallbackImage: 'css-f/img/herb1.jpg' }
+    ];
+
+    try {
+        const results = await Promise.all(categories.map(async category => {
+            const response = await fetch(`includes/get-category-products.php?category=${category.name}`);
+            if (!response.ok) throw new Error(`Could not load ${category.name.toLowerCase()} seeds (HTTP ${response.status}).`);
+            const products = await response.json();
+            if (!Array.isArray(products)) throw new Error(`Invalid ${category.name.toLowerCase()} seed response.`);
+            return products.map(product => ({
+                ...product,
+                category: category.label,
+                fallbackImage: category.fallbackImage
+            }));
+        }));
+
+        const products = results.flatMap(categoryProducts => categoryProducts.slice(0, 2));
+        container.replaceChildren();
+
+        if (products.length === 0) {
+            container.textContent = 'No approved seeds are available right now.';
+            return;
+        }
+
+        products.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'pro';
+
+            const image = document.createElement('img');
+            image.src = product.image || product.fallbackImage;
+            image.alt = product.name;
+            image.onerror = () => {
+                image.onerror = null;
+                image.src = product.fallbackImage;
+            };
+
+            const description = document.createElement('div');
+            description.className = 'des';
+
+            const category = document.createElement('span');
+            category.textContent = product.category;
+
+            const name = document.createElement('h5');
+            name.textContent = product.name;
+
+            const price = document.createElement('h4');
+            price.textContent = `Rs ${product.price}`;
+
+            const button = document.createElement('button');
+            button.className = 'cart-btn';
+            button.textContent = 'Add to Cart';
+            button.addEventListener('click', () => {
+                addToCart(product);
+                button.textContent = '✓ Added!';
+                button.classList.add('active-btn');
+                setTimeout(() => {
+                    button.textContent = 'Add to Cart';
+                    button.classList.remove('active-btn');
+                }, 1200);
+            });
+
+            description.append(category, name, price);
+            card.append(image, description, button);
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error('Home products failed to load:', err);
+        container.textContent = 'Could not load seeds. Please refresh the page and try again.';
+    }
+}
+
+// Page load par cart aur homepage products initialize karo.
 document.addEventListener('DOMContentLoaded', () => {
 
     syncCartFromStorage();
-
-    // Har "Add to Cart" button ko product se link karo
-    document.querySelectorAll('.cart-btn').forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            const productId = 'idx-' + (index + 1);
-            addToCart(productId);
-
-            // Button feedback
-            const originalText = btn.textContent;
-            btn.textContent = '✓ Added!';
-            btn.classList.add('active-btn');
-
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('active-btn');
-            }, 1200);
-        });
-    });
+    loadHomeProducts();
 
     // Buy Seeds button — scroll to products
     const buyBtn = document.querySelector('.btn-primary');
